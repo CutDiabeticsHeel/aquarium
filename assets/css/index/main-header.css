@@ -18,6 +18,22 @@
     padding: 10px;
     font-size: 20px;
 }
+.under-line-link {
+    background-image: linear-gradient(#ffffff, #ffffff);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+    display: inline;
+    position: relative;
+}
+.under-line-link:hover {
+    background-size: 100% 2px;
+}
+.under-line-link:active {
+    color: var(--additionaly-background);
+    background-image: linear-gradient(var(--additionaly-background), var(--additionaly-background));
+}
 .title {
     padding-left: 20px;
     display: flex;
