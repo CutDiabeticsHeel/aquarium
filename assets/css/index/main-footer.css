@@ -1,0 +1,38 @@
+.main-footer {
+    padding-right: 20px;
+    padding-bottom: 50px;
+    display: grid;
+    text-align: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    position: relative;
+}
+.info-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+.info-list__item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+}
+.info-list__item-svg {
+    margin-right: 20px;
+}
+.ticket-office-wrapper {
+    text-align: center;
+}
+.ticket-office-list__item {
+    padding: 10px 0px;
+}
+.main-footer .wave{
+    grid-column: 1/4;
+    position: absolute;
+    top: 0%;
+    z-index: -1;
+}
+.main-footer__map {
+    width: 100%;
+}

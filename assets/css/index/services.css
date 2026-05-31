@@ -1,0 +1,14 @@
+.services__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;
+    padding: 20px;
+}
+.collective-visit,
+.drama-school,
+.tnt {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-opacity);
+}

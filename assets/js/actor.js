@@ -1,0 +1,18 @@
+const actorSwiper = new Swiper('.actor__swiper', {
+    keyboard: {
+        enabled: true,
+    },
+
+
+    pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+    },
+    
+    navigation: {
+        nextEl: '.actor__arrow-next',
+        prevEl: '.actor__arrow-back',
+    },
+
+    loop: true
+});

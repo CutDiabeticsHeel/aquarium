@@ -1,0 +1,31 @@
+.main-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    padding: 15px 0px;
+}
+.navigation-list {
+    display: flex;
+    align-items: center;
+}
+.navigation-list__item {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+}
+.title {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    font-size: var(--h3);
+}
+.title-wrapper {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
