@@ -45,3 +45,9 @@
     display: flex;
     align-items: center;
 }
+.title-wrapper:hover{
+    color: var(--additionaly-background);
+}
+.title-wrapper:hover svg *{
+    fill: var(--additionaly-background);
+}

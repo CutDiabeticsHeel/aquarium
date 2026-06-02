@@ -18,6 +18,10 @@
     align-items: center;
     padding: 10px 0px;
 }
+.info-list__item:hover,
+.info-list__item:hover a{
+    color: var(--additionaly-background);
+}
 .info-list__item-svg {
     margin-right: 20px;
 }

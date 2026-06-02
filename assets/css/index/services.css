@@ -8,7 +8,35 @@
 .drama-school,
 .tnt {
     text-align: center;
-    padding: 20px;
     border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+.services_link {
+    display: block;
+}
+
+.services_link::before {
+    content: '';
+    position: absolute;
+    top: -300%;     
+    left: -300%;       
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(135deg,  
+      transparent,
+      oklch(100% 0 0 / 0.3),
+      transparent);
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.services_link:hover::before {
+    top: 100%;   
+    left: 100%;       
+}
+.services_link:active {
+    filter: brightness(30%);
 }

@@ -128,4 +128,5 @@ h1.wave {
     font-size: 22px;
     border: none;
     border-radius: 3px;
+    cursor: pointer;
 }
