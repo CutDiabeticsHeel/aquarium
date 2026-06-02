@@ -53,5 +53,8 @@
     top: 75%;
     z-index: 10;
 }
-
+.actor__arrow-back:active path,
+.actor__arrow-next:active path{
+    stroke: var(--additionaly-background);
+}
 

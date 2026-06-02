@@ -78,3 +78,7 @@
     cursor: pointer;
     z-index: 10;
 }
+.performance__aarrow-back:active path,
+.performance__arrow-next:active path{
+    stroke: var(--additionaly-background);
+}

@@ -8,14 +8,22 @@ const likes = document.querySelectorAll(".like")
 const form = document.querySelector(".write-review");
 const modal = document.querySelector("#review-modal");
 const closeBtn = document.querySelector("#close-modal");
+const topicList = document.querySelectorAll(".topic-list__item")
 
 allReviews.addEventListener("click", ()=>{
+    for (let topic of topicList){
+        topic.classList.remove("active-topic")
+    }
     for (let review of reviews){
         review.classList.remove("hidden")
     }
 })
 
 dramaSchool.addEventListener("click", ()=>{
+    for (let topic of topicList){
+        topic.classList.remove("active-topic")
+    }
+    dramaSchool.classList.add("active-topic")
     for (let review of reviews){
 
         const shouldHide = review.dataset.topic !== dramaSchool.dataset.topic;
@@ -25,6 +33,10 @@ dramaSchool.addEventListener("click", ()=>{
 })
 
 tnt.addEventListener("click", ()=>{
+    for (let topic of topicList){
+        topic.classList.remove("active-topic")
+    }
+    tnt.classList.add("active-topic")
     for (let review of reviews){
         
         const shouldHide = review.dataset.topic !== tnt.dataset.topic;
@@ -34,6 +46,10 @@ tnt.addEventListener("click", ()=>{
 })
 
 performance.addEventListener("click", ()=>{
+    for (let topic of topicList){
+        topic.classList.remove("active-topic")
+    }
+    performance.classList.add("active-topic")
     for (let review of reviews){
         
         const shouldHide = review.dataset.topic !== performance.dataset.topic;
@@ -43,6 +59,10 @@ performance.addEventListener("click", ()=>{
 })
 
 service.addEventListener("click", ()=>{
+    for (let topic of topicList){
+        topic.classList.remove("active-topic")
+    }
+    service.classList.add("active-topic")
     for (let review of reviews){
         
         const shouldHide = review.dataset.topic !== service.dataset.topic;

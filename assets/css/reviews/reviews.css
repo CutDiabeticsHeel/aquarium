@@ -24,6 +24,12 @@
     font-size: 25px;
     cursor: pointer;
 }
+.topic-list__item:hover{
+    border: 5px solid var(--main-background);
+}
+.active-topic {
+    border: 5px solid var(--main-background);
+}
 .review-wrapper {
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -90,6 +96,10 @@
     color: #ffffff;
     border-bottom: 2px solid var(--border-color);
     font-size: var(--text-body);
+}
+#review:focus,
+#name:focus {
+    background-color: var(--additionaly-background);;
 }
 #topicData {
     margin: 10px 0px;
