@@ -57,3 +57,7 @@
     background-color: var(--background-opacity);
     font-size: 21px;
 }
+.drama-school__arrow-back:active path,
+.drama-school__arrow-next:active path{
+    stroke: var(--additionaly-background);
+}

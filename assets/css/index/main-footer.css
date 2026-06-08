@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     padding: 10px 0px;
+    cursor: pointer;
 }
 .info-list__item:hover,
 .info-list__item:hover a{

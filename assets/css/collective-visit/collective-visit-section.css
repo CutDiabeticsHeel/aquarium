@@ -47,3 +47,7 @@
     top: 75%;
     z-index: 10;
 }
+.collective-visit__arrow-back:active path,
+.collective-visit__arrow-next:active path{
+    stroke: var(--additionaly-background);
+}

@@ -21,20 +21,20 @@
     background-color: var(--main-background);
 }
 .performance__image-description {
-  position: absolute;
-  top: 50%;
-  left: 25%;
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity .2s, visibility .2s;
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s, visibility .2s;
 }
 .performance-figure:hover .performance__image-description {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 .performance-figure:hover .performance__image {
-    filter: blur(1px);
+    filter: blur(3px);
 }
 .performance-figure:hover .performance__figcaption{
     visibility: hidden;

@@ -7,10 +7,28 @@
 .main-section__title {
     position: absolute;
     z-index: 10;
-    font-size: 70px;
+    font-size: 68px;
     padding: 0px 40px;
-    width: 250px;
+    margin-top: 150px ;
+    perspective: 1000px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
 }
+.main-section__title .letter {
+    display: inline-block;
+    opacity: 0;
+    transform-origin: center center;
+    will-change: transform, opacity, filter;
+}
+.line {
+    display: block;
+}
+.letter {
+    display: inline-block;
+}
+
 .main-section__image {
     width: 100%;
     height: 100%;

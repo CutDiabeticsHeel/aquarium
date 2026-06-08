@@ -18,7 +18,7 @@ html {
 :root {
     --main-background: #001d3d;
     --additionaly-background: #114d94;
-    --button-background: #f0cb46;
+    --button-background: #ffcc00;
     --text-body: 18px;
     --border-color: #dde8ed;
     --background-opacity: rgba(117, 152, 206, 0.2);
@@ -129,4 +129,8 @@ h1.wave {
     border: none;
     border-radius: 3px;
     cursor: pointer;
+}
+.buy-ticket:hover {
+    background-color: #ffd700;
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);  
 }

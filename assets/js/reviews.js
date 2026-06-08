@@ -4,10 +4,11 @@ const tnt = document.querySelector(".folk-art-theater")
 const performance = document.querySelector(".performances")
 const service = document.querySelector(".service")
 const reviews = document.querySelectorAll(".review-list__item")
-const likes = document.querySelectorAll(".like")
+const likes = document.querySelectorAll(".feedback__like")
 const form = document.querySelector(".write-review");
-const modal = document.querySelector("#review-modal");
-const closeBtn = document.querySelector("#close-modal");
+const modalReview = document.querySelector("#review-modal__review");
+const modalLike = document.querySelector("#review-modal__like");
+const closeBtn = document.querySelectorAll("#close-modal");
 const topicList = document.querySelectorAll(".topic-list__item")
 
 allReviews.addEventListener("click", ()=>{
@@ -76,7 +77,6 @@ likes.forEach(like => {
     like.addEventListener("click", async () => {
 
         const reviewId =  like.dataset.reviewid;
-        console.log(reviewId)
 
         const response = await fetch(
             `/reviews/${reviewId}/like`,
@@ -88,15 +88,15 @@ likes.forEach(like => {
         const result = await response.json();
 
         if (result.success) {
+            let counter = like.closest('.feedback').querySelector(".feedback__counter")
 
-            like.textContent =
-                result.likes;
+            counter.textContent = result.likes;
 
-            like.disabled = true;
+            like.classList.add("liked")
         }
         else {
 
-            alert(result.message);
+            modalLike.classList.add("active");
         }
     });
 
@@ -113,11 +113,21 @@ form.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-        modal.classList.add("active");
+        modalReview.classList.add("active");
         form.reset();
     }
 });
 
-closeBtn.addEventListener("click", () => {
-    modal.classList.remove("active");
+for (let button of closeBtn){
+        button.addEventListener("click", () => {
+        modalReview.classList.remove("active");
+        modalLike.classList.remove("active");
+    });
+}
+document.querySelectorAll(".modal").forEach(modal => {
+    modal.addEventListener("click", function(event) {
+        if (event.target === this) {
+            this.classList.remove("active");
+        }
+    });
 });
