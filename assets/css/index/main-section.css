@@ -38,7 +38,7 @@
     position: absolute;
     z-index: 10;
     top: 50%;
-    width: 400px;
+    width: 40%;
     margin: 40px;
     padding: 20px;
     text-align: center;
@@ -70,4 +70,14 @@
 .main-section__arrow-back:active path,
 .main-section__arrow-next:active path{
     stroke: var(--additionaly-background);
+}
+@media (max-width: 490px) {
+    .main-section__title {
+        font-size: 48px;
+    }
+}
+@media (max-width: 371px) {
+    .main-section__title {
+        font-size: 38px;
+    }
 }

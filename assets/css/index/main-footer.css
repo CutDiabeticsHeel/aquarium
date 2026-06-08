@@ -39,5 +39,17 @@
     z-index: -1;
 }
 .main-footer__map {
+    padding-left: 10px;
     width: 100%;
+}
+@media (max-width: 767px) {
+    .main-footer {
+        grid-template-columns: 1fr;
+    }
+    .info-list {
+        grid-row: 2;
+    }
+    .ticket-office-wrapper {
+        grid-row: 4;
+    }
 }

@@ -4,9 +4,11 @@ body {
 .dates-list {
     display: flex;
     justify-content: space-evenly;
+    padding: 20px;
+    align-items: end;
 }
 .dates-list__item {
-    margin: 0px 10px;
+    margin: 0 ;
     padding: 20px;
     border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
@@ -14,8 +16,14 @@ body {
     cursor: pointer;
     transition: all 0.35s;
 }
+.dates-list .swiper-slide {
+    width: 70px !important;
+}
+.remove-filter.swiper-slide{
+    width: 140px !important;
+}
 .dates-list__item:hover {
-    transform: translateY(-20px);
+    top: -20px;
 }
 .dates-list__item:active {
     filter: brightness(30%);
@@ -27,6 +35,7 @@ body {
     align-items: center;
     font-size: 30px;
     margin: 20px 50px;
+    padding: 10px;
     padding-left:  10px;
     background-color: var(--background-opacity);
     border: 1px solid var(--border-color);
@@ -46,7 +55,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 500px;
+    width: 80%;
     height: 200px;
     border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
@@ -54,4 +63,47 @@ body {
     font-size: 30px;
     margin-left: auto;
     margin-right: auto;
+}
+@media (min-width: 900px) and (max-width: 1092px) {
+    .performances-list__item {
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 10px;
+    }
+    .playbill__date {
+        grid-row: 2;
+    }
+    .playbill__age-limit {
+        grid-row: 3;
+    }
+    .performances-list__item .buy-ticket {
+        grid-row: 1/4;
+    }
+    .playbill__image {
+        grid-column: 4/5;
+        grid-row: 1/4;
+    }
+}
+@media (max-width: 900px) {
+    .performances-list__item {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .playbill__image {
+        display: none;
+    }    
+}
+@media (max-width: 767px) {
+    .performances-list__item {
+        grid-template-columns: 1fr;
+        row-gap: 7px;
+        justify-items: center; 
+    }
+    .performances-list__item .buy-ticket {
+        width: 47%;
+    }
+    .playbill__image {
+        display: none;
+    }
+    .playbill__title {
+        font-size: 20px;
+    }    
 }

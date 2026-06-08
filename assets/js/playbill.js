@@ -31,7 +31,7 @@ function displayDates() {
     for (let day of weekends){
         let weekendsListItem = document.createElement('li');
         weekendsListItem.textContent = `${day} ${month}`;
-        weekendsListItem.classList.add("dates-list__item");
+        weekendsListItem.classList.add("dates-list__item", "swiper-slide");
         let charmonth = null;
         if (date.month < 10){
             charmonth = `0${date.month}`
@@ -41,9 +41,8 @@ function displayDates() {
     }
     let weekendsListItem = document.createElement('li');
     weekendsListItem.textContent = "Сбросить фильтр";
-    weekendsListItem.classList.add("dates-list__item", "remove-filter");
+    weekendsListItem.classList.add("dates-list__item", "remove-filter", "swiper-slide");
     weekendsList.append(weekendsListItem);
-    playbill.prepend(weekendsList)
 
     return weekendsList
 }
@@ -88,3 +87,14 @@ removeFilter.addEventListener("click", () => {
     updateCounter();
 });
 
+const swiper = new Swiper('.dates-list-swiper', {
+    freeMode: true,
+    spaceBetween: 15,
+    mousewheel: true,
+    mousewheel: {
+        sensitivity: 0.6,
+    },
+    slidesPerView: 'auto',
+    resistance: true,
+    resistanceRatio: 0.85,
+});

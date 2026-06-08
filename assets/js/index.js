@@ -22,6 +22,8 @@ const mainSectionSwiper = new Swiper('.main-section-swiper', {
 const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
     
     effect: 'cards',
+    observer: true,
+    observeParents: true,
     cardsEffect: {
         perSlideOffset: 10,
         perSlideRotate: 2, 

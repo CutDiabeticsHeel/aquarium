@@ -22,16 +22,17 @@
 
         <img class="no-js" style="display: none;" src="/img/playbill.jpg" alt="">
 
-        <ul class="dates-list">
-        </ul>
+        <div class="swiper dates-list-swiper">
+            <ul class="swiper-wrapper dates-list"></ul>
+        </div>
 
         <ul class="performances-list">
             <% if (performances && performances.length > 0) { %>
                 <% performances.forEach(performance => { %>
                     <li class="performances-list__item" data-date="<%=performance.date%>">
-                        <h3><%= performance.performance %></h3>
-                        <span><%= performance.date %></span>
-                        <span><%= performance.age_limit %></span>
+                        <h3 class="playbill__title"><%= performance.performance %></h3>
+                        <span class="playbill__date"><%= performance.date %></span>
+                        <span class="playbill__age-limit"><%= performance.age_limit %></span>
                         <button class="buy-ticket">Купить билет</button>
                         <img class="playbill__image" src="<%= performance.image %>" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
                     </li>

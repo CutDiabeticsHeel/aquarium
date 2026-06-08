@@ -40,3 +40,10 @@
 .services_link:active {
     filter: brightness(30%);
 }
+
+@media (max-width: 767px) {
+    .services__wrapper {
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+    }
+}
