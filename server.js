@@ -422,7 +422,8 @@ app.post("/reviews/:id/like", (request, reply) => {
 try {
 
     await app.listen({
-        port: 3000
+        port: 3000,
+        host: "0.0.0.0"
     });
 
 } catch (err) {

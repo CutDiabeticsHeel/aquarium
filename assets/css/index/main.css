@@ -36,6 +36,9 @@ body {
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
+body.no-scroll {
+    overflow: hidden;
+}
 ::-webkit-scrollbar {
     background-color: var(--main-background);
 }
@@ -52,6 +55,7 @@ a{
     color: #ffffff;
 }
 h1 {
+    box-sizing: border-box;
     padding-left: 20px;
     font-size: var(--h1);
 }

@@ -120,13 +120,12 @@ gsap.set(header, {
     height: 0,
     opacity: 0,
     paddingTop: 0,
-    paddingBottom: 0,
-    overflow: "hidden"
+    paddingBottom: 0
 });
 
 window.addEventListener("load", () => {
     gsap.to(header, {
-        height: 126,
+        height: 156,
         paddingTop: 15,
         paddingBottom: 15,
         opacity: 1,

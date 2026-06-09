@@ -46,8 +46,27 @@
     width: 100%;
     overflow: hidden;
 }
-
+.tnt__wrapper h3 {
+    text-align: center;
+}
 .swiper-slide {
     position: relative;
     overflow: hidden;
 }
+@media (max-width: 767px) {
+    .tnt__wrapper-text {
+        font-size: 18px;
+    }    
+}
+@media (max-width: 425px) {
+    .tnt__arrow-back,
+    .tnt__arrow-next {
+        top: 45%;
+    } 
+    .tnt__wrapper-text {
+        top: 65%;
+        left: 0%;
+        width: 97%;
+    }    
+}
+

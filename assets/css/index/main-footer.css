@@ -52,4 +52,8 @@
     .ticket-office-wrapper {
         grid-row: 4;
     }
+    .main-footer .wave {
+        width: 93%;
+        grid-column: 1;
+    }
 }

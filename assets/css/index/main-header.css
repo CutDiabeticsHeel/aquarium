@@ -4,10 +4,12 @@
     align-items: center;
     position: sticky;
     top: 0;
-    height: 126px;
+    height: 156px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     backdrop-filter: blur(20px);
     z-index: 100;
-    padding: 15px 0px;
+    box-sizing: border-box;
 }
 .main-navigation {
     display: flex;
@@ -60,9 +62,13 @@
 .title-wrapper:hover svg *{
     fill: var(--additionaly-background);
 }
-@media (max-width: 1092px) {
+@media (max-width: 1119px) {
     .close {
         display: none;
+    }
+    .main-header {
+        position: static;
+        backdrop-filter: none;
     }
     .main-navigation.opened {
         position: fixed; 
@@ -70,12 +76,12 @@
         align-content: center;
         width: 100%;
         inset: 0;
-        top: 126px;
+        top: 156px;
         padding: 0;
         margin: 0;
         background-color: var(--main-background);
         height: 100vh;
-        z-index: 100;
+        z-index: 1000;
     }
     .navigation-list {
         flex-direction: column;

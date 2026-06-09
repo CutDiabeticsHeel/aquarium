@@ -1,3 +1,6 @@
+.collective-visit__section h1 {
+    word-break: break-all;
+}
 .collective-visit__wrapper {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -9,7 +12,7 @@
     width: 100%;
 }
 .description-list {
-    padding-left: 20px;
+    margin: 0px 20px;
 }
 .description-list__item {
     text-align: center;
@@ -50,4 +53,22 @@
 .collective-visit__arrow-back:active path,
 .collective-visit__arrow-next:active path{
     stroke: var(--additionaly-background);
+}
+@media (max-width: 767px) {
+    .collective-visit__wrapper {
+        grid-template-columns: 1fr;
+    }
+    .description-list {
+        padding: 0;
+    }
+    .collective-visit__swiper {
+        grid-column: 1;
+    }
+    .collective-visit__arrow-back {
+        left: 2%;
+    }
+    .collective-visit__arrow-back,
+    .collective-visit__arrow-next {
+        top: 90%;
+    } 
 }
