@@ -102,6 +102,20 @@ likes.forEach(like => {
 
 });
 
+const swiper = new Swiper('.topic-list-swiper', {
+    freeMode: true,
+    spaceBetween: 15,
+    mousewheel: true,
+    mousewheel: {
+        sensitivity: 0.6,
+    },
+    slidesPerView: 'auto',
+    resistance: true,
+    resistanceRatio: 0.85,
+});
+
+
+
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 

@@ -2,12 +2,13 @@
     display: grid;
     grid-template-columns: 1fr 3fr;
     align-items: center;
+    padding-bottom: 20px;
 }
 .greetings__title {
     padding: 0px 20px;
 }
 .greetings__text {
-    padding: 0px 20px;
+    padding: 20px 20px;
     align-self: start;
 }
 .greetings__image {
@@ -15,44 +16,54 @@
     grid-row: 1/3;
     width: 100%;
 }
-.topic-list {
-    display: flex;
+.topic-list-swiper {
     background-color: var(--additionaly-background);
+    padding: 20px 0;
+}
+.topic-list {
+    display: flex;   
 }
 .topic-list__item {
+    background-color: var(--additionaly-background);
     padding: 20px;
     font-size: 25px;
+    text-align: center;
     cursor: pointer;
     border: 5px solid transparent
 }
-.topic-list__item:hover{
-    border: 5px solid var(--main-background);
+.topic-list .swiper-slide {
+    width: auto  !important;
+    margin-right: 0px !important;
 }
+.topic-list__item:hover,
 .active-topic {
-    border: 5px solid var(--main-background);
+    outline: 5px solid var(--main-background);
+    outline-offset: -5px;
 }
 .review-wrapper {
     display: grid;
     grid-template-columns: 3fr 1fr;
     column-gap: 20px;
-    padding: 0px 20px;
+    padding: 20px 20px;
     margin-bottom: 60px;
 }
 .review-list {
     margin: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: 30px;
+    row-gap: 50px;
     column-gap: 10px;
     padding: 0;
     align-items: start; 
 }
 .review-list__item {
     display: grid;
+    grid-template-columns: 1fr 1fr;
     border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
     padding: 10px;
     height: 100%;
+    min-width: 0;
 }
 .topic {
     grid-row: 1/3;
@@ -73,6 +84,7 @@
     display: grid;
     justify-content: end;
     row-gap: 10px;
+    
 }
 .feedback__like {
     grid-row: 2;
@@ -113,6 +125,7 @@
     font-size: var(--text-body);
     border: 1px solid var(--border-color);
     color: #ffffff;
+    min-width: 0;
 }
 #review {
     margin: 10px 0px;
@@ -153,4 +166,28 @@
 
 .modal__content h2 {
     margin: 10px 0px;
+}
+
+@media (max-width: 1023px) {
+    .review-wrapper {
+        grid-template-columns: 1fr;
+    }
+    #topicData {
+        width: 100%;
+    }
+    .write-review {
+        grid-row: 1;
+        padding-bottom: 20px;
+    }
+}
+@media (max-width: 767px) {
+    .greetings {
+        grid-template-columns: 1fr;
+    }
+    .greetings__image {
+        display: none;
+    }
+    .review-list {
+        grid-template-columns: 1fr;
+    }    
 }

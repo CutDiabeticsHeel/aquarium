@@ -14,17 +14,19 @@
 
     <section class="reviews">
         <div class="greetings">
-            <h1 class="greetings__title">Отзывы</h1>
+            <h1 class="greetings__title wave">Отзывы</h1>
             <p class="greetings__text">Мы ценим мнение каждого зрителя. Ваши отзывы помогают нам становиться лучше и создавать ещё больше ярких впечатлений.</p>
             <img class="greetings__image" src="/img/main-section.jpg" width="500" height="500" alt="">
         </div>
-        <ul class="topic-list">
-            <li class="topic-list__item all-reviews">Все отзывы</li>
-            <li class="topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
-            <li class="topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
-            <li class="topic-list__item performances" data-topic="performance">Спектакли</li>
-            <li class="topic-list__item service" data-topic="service">Обслуживание</li>
-        </ul>
+        <div class="swiper topic-list-swiper">
+            <ul class="swiper-wrapper topic-list">
+                <li class="swiper-slide topic-list__item all-reviews">Все отзывы</li>
+                <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
+                <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
+                <li class="swiper-slide topic-list__item performances" data-topic="performance">Спектакли</li>
+                <li class="swiper-slide topic-list__item service" data-topic="service">Обслуживание</li>
+            </ul>
+        </div>
         <div class="review-wrapper">
             <ul class="review-list">
                 <% reviews.forEach(item => { %>
@@ -54,7 +56,7 @@
                     <option value="service:Обслуживание">Обслуживание</option>
                     <option value="other:Другое">Другое</option>
                 </select>
-                <textarea name="review" id="review" minlength="25" placeholder="Опишите свое впечатление о театре" rows="20" cols="40" required></textarea>
+                <textarea name="review" id="review" minlength="25" placeholder="Опишите свое впечатление о театре" rows="20" cols="10" required></textarea>
                 <button class="buy-ticket write-review__button" type="submit">
                     Оставить отзыв
                 </button>
