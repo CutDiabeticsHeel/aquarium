@@ -1,31 +1,33 @@
+.about-theatre .wave {
+    padding-left: 20px;
+    width: calc(100% - 20px);   
+}
 .about-theatre__wraper {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    position: relative;
-    align-items: center;
-    box-sizing: border-box;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 20px;
     padding: 20px;
 }
 .about-theatre__text {
     box-sizing: border-box;
     position: relative;
-	  max-height: 300px;
-	  overflow: hidden;
-    padding: 0px 20px;
+    max-height: 300px;
+	overflow: hidden;
+    padding: 0;
     margin: 0;
-	  transition: max-height 1s;
+	transition: max-height 1s;
 }
 .about-theatre__text::after {
-	  content: "";
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  z-index: 1;
-	  display: block;
-	  width: 100%;
-	  height: 100%;
-	  transition: 1s;
-	  background: linear-gradient(to bottom, transparent 0%, var(--main-background) 100%);
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	display: block;
+	width: 100%;
+	height: 100%;
+	transition: 1s;
+	background: linear-gradient(to bottom, transparent 0%, var(--main-background) 100%);
 }
 .about-theatre__text.open:after {
     z-index: -1;
@@ -95,7 +97,10 @@
     overflow: hidden;
 }
 .about-theatre__swiper-wrapper {
-    width: 100%;
+    width: 88% !important;
+}
+.accordion-wrapper {
+    min-width: 0;
 }
 .about-theatre__image {
     display: block;
@@ -107,6 +112,9 @@
 }
 .about-theatre__swiper-pagination {
     display: none;
+}
+.swiper-slide {
+    width: 100% !important;
 }
 
 @media (max-width: 1301px) {

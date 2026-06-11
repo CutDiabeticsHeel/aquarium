@@ -39,7 +39,6 @@
     z-index: -1;
 }
 .main-footer__map {
-    padding-left: 10px;
     width: 100%;
 }
 @media (max-width: 767px) {
