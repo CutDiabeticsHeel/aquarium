@@ -1,32 +1,47 @@
 body {
     position: relative;
 }
+.playbill .wave {
+    padding-left: 20px;
+    width: calc(100% - 20px);
+}
 .dates-list {
-    display: flex;
-    justify-content: space-evenly;
     padding: 20px;
-    align-items: end;
+}
+.swiper-slide {
+    overflow: visible !important;
 }
 .dates-list__item {
+    display: block;
+    padding: 10px;
     margin: 0 ;
-    padding: 20px;
     border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
     position: relative;
     cursor: pointer;
     transition: all 0.35s;
 }
-.dates-list .swiper-slide {
-    width: 70px !important;
+.dates-list .swiper-slide,
+.remove-filter.swiper-slide {
+    width: auto !important;
 }
-.remove-filter.swiper-slide{
-    width: 140px !important;
+.remove-filter {
+    margin-right: 20px;
 }
 .dates-list__item:hover {
-    top: -20px;
+    transform: translateY(-20px);
+    z-index: 10;
 }
 .dates-list__item:active {
     filter: brightness(30%);
+    z-index: 10;
+}
+.performances-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0px 20px;
+    gap: 20px;
 }
 .performances-list__item {
     display: grid;
@@ -34,7 +49,6 @@ body {
     text-align: center;
     align-items: center;
     font-size: 30px;
-    margin: 20px 50px;
     padding: 10px;
     padding-left:  10px;
     background-color: var(--background-opacity);

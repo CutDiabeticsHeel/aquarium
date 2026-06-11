@@ -29,22 +29,29 @@ const weekends = getWeekends(firstDay, lastDay)
 
 function displayDates() {
     for (let day of weekends){
-        let weekendsListItem = document.createElement('li');
-        weekendsListItem.textContent = `${day} ${month}`;
-        weekendsListItem.classList.add("dates-list__item", "swiper-slide");
-        let charmonth = null;
-        if (date.month < 10){
-            charmonth = `0${date.month}`
-        }
-        weekendsListItem.dataset.date = `${day}.${charmonth}`;
-        weekendsList.append(weekendsListItem);
-    }
-    let weekendsListItem = document.createElement('li');
-    weekendsListItem.textContent = "Сбросить фильтр";
-    weekendsListItem.classList.add("dates-list__item", "remove-filter", "swiper-slide");
-    weekendsList.append(weekendsListItem);
+        const weekendsListItemWprapper = document.createElement('li');
+        weekendsListItemWprapper.classList.add("swiper-slide");
 
-    return weekendsList
+        const weekendsListItem = document.createElement('span')
+        weekendsListItem.classList.add("dates-list__item")
+        weekendsListItem.textContent = `${day} ${month}`;
+        
+        
+        let charmonth = date.month < 10 ? `0${date.month}` : `${date.month}`;
+        weekendsListItem.dataset.date = `${day}.${charmonth}`;
+
+        weekendsListItemWprapper.append(weekendsListItem);
+        weekendsList.append(weekendsListItemWprapper);
+    }
+    const weekendsListItemWprapper = document.createElement('li');
+    weekendsListItemWprapper.classList.add("swiper-slide");
+
+    const weekendsListItem = document.createElement('span')
+    weekendsListItem.textContent = "Сбросить фильтр";
+    weekendsListItem.classList.add("dates-list__item", "remove-filter");
+
+    weekendsListItemWprapper.append(weekendsListItem);
+    weekendsList.append(weekendsListItemWprapper);
 }
 displayDates();
 

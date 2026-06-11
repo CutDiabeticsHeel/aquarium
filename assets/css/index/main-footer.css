@@ -1,7 +1,7 @@
 .main-footer {
-    padding-right: 20px;
     padding-bottom: 50px;
     display: grid;
+    gap: 5px;
     text-align: center;
     align-items: center;
     grid-template-columns: 1fr 1fr 1fr;
@@ -11,23 +11,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
     padding: 0;
 }
 .info-list__item {
     display: flex;
     align-items: center;
+    gap: 10px; 
     padding: 10px 0px;
+    padding-left: 20px;
     cursor: pointer;
 }
 .info-list__item:hover,
 .info-list__item:hover a{
     color: var(--additionaly-background);
-}
-.info-list__item-svg {
-    margin-right: 20px;
-}
-.ticket-office-wrapper {
-    text-align: center;
 }
 .ticket-office-list__item {
     padding: 10px 0px;
@@ -39,11 +36,15 @@
     z-index: -1;
 }
 .main-footer__map {
-    width: 100%;
+    padding-right: 20px;
+    width: calc(100% - 20px);
 }
 @media (max-width: 767px) {
     .main-footer {
         grid-template-columns: 1fr;
+    }
+    .main-footer__map {
+        padding-left: 20px;
     }
     .info-list {
         grid-row: 2;
@@ -52,7 +53,6 @@
         grid-row: 4;
     }
     .main-footer .wave {
-        width: 93%;
         grid-column: 1;
     }
 }
