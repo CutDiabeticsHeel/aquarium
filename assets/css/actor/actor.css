@@ -3,6 +3,7 @@
     flex-direction: column;
 }
 .actor__name {
+    padding-left: 20px;
     word-break: break-all;
 }
 .actor__biografy {

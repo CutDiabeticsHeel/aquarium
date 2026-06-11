@@ -1,3 +1,6 @@
+.troupe-section .wave {
+    padding-left: 20px;
+}
 .actors-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
