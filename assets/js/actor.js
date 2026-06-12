@@ -7,6 +7,7 @@ const actorSwiper = new Swiper('.actor__swiper', {
     pagination: {
         el: '.swiper-pagination',
         type: 'bullets',
+        clickable: true
     },
     
     navigation: {

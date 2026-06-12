@@ -11,6 +11,7 @@
 }
 .performance-list__item {
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     background-color: var(--background-opacity);
 }
 .performance__image {
@@ -18,10 +19,13 @@
     height: auto;
     opacity: 0.7;
     display: block;
+    border-radius: 20px;
 }
 .performance-figure {
     position: relative;
     background-color: var(--main-background);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 20px;
 }
 .performance__image-description {
     position: absolute;

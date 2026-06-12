@@ -79,15 +79,15 @@ p {
     margin: 0;
 }
 h1.wave {
-    --h: 66px;
-    --w: 176px;
+    --h: 64px;
+    --w: 190px;
 }
 .wave {
   --c: var(--additionaly-background);   
   --t: 5px;   
-  --h: 50px;
-  --w:125px; 
-  --p:13px;
+  --h: 48px;
+  --w: 130px; 
+  --p: 12px;
   background:
     radial-gradient(
         farthest-side at 50% calc(100% + var(--p)), 
@@ -129,7 +129,7 @@ h1.wave {
     width: 180px;
     font-size: 22px;
     border: none;
-    border-radius: 3px;
+    border-radius: 10px;
     cursor: pointer;
 }
 .buy-ticket:hover {

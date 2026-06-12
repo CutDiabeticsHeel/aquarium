@@ -13,6 +13,7 @@
 .tnt {
     text-align: center;
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     background-color: var(--background-opacity);
     position: relative;
     overflow: hidden;

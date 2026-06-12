@@ -60,6 +60,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     background-color: var(--background-opacity);
     padding: 10px;
     height: 100%;
@@ -114,8 +115,10 @@
     border-bottom: 2px solid var(--border-color);
     font-size: var(--text-body);
 }
-#review:focus,
 #name:focus {
+    outline: none;
+}
+#review:focus {
     background-color: var(--additionaly-background);;
 }
 #topicData {
@@ -124,6 +127,7 @@
     background-color: var(--main-background);
     font-size: var(--text-body);
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     color: #ffffff;
     min-width: 0;
 }
@@ -133,6 +137,7 @@
     background-color: var(--main-background);
     font-size: var(--text-body);
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     color: #ffffff;
     
 }

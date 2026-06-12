@@ -10,6 +10,7 @@ const performanceSwiper = new Swiper('.performance__swiper', {
     pagination: {
         el: '.swiper-pagination',
         type: 'bullets',
+        clickable: true
     },
     
     navigation: {

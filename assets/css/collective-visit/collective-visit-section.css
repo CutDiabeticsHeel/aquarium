@@ -1,5 +1,6 @@
 .collective-visit__section h1 {
     word-break: break-all;
+    padding-left: 20px;
 }
 .collective-visit__wrapper {
     display: grid;
@@ -17,6 +18,7 @@
 .description-list__item {
     text-align: center;
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     background-color: var(--background-opacity);
     margin: 20px 0;
     padding: 20px;

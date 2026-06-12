@@ -19,6 +19,7 @@
 .performance__audience {
     border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
+    border-radius: 20px;
     padding: 20px;
 }
 .performance__swiper-container {

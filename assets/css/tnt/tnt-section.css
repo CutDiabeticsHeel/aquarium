@@ -1,3 +1,6 @@
+.tnt__section {
+    padding-left: 20px;
+}
 .tnt__wrapper {
     display: flex;
     flex-direction: column;

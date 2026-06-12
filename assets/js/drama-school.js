@@ -8,6 +8,7 @@ const dramaSchoolSwiper = new Swiper('.drama-school__swiper', {
     pagination: {
         el: '.swiper-pagination',
         type: 'bullets',
+        clickable: true
     },
     
     navigation: {

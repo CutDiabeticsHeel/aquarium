@@ -5,7 +5,7 @@ const tntSwiper = new Swiper('.tnt__swiper', {
     speed: 600,
 
     pagination: {
-        el: ".swiper-pagination",
+        el: ".swiper-pagination"
     },
 
     navigation: {

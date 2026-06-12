@@ -9,6 +9,7 @@ const collectiveVisitSwiper = new Swiper('.collective-visit__swiper', {
     pagination: {
         el: '.swiper-pagination',
         type: 'bullets',
+        clickable: true
     },
     
     navigation: {

@@ -9,6 +9,7 @@ const mainSectionSwiper = new Swiper('.main-section-swiper', {
     pagination: {
         el: '.swiper-pagination',
         type: 'bullets',
+        clickable: true
     },
     
     navigation: {
@@ -30,7 +31,7 @@ const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
         slideShadows: false, 
     },
     pagination: {
-        el: '.swiper-pagination'
+        el: '.swiper-pagination',
     },
     navigation: {
         nextEl: '.about-theatre__arrow-next',

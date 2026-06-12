@@ -8,11 +8,12 @@ body {
 .dates-list {
     padding: 20px;
 }
-.swiper-slide {
+.dates-list .swiper-slide {
     overflow: visible !important;
 }
 .dates-list__item {
     display: block;
+    border-radius: 10px;
     padding: 10px;
     margin: 0 ;
     border: 1px solid var(--border-color);
@@ -53,6 +54,7 @@ body {
     padding-left:  10px;
     background-color: var(--background-opacity);
     border: 1px solid var(--border-color);
+    border-radius: 20px;
 }
 .playbill__image {
     width: 100%;
