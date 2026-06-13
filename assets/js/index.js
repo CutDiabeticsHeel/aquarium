@@ -39,6 +39,25 @@ const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
     }
 })
 
+gsap.registerPlugin(ScrollTrigger)
+let aboutTrigger = null;
+let heigth = 0
+const headerGap = 60
+
+function createScrollTrigger(heigth) {
+    if (aboutTrigger) {
+        aboutTrigger.kill();
+    }
+    if (window.innerWidth <= 1301) return;
+    aboutTrigger = ScrollTrigger.create({
+        trigger: ".about-theatre",
+        start: `top ${headerGap}px`,
+        end: "+=" + Math.max(heigth - 397, 0),
+        pin: ".about-theatre__swiper",
+        pinSpacing: false,
+    });
+}
+
 const elements = document.querySelectorAll('.accordion-wrapper');
 
 Array.from(elements).forEach(function(el){
@@ -48,13 +67,18 @@ Array.from(elements).forEach(function(el){
 	btn.addEventListener('click', function(){
 		if(!content.classList.contains('open')){
 			content.style.maxHeight = content.scrollHeight + 'px';
+            heigth = content.scrollHeight
 			content.classList.add('open');
 			btn.textContent = 'Свернуть';
 		} else {
 			content.style.maxHeight = '300px';
+            heigth = 300
 			content.classList.remove('open');
 			btn.textContent = 'Узнать больше';
 		}
+        setTimeout(() => {
+            createScrollTrigger(heigth);
+        }, 1000);
 	});
 });
 
@@ -133,10 +157,14 @@ window.addEventListener("load", () => {
         duration: 1,
         delay: 2,
         ease: "power2.out",
-        clearProps: "all"
+        clearProps: "all",
+        onComplete: () => {
+            // ← инициализируем ScrollTrigger только после анимации хедера
+            createScrollTrigger(document.querySelector(".accordion-wrapper").offsetHeight);
+        }
     });
     gsap.to(mainSection, {
-        height: "85vh",
+        height: "88vh",
         delay: 2
     })
 });

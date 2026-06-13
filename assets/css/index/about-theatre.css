@@ -4,8 +4,8 @@
 }
 .about-theatre__wraper {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-    gap: 20px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 3fr);
+    gap: 50px;
     padding: 20px;
 }
 .about-theatre__text {
@@ -94,7 +94,6 @@
 .about-theatre__swiper {
     width: min(800px, 85%);
     min-width: 0;
-    overflow: hidden;
 }
 .about-theatre__swiper-wrapper {
     width: 88% !important;

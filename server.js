@@ -232,13 +232,10 @@ app.get("/index", async (request, reply) => {
 });
 
 app.get("/actor/:id", async (request, reply) => {
-    console.log("ACTOR REQUEST:", request.url);
-    console.trace();
     const {id} = request.params;
+    
     const actorData = await getActorData(id)
-    console.log("Страница Актера", id, actorData)
     const performancesList = await getHrefPerformanceForActor(id)
-    console.log("Страница Актера",performancesList)
 
     return reply.view("actor.ejs", {
         actor: actorData,
