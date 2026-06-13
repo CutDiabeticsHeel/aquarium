@@ -140,3 +140,7 @@ window.addEventListener("load", () => {
         delay: 2
     })
 });
+
+Fancybox.bind("[data-fancybox]", {
+    
+});

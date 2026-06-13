@@ -19,3 +19,6 @@ const tntSwiper = new Swiper('.tnt__swiper', {
 
     loop: true
 })
+Fancybox.bind("[data-fancybox]", {
+    
+});

@@ -19,3 +19,6 @@ const collectiveVisitSwiper = new Swiper('.collective-visit__swiper', {
 
     loop: true
 })
+Fancybox.bind("[data-fancybox]", {
+    
+});

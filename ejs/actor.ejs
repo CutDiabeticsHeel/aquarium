@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Театр Аквариум</title>
     <link rel="stylesheet" href="/css/index/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
@@ -17,13 +19,19 @@
             <div class="swiper actor__swiper" tabindex="0">
                 <div class="swiper-wrapper actor__swiper-wrapper">
                     <div class="swiper-slide">
-                        <img class="actor__image" width="800px" src="<%= actor.img1 %>" alt="Фото актера">
+                        <a href="<%= actor.img1 %>" data-fancybox="actor__gallery">
+                            <img class="actor__image" width="800px" src="<%= actor.img1 %>" alt="Фото актера">
+                        </a>
                     </div>
                     <div class="swiper-slide">
-                        <img class="actor__image" width="800px" src="<%= actor.img2 %>" alt="Фото актера">
+                        <a href="<%= actor.img2 %>" data-fancybox="actor__gallery">
+                            <img class="actor__image" width="800px" src="<%= actor.img2 %>" alt="Фото актера">
+                        </a>
                     </div>
                     <div class="swiper-slide">
-                        <img class="actor__image" width="800px" src="<%= actor.img3 %>" alt="Фото актера">
+                        <a href="<%= actor.img3 %>" data-fancybox="actor__gallery">
+                            <img class="actor__image" width="800px" src="<%= actor.img3 %>" alt="Фото актера">
+                        </a>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>

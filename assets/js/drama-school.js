@@ -18,3 +18,6 @@ const dramaSchoolSwiper = new Swiper('.drama-school__swiper', {
 
     loop: true
 });
+Fancybox.bind("[data-fancybox]", {
+    
+});

@@ -20,3 +20,6 @@ const performanceSwiper = new Swiper('.performance__swiper', {
 
     loop: true
 });
+Fancybox.bind("[data-fancybox]", {
+    
+});

@@ -17,3 +17,6 @@ const actorSwiper = new Swiper('.actor__swiper', {
 
     loop: true
 });
+Fancybox.bind("[data-fancybox]", {
+    
+});

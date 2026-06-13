@@ -6,6 +6,8 @@
     <title>Театр Аквариум</title>
     <link rel="stylesheet" href="/css/index/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
@@ -23,13 +25,19 @@
                 <div class="swiper performance__swiper" tabindex="0">
                     <div class="swiper-wrapper performance__swiper-wrapper">
                         <div class="swiper-slide">
-                            <img class="performance-swiper__image" src="<%= performanceData.img1 %>" width="50px" height="50px" alt="Фото спектакля">
+                            <a href="<%= performanceData.img1 %>" data-fancybox="performance__gallery">                            
+                                <img class="performance-swiper__image" src="<%= performanceData.img1 %>" width="50px" height="50px" alt="Фото спектакля">
+                            </a>
                         </div>
                         <div class="swiper-slide">
-                            <img class="performance-swiper__image" src="<%= performanceData.img2 %>" width="50px" height="50px" alt="Фото спектакля">
+                            <a href="<%= performanceData.img2 %>" data-fancybox="performance__gallery">
+                                <img class="performance-swiper__image" src="<%= performanceData.img2 %>" width="50px" height="50px" alt="Фото спектакля">
+                            </a>
                         </div>
                         <div class="swiper-slide">
-                            <img class="performance-swiper__image" src="<%= performanceData.img3 %>" width="50px" height="50px" alt="Фото спектакля">
+                            <a href="<%= performanceData.img3 %>" data-fancybox="performance__gallery">
+                                <img class="performance-swiper__image" src="<%= performanceData.img3 %>" width="50px" height="50px" alt="Фото спектакля">
+                            </a>
                         </div>
                     </div>
                     <div class="swiper-pagination"></div>
