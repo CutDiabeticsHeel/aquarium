@@ -47,11 +47,11 @@ body {
 .performances-list__item {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 4fr;
+    gap: 5px;
     text-align: center;
     align-items: center;
     font-size: 30px;
-    padding: 10px;
-    padding-left:  10px;
+    padding: 0px 10px;
     background-color: var(--background-opacity);
     border: 1px solid var(--border-color);
     border-radius: 20px;
