@@ -367,24 +367,18 @@ app.post("/reviews", (request, reply) =>{
 })
 
 app.post("/reviews/:id/like", (request, reply) => {
-
     const reviewId = request.params.id;
-    const token = request.userToken;
-    console.log(reviewId, token)
+    const ip = request.ip;
 
     db.run(
         `
-        INSERT INTO likes(
-            review_id,
-            user_id
-        )
+        INSERT INTO likes(review_id, user_ip)
         VALUES(?, ?)
         `,
-        [reviewId, token],
-        function(err){
+        [reviewId, ip],
+        function(err) {
 
-            if(err){
-
+            if (err) {
                 return reply.send({
                     success: false,
                     message: "Лайк уже поставлен"

@@ -12,6 +12,9 @@
 .starring-title {
     padding-left: 20px;
 }
+.starring-list .performance-list {
+    grid-template-columns: repeat(4, 1fr);
+} 
 .achievement-list {
     padding-left: 20px;
 }
