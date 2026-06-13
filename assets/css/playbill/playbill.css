@@ -38,28 +38,74 @@ body {
     z-index: 10;
 }
 .performances-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin: 0;
     padding: 0px 20px;
     gap: 20px;
 }
 .performances-list__item {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 4fr;
+    grid-template-columns: 1fr 0.5fr;
     gap: 5px;
     text-align: center;
     align-items: center;
     font-size: 30px;
-    padding: 0px 10px;
     background-color: var(--background-opacity);
-    border: 1px solid var(--border-color);
     border-radius: 20px;
+    padding-bottom: 7px;
+    position: relative;
+    overflow: hidden;
+}
+.performances-list__item::after {
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.performances-list__item:hover {
+    color: rgba(255, 255, 255, 0.5);
+}
+.playbill__title {
+    grid-column: 1;
+    grid-row: 2;
+    padding-left: 10px;
+}
+.playbill__date {
+    grid-column: 1;
+    grid-row: 3;
+    margin-right: 50%;
+}
+.playbill__age-limit{
+    grid-column: 1;
+    grid-row: 3;
+    margin-left: 50%;
+}
+.performances-list__item .buy-ticket {
+    grid-row: 2/4;
+    grid-column: 2/3;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 10px;
+}
+.playbill__image-wrapper {
+    grid-column: 1/3;
+    width: 100%;
+    max-height: 300px;
+    border-radius: 20px;
+    align-self: flex-start;
+    overflow: hidden;
 }
 .playbill__image {
     width: 100%;
-    max-height: 300px;
+    height: 100%;
     object-fit: contain;
+    transition: transform 0.3s ease;
+}
+.performances-list__item:hover .playbill__image{
+    transform: scale(1.1)
 }
 .no-js {
     display: block;

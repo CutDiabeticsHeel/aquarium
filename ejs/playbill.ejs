@@ -34,7 +34,9 @@
                         <span class="playbill__date"><%= performance.date %></span>
                         <span class="playbill__age-limit"><%= performance.age_limit %></span>
                         <button class="buy-ticket">Купить билет</button>
-                        <img class="playbill__image" src="<%= performance.image %>" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
+                        <div class="playbill__image-wrapper">
+                            <img class="playbill__image" src="<%= performance.image %>" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
+                        </div>
                     </li>
                 <% }); %>
             <% } %>

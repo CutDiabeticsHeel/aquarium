@@ -59,7 +59,7 @@
     transition: transform 0.2s ease-in-out;
 }
 .main-section__link:hover {
-    transform: scale(1.10);
+    transform: scale(1.05);
 }
 .main-section__link:active {
     box-shadow: 0px 0px 40px rgba(17, 77, 148, 0.9)

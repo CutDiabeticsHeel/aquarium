@@ -12,10 +12,6 @@ const mainSectionSwiper = new Swiper('.main-section-swiper', {
         clickable: true
     },
     
-    navigation: {
-        nextEl: '.main-section__arrow-next',
-        prevEl: '.main-section__arrow-back',
-    },
 
     loop: true
 });
@@ -150,7 +146,7 @@ gsap.set(header, {
 
 window.addEventListener("load", () => {
     gsap.to(header, {
-        height: 156,
+        height: 98,
         paddingTop: 15,
         paddingBottom: 15,
         opacity: 1,
@@ -159,12 +155,11 @@ window.addEventListener("load", () => {
         ease: "power2.out",
         clearProps: "all",
         onComplete: () => {
-            // ← инициализируем ScrollTrigger только после анимации хедера
             createScrollTrigger(document.querySelector(".accordion-wrapper").offsetHeight);
         }
     });
     gsap.to(mainSection, {
-        height: "88vh",
+        height: "90vh",
         delay: 2
     })
 });
