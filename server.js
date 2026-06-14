@@ -85,6 +85,7 @@ async function getPerformanceData(playbillData) {
                     return {
                         id: item.id,
                         performance: item.performance,
+                        performance_id: found?.performance_id,
                         date: item.date,
                         age_limit: found?.age_limit,
                         image: found?.img1
@@ -144,7 +145,7 @@ async function getPerformances() {
 async function getPerformancePageData(id){
     return new Promise((resolve, reject) =>{
         db.get(
-            "SELECT origin, audience, info, img1, img2, img3 FROM performances WHERE performance_id=?",
+            "SELECT title, origin, audience, info, img1, img2, img3 FROM performances WHERE performance_id=?",
             [id],
             (err, rows) =>{
                 if (err) reject(err)

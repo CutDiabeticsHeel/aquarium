@@ -105,3 +105,12 @@ const swiper = new Swiper('.dates-list-swiper', {
     resistance: true,
     resistanceRatio: 0.85,
 });
+
+const buyButtons = document.querySelectorAll(".buy-ticket")
+
+for(let buyButton of buyButtons){
+    buyButton.addEventListener("click", (event) =>{
+        event.preventDefault();
+        console.log('click')
+    })
+}
