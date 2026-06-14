@@ -1,10 +1,8 @@
-const mainSectionSwiper = new Swiper('.main-section-swiper', {
-    
+const mainSectionSwiper = new Swiper('.main-section-swiper', {    
 
     keyboard: {
         enabled: true,
     },
-
 
     pagination: {
         el: '.swiper-pagination',
@@ -12,9 +10,30 @@ const mainSectionSwiper = new Swiper('.main-section-swiper', {
         clickable: true
     },
     
+    autoplay: {
+        delay: 3500,
+        pauseOnMouseEnter: true,
+    },
 
     loop: true
 });
+
+const observer = new IntersectionObserver((entries) =>{
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            mainSectionSwiper.autoplay.start()
+            console.log("пуск")
+        } else {
+            mainSectionSwiper.autoplay.stop()
+            console.log("пауза")
+        }
+    });
+}, {
+    threshold: 0.3
+});
+
+observer.observe(document.querySelector('.main-section-swiper'));
+
 
 const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
     
