@@ -50,7 +50,7 @@
     opacity: 0.8;
 }
 .actors__fcs {
-    padding-bottom: 10px;
+    padding: 10px 0px;
 }
 .actor__arrow-back {
     cursor: pointer;

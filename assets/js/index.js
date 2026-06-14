@@ -19,8 +19,6 @@ const mainSectionSwiper = new Swiper('.main-section-swiper', {
 const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
     
     effect: 'cards',
-    observer: true,
-    observeParents: true,
     cardsEffect: {
         perSlideOffset: 10,
         perSlideRotate: 2, 
@@ -38,7 +36,6 @@ const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
 gsap.registerPlugin(ScrollTrigger)
 let aboutTrigger = null;
 let heigth = 0
-const headerGap = 60
 
 function createScrollTrigger(heigth) {
     if (aboutTrigger) {
@@ -47,7 +44,7 @@ function createScrollTrigger(heigth) {
     if (window.innerWidth <= 1301) return;
     aboutTrigger = ScrollTrigger.create({
         trigger: ".about-theatre",
-        start: `top ${headerGap}px`,
+        start: `top top`,
         end: "+=" + Math.max(heigth - 397, 0),
         pin: ".about-theatre__swiper",
         pinSpacing: false,
