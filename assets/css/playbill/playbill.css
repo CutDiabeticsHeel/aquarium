@@ -48,6 +48,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 0.5fr;
     gap: 5px;
+    height: 100%;
     text-align: center;
     align-items: center;
     font-size: 30px;
@@ -127,8 +128,8 @@ body {
     text-align: center;
     width: 80%;
     height: 200px;
-    border: 1px solid var(--border-color);
     background-color: var(--background-opacity);
+    border-radius: 20px;
     color: #ffffff;
     font-size: 30px;
     margin-left: auto;
