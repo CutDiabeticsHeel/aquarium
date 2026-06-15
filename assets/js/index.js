@@ -22,10 +22,8 @@ const observer = new IntersectionObserver((entries) =>{
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             mainSectionSwiper.autoplay.start()
-            console.log("пуск")
         } else {
             mainSectionSwiper.autoplay.stop()
-            console.log("пауза")
         }
     });
 }, {
