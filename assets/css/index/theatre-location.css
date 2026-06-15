@@ -1,0 +1,37 @@
+.theatre-location h2 {
+    padding-left: 20px;
+    width: calc(100% - 20px);
+}
+.theatre-location {
+    padding-bottom: 50px;
+}
+.theatre-location__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 0px 20px;
+    position: relative;
+}
+.theatre-location__map {
+    width: 90%;
+}
+.theatre-location__svg {
+    padding: 20px;
+    transform: rotate(-45deg);
+    position: absolute;
+    width: 50%;
+    top: 10%;
+    left: -10%;
+    height: 80%;
+    z-index: -1;
+}
+@media (max-width: 767px) {
+    .theatre-location__wrapper {
+        grid-template-columns: 1fr;
+    }
+    .theatre-location__info {
+        padding-bottom: 10px;
+    }
+    .theatre-location__svg {
+        display: none;
+    }
+}

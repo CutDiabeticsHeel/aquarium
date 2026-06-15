@@ -20,7 +20,7 @@ body {
     background-color: var(--background-opacity);
     position: relative;
     cursor: pointer;
-    transition: all 0.35s;
+    transition: all 0.35s ease;
 }
 .dates-list .swiper-slide,
 .remove-filter.swiper-slide {

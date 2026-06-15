@@ -92,7 +92,7 @@
     color: var(--additionaly-background);
 }
 .about-theatre__swiper {
-    width: min(800px, 85%);
+    width: min(800px, 83%);
     height: 400px;
     min-width: 0;
 }
@@ -128,5 +128,17 @@
     .about-theatre__wraper {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .about-theatre__swiper {
+        height: 300px;
+    }
+}
+
+@media (max-width: 424px) {
+    .about-theatre__swiper {
+        height: 200px;
     }
 }

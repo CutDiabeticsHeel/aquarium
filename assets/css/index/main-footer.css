@@ -4,7 +4,7 @@
     gap: 5px;
     text-align: center;
     align-items: center;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     position: relative;
 }
 .info-list {
@@ -36,16 +36,9 @@
     z-index: -1;
     --h: 50px;
 }
-.main-footer__map {
-    padding-right: 20px;
-    width: calc(100% - 40px);
-}
 @media (max-width: 767px) {
     .main-footer {
         grid-template-columns: 1fr;
-    }
-    .main-footer__map {
-        padding-left: 20px;
     }
     .info-list {
         grid-row: 2;

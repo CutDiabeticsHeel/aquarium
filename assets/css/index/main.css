@@ -12,6 +12,7 @@
 @import url('/css/reviews/reviews.css');
 @import url('/css/tnt/tnt-section.css');
 @import url('/css/troupe/troupe-section.css');
+@import url('/css/index/theatre-location.css');
 html {
   scroll-behavior: smooth;
 }
