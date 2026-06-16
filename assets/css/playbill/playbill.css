@@ -3,7 +3,6 @@ body {
 }
 .playbill .wave {
     padding-left: 20px;
-    width: calc(100% - 20px);
 }
 .dates-list {
     padding: 20px;

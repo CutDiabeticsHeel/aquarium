@@ -9,8 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/hypher@0.2.5/dist/hypher.js"></script>
-    <script src="https://unpkg.com/hyphenation.ru@0.0.1/ru.js"></script>
 </head>
 <body>
     <%- include("partials/header") %>
@@ -34,28 +32,30 @@
                     <span class="record-collective-visit">8-921-591-44-32  Алена Васильевна</span>
                 </li>
             </ul>
-            <div class="swiper collective-visit__swiper" tabindex="0">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="/img/collective1.jpg" data-fancybox="collective-visit__gallery">
-                            <img class="collective-visit__image" src="/img/collective1.jpg" alt="" width="600" height="600">
-                        </a>
+            <div class="collective-visit__swiper-container">
+                <div class="swiper collective-visit__swiper" tabindex="0">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href="/img/collective1.jpg" data-fancybox="collective-visit__gallery">
+                                <img class="collective-visit__image" src="/img/collective1.jpg" alt="" width="600" height="600">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/img/performance1.jpg" data-fancybox="collective-visit__gallery">                        
+                                <img class="collective-visit__image" src="/img/performance1.jpg" alt="" width="600" height="600">
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/img/collective1.jpg" data-fancybox="collective-visit__gallery">
+                                <img class="collective-visit__image" src="/img/collective1.jpg" alt="" width="600" height="600">
+                            </a>
+                        </div>
                     </div>
-                    <div class="swiper-slide">
-                        <a href="/img/performance1.jpg" data-fancybox="collective-visit__gallery">                        
-                            <img class="collective-visit__image" src="/img/performance1.jpg" alt="" width="600" height="600">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="/img/collective1.jpg" data-fancybox="collective-visit__gallery">
-                            <img class="collective-visit__image" src="/img/collective1.jpg" alt="" width="600" height="600">
-                        </a>
-                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-pagination"></div>
+                <svg class="collective-visit__arrow-back" height="72" width="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                <svg class="collective-visit__arrow-next" height="72" width="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </div>
-            <svg class="collective-visit__arrow-back" height="72" width="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-            <svg class="collective-visit__arrow-next" height="72" width="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
         </div>
     </section>
 

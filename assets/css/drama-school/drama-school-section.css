@@ -5,7 +5,13 @@
 .drama-school_wrapper {
     display: grid;
     grid-template-columns: 1fr 2fr;
+}
+.drama-school__swiper-container {
+    grid-column: 2 / 3;
+    grid-row: 1 / 5;
     position: relative;
+    display: flex;
+    align-items: flex-end;
 }
 .drama-school__swiper {
     grid-column: 2/3;
@@ -16,15 +22,15 @@
 .drama-school__arrow-back {
     cursor: pointer;
     position: absolute;
-    left: 34%;
-    top: 75%;
+    left: 0%;
+    bottom: 15%;
     z-index: 10;
 }
 .drama-school__arrow-next {
     cursor: pointer;
     position: absolute;
     right: 0%;
-    top: 75%;
+    bottom: 15%;
     z-index: 10;
 }
 .teatralka__image {
@@ -75,15 +81,11 @@
     .drama-school_wrapper {
         grid-template-columns: 1fr;
     }
-    .drama-school__swiper {
+    .drama-school__swiper-container{
         grid-column: 1;
         grid-row: 5;
     }
     .drama-school__arrow-back {
         left: 2%;
-    }
-    .drama-school__arrow-back,
-    .drama-school__arrow-next {
-        top: 90%;
-    }       
+    }    
 }

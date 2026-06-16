@@ -77,6 +77,15 @@
         height: 100vh;
         z-index: 1000;
     }
+    .main-navigation.opened::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url(/svg/harlequin.svg);
+        background-size: 75px 75px;
+        opacity: 0.3; 
+        z-index: -1;
+    }
     .navigation-list {
         flex-direction: column;
     }
