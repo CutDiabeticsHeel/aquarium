@@ -18,7 +18,6 @@
 }
 .description-list__item {
     text-align: center;
-    border: 1px solid var(--border-color);
     border-radius: 20px;
     background-color: var(--background-opacity);
     margin: 20px 0;
