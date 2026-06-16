@@ -13,6 +13,8 @@
     border: 1px solid var(--border-color);
     border-radius: 20px;
     background-color: var(--background-opacity);
+    position: relative;
+    cursor: pointer;
 }
 .performance__image {
     width: 100%;
@@ -34,17 +36,20 @@
     color: #fff;
     visibility: hidden;
     opacity: 0;
-    transition: opacity .2s, visibility .2s;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
-.performance-figure:hover .performance__image-description {
+.performance-list__item:hover .performance__image-description {
     visibility: visible;
     opacity: 1;
 }
-.performance-figure:hover .performance__image {
+.performance-list__item:hover .performance__image {
     filter: blur(3px);
 }
-.performance-figure:hover .performance__figcaption{
+.performance-list__item:hover .performance__figcaption{
     visibility: hidden;
+}
+.performance-list__item:hover .performance__info{
+    color: rgba(255, 255, 255, 0.5);
 }
 .performance__info {
     display: flex;

@@ -7,7 +7,7 @@
     position: relative;
 }
 .performance__text {
-    padding-left: 20px;
+    padding: 0px 20px;
     font-size: 30px;
     display: flex;
     flex-direction: column;
@@ -69,7 +69,8 @@
     grid-column: 1 / 3;
 }
 .performance-title {
-    word-break: break-all;
+    word-break: break-word;
+    hyphens: auto;
 }
 .performance__arrow-back {
     left: 5%;
@@ -99,5 +100,9 @@
     }
     .starring {
         grid-column: 1;
+    }
+    .performance__arrow-back,
+    .performance__arrow-next {
+        top: 60%
     }    
 }

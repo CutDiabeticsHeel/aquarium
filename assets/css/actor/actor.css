@@ -70,4 +70,8 @@
 .actor__arrow-next:active path{
     stroke: var(--additionaly-background);
 }
-
+@media (max-width: 800px) {
+    .starring-list .performance-list {
+        grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+    }
+}
