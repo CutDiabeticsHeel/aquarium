@@ -11,7 +11,7 @@
 .about-theatre__text {
     box-sizing: border-box;
     position: relative;
-    max-height: 300px;
+    max-height: 200px;
 	overflow: hidden;
     padding: 0;
     margin: 0;

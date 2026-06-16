@@ -42,10 +42,11 @@ body.no-scroll {
 }
 ::-webkit-scrollbar {
     background-color: var(--main-background);
+    width: 10px;
 }
 ::-webkit-scrollbar-thumb {
     background-color: var(--additionaly-background);
-    border-radius: 300px;
+    border-radius: 400px;
     background-clip: padding-box;
 }
 ::-webkit-scrollbar-track {

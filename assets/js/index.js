@@ -81,7 +81,7 @@ Array.from(elements).forEach(function(el){
 			content.classList.add('open');
 			btn.textContent = 'Свернуть';
 		} else {
-			content.style.maxHeight = '300px';
+			content.style.maxHeight = '200px';
             heigth = 300
 			content.classList.remove('open');
 			btn.textContent = 'Узнать больше';

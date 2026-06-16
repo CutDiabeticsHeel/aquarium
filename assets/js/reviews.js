@@ -97,6 +97,7 @@ likes.forEach(like => {
         else {
 
             modalLike.classList.add("active");
+            document.body.classList.add("no-scroll");
         }
     });
 
@@ -128,6 +129,7 @@ form.addEventListener("submit", async (e) => {
 
     if (response.ok) {
         modalReview.classList.add("active");
+        document.body.classList.add("no-scroll");
         form.reset();
     }
 });
@@ -136,12 +138,14 @@ for (let button of closeBtn){
         button.addEventListener("click", () => {
         modalReview.classList.remove("active");
         modalLike.classList.remove("active");
+        document.body.classList.remove("no-scroll");
     });
 }
 document.querySelectorAll(".modal").forEach(modal => {
     modal.addEventListener("click", function(event) {
         if (event.target === this) {
             this.classList.remove("active");
+            document.body.classList.remove("no-scroll");
         }
     });
 });
