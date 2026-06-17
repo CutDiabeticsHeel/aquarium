@@ -12,8 +12,8 @@ document.addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    leftCurtain.classList.add('active');
-    rightCurtain.classList.add('active');
+    leftCurtain.classList.add('closing');
+    rightCurtain.classList.add('closing');
 
     setTimeout(() => {
         window.location.href = href;

@@ -21,8 +21,3 @@ const collectiveVisitSwiper = new Swiper('.collective-visit__swiper', {
 Fancybox.bind("[data-fancybox]", {
     
 });
-
-const h = new Hypher(Hyphenation.ru);
-document.querySelectorAll('.collective-visit__title').forEach(el => {
-    el.innerHTML = h.hyphenateText(el.textContent);
-});
