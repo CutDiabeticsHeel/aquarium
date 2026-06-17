@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/index/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 </head>
 <body>
     
@@ -56,7 +57,7 @@
                     <option value="service:Обслуживание">Обслуживание</option>
                     <option value="other:Другое">Другое</option>
                 </select>
-                <textarea name="review" id="review" minlength="25" placeholder="Опишите свое впечатление о театре" rows="20" cols="10" required></textarea>
+                <textarea name="review" id="review" minlength="25" maxlength="1000" placeholder="Опишите свое впечатление о театре" rows="20" cols="10" required></textarea>
                 <button class="buy-ticket write-review__button" type="submit">
                     Оставить отзыв
                 </button>
@@ -91,7 +92,10 @@
     </div>
 
     <%- include("partials/footer") %>
+    <div class="curtain curtain-left"></div>
+    <div class="curtain curtain-right"></div>
     
+    <script type="module" src="/js/curtain.js"></script>
     <script type="module" src="/js/menu.js"></script>
     <script type="module" src="/js/footer.js"></script>
     <script type="module" src="/js/reviews.js"></script>

@@ -11,39 +11,55 @@ const modalLike = document.querySelector("#review-modal__like");
 const closeBtn = document.querySelectorAll("#close-modal");
 const topicList = document.querySelectorAll(".topic-list__item")
 
-allReviews.addEventListener("click", ()=>{
+
+const refreshReviewList = function(activeTopic) {
+    const tl = gsap.timeline()
+
+    tl.to(reviews, {
+        opacity: 0,
+        scale: 0.3,
+        duration: 0.3,
+        onComplete: () => {
+            for (let review of reviews) {
+                review.style.display = "none"
+            }
+        }
+    })
+
+    tl.add(() => {
+        for (let review of reviews) {
+            if (!activeTopic || review.dataset.topic === activeTopic.dataset.topic) {
+                review.style.display = "grid"
+                gsap.fromTo(review,
+                    { opacity: 0, scale: 0.3 },
+                    { opacity: 1, scale: 1, duration: 0.3 }
+                )
+            }
+        }
+    })
+}
+
+allReviews.addEventListener("click", ()=> {
     for (let topic of topicList){
         topic.classList.remove("active-topic")
     }
-    for (let review of reviews){
-        review.classList.remove("hidden")
-    }
+    refreshReviewList()
 })
 
-dramaSchool.addEventListener("click", ()=>{
+dramaSchool.addEventListener("click", ()=> {
     for (let topic of topicList){
         topic.classList.remove("active-topic")
     }
     dramaSchool.classList.add("active-topic")
-    for (let review of reviews){
-
-        const shouldHide = review.dataset.topic !== dramaSchool.dataset.topic;
-
-        review.classList.toggle("hidden", shouldHide)
-    }
+    refreshReviewList()
 })
 
-tnt.addEventListener("click", ()=>{
+tnt.addEventListener("click", ()=> {
     for (let topic of topicList){
         topic.classList.remove("active-topic")
     }
     tnt.classList.add("active-topic")
-    for (let review of reviews){
-        
-        const shouldHide = review.dataset.topic !== tnt.dataset.topic;
-
-        review.classList.toggle("hidden", shouldHide)
-    }
+    refreshReviewList()
 })
 
 performance.addEventListener("click", ()=>{
@@ -51,12 +67,7 @@ performance.addEventListener("click", ()=>{
         topic.classList.remove("active-topic")
     }
     performance.classList.add("active-topic")
-    for (let review of reviews){
-        
-        const shouldHide = review.dataset.topic !== performance.dataset.topic;
-
-        review.classList.toggle("hidden", shouldHide)
-    }
+    refreshReviewList()
 })
 
 service.addEventListener("click", ()=>{
@@ -64,12 +75,7 @@ service.addEventListener("click", ()=>{
         topic.classList.remove("active-topic")
     }
     service.classList.add("active-topic")
-    for (let review of reviews){
-        
-        const shouldHide = review.dataset.topic !== service.dataset.topic;
-
-        review.classList.toggle("hidden", shouldHide)
-    }
+    refreshReviewList()
 })
 
 likes.forEach(like => {
@@ -97,7 +103,7 @@ likes.forEach(like => {
         else {
 
             modalLike.classList.add("active");
-            document.body.classList.add("no-scroll");
+            document.body.classList.add("disable-scroll");
         }
     });
 
@@ -129,7 +135,7 @@ form.addEventListener("submit", async (e) => {
 
     if (response.ok) {
         modalReview.classList.add("active");
-        document.body.classList.add("no-scroll");
+        document.body.classList.add("disable-scroll");
         form.reset();
     }
 });
@@ -138,14 +144,14 @@ for (let button of closeBtn){
         button.addEventListener("click", () => {
         modalReview.classList.remove("active");
         modalLike.classList.remove("active");
-        document.body.classList.remove("no-scroll");
+        document.body.classList.remove("disable-scroll");
     });
 }
 document.querySelectorAll(".modal").forEach(modal => {
     modal.addEventListener("click", function(event) {
         if (event.target === this) {
             this.classList.remove("active");
-            document.body.classList.remove("no-scroll");
+            document.body.classList.remove("disable-scroll");
         }
     });
 });

@@ -5,5 +5,5 @@ const navigationMenu = document.querySelector(".main-navigation")
 toggle.addEventListener("click", ()=>{
     navigationMenu.classList.toggle("close")
     navigationMenu.classList.toggle("opened")
-    document.body.classList.toggle("no-scroll");
+    document.body.classList.toggle("disable-scroll");
 })

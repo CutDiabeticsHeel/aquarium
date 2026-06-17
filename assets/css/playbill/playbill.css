@@ -29,7 +29,7 @@ body {
     margin-right: 20px;
 }
 .dates-list__item:hover {
-    transform: translateY(-20px);
+    transform: translateY(-7px);
     z-index: 10;
 }
 .dates-list__item:active {

@@ -19,7 +19,7 @@
 .performance__image {
     width: 100%;
     height: auto;
-    opacity: 0.7;
+    opacity: 0.6;
     display: block;
     border-radius: 20px;
 }
@@ -46,7 +46,7 @@
     filter: blur(3px);
 }
 .performance-list__item:hover .performance__figcaption{
-    visibility: hidden;
+    opacity: 0;
 }
 .performance-list__item:hover .performance__info{
     color: rgba(255, 255, 255, 0.5);
@@ -69,6 +69,8 @@
     left: 5%;
     font-size: 25px;
     align-items: center;
+    opacity: 1;
+    transition: opacity 0.4s ease;
 }
 @media (max-width: 800px) {
     .performance-list {

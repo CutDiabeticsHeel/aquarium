@@ -4,6 +4,7 @@
     align-items: center;
     padding: 15px 20px;
     z-index: 100;
+    width: 100%;
     box-sizing: border-box;
 }
 .main-navigation {
@@ -50,6 +51,10 @@
     display: flex;
     align-items: center;
 }
+.title-wrapper,
+.title-wrapper svg *{
+    transition: all 0.3s ease;    
+}
 .title-wrapper:hover{
     color: var(--additionaly-background);
 }
@@ -60,9 +65,8 @@
     .close {
         display: none;
     }
-    .main-header {
-        position: static;
-        backdrop-filter: none;
+    body.disable-scroll .main-header {
+        background-color: var(--main-background);
     }
     .main-navigation.opened {
         position: fixed; 
@@ -80,10 +84,12 @@
     .main-navigation.opened::before {
         content: '';
         position: absolute;
+        top: -20vh;
         inset: 0;
         background-image: url(/svg/harlequin.svg);
         background-size: 75px 75px;
         opacity: 0.3; 
+        height: 120vh;
         z-index: -1;
     }
     .navigation-list {

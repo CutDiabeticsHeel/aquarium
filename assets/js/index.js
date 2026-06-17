@@ -11,8 +11,7 @@ const mainSectionSwiper = new Swiper('.main-section-swiper', {
     },
     
     autoplay: {
-        delay: 3500,
-        pauseOnMouseEnter: true,
+        delay: 3500
     },
 
     loop: true
@@ -149,33 +148,20 @@ tl.fromTo(
 
 
 const header = document.querySelector(".main-header")
-const mainSection = document.querySelector(".main-section")
 
 gsap.set(header, {
-    height: 0,
     opacity: 0,
-    paddingTop: 0,
-    paddingBottom: 0
+    position: "absolute",
+    "background-color": "none",
 });
 
 window.addEventListener("load", () => {
     gsap.to(header, {
-        height: 98,
-        paddingTop: 15,
-        paddingBottom: 15,
         opacity: 1,
         duration: 1,
         delay: 2,
         ease: "power2.out",
-        clearProps: "all",
-        onComplete: () => {
-            createScrollTrigger(document.querySelector(".accordion-wrapper").offsetHeight);
-        }
     });
-    gsap.to(mainSection, {
-        height: "90vh",
-        delay: 2
-    })
 });
 
 Fancybox.bind("[data-fancybox]", {
