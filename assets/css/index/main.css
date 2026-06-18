@@ -13,6 +13,7 @@
 @import url('/css/tnt/tnt-section.css');
 @import url('/css/troupe/troupe-section.css');
 @import url('/css/index/theatre-location.css');
+@import url('/css/partials/curtains.css');
 html {
   scroll-behavior: smooth;
 }

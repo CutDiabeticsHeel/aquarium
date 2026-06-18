@@ -123,7 +123,7 @@ tl.set(title, {
 tl.to(title, {
     clipPath: "inset(0 0% 0 0)",
     duration: 1.2,
-    ease: "power4.out"
+    ease: "power4.out",
 });
 
 tl.fromTo(
@@ -132,7 +132,8 @@ tl.fromTo(
         y: -120,
         rotateX: -180,
         opacity: 0,
-        filter: "blur(15px)"
+        filter: "blur(15px)",
+        delay: 2.5
     },
     {
         y: 0,
@@ -141,7 +142,8 @@ tl.fromTo(
         filter: "blur(0px)",
         duration: 0.8,
         stagger: 0.04,
-        ease: "expo.out"
+        ease: "expo.out",
+        delay: 2.5
     },
     "-=0.8"
 );
