@@ -19,7 +19,7 @@
 .performance__image {
     width: 100%;
     height: auto;
-    opacity: 0.6;
+    opacity: 0.8;
     display: block;
     border-radius: 20px;
 }
@@ -60,14 +60,14 @@
 } 
 .performance__author {
     padding: 20px;
-    font-size: 21px;    
+    font-size: var(--medium-text);    
 }
 .performance__figcaption {
     display: flex;
     position: absolute;
     bottom: 5%;
     left: 5%;
-    font-size: 25px;
+    font-size: var(--second-medium-text);
     align-items: center;
     opacity: 1;
     transition: opacity 0.4s ease;

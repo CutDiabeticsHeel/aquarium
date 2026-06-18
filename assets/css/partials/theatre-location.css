@@ -21,8 +21,12 @@
     cursor: default;
 }
 .theatre-location__info {
-    font-size: 30px;
+    font-size: var(--large-text);
     padding-bottom: 10px;
+}
+.theatre-location__info span{
+    display: block;
+    width: 80%;
 }
 .theatre-location__map {
     width: 100%;

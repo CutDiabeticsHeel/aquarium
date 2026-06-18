@@ -23,7 +23,7 @@
     text-transform: uppercase;
     text-decoration: none;
     padding: 10px;
-    font-size: 20px;
+    font-size: var(--second-medium-text);
 }
 .under-line-link {
     background-image: linear-gradient(#ffffff, #ffffff);
@@ -45,7 +45,7 @@
     padding: 0px 10px;
     display: flex;
     flex-direction: column;
-    font-size: 30px;
+    font-size: var(--large-text);
 }
 .title-wrapper {
     display: flex;

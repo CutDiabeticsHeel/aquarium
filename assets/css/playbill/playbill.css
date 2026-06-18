@@ -7,9 +7,6 @@ body {
 .dates-list {
     padding: 20px;
 }
-.dates-list .swiper-slide {
-    overflow: visible !important;
-}
 .dates-list__item {
     display: block;
     border-radius: 10px;
@@ -22,9 +19,6 @@ body {
     transition: all 0.35s ease;
 }
 .dates-list .swiper-slide,
-.remove-filter.swiper-slide {
-    width: auto !important;
-}
 .remove-filter {
     margin-right: 20px;
 }
@@ -50,7 +44,7 @@ body {
     height: 100%;
     text-align: center;
     align-items: center;
-    font-size: 30px;
+    font-size: var(--medium-text);
     background-color: var(--background-opacity);
     border-radius: 20px;
     padding-bottom: 7px;
@@ -130,7 +124,7 @@ body {
     background-color: var(--background-opacity);
     border-radius: 20px;
     color: #ffffff;
-    font-size: 30px;
+    font-size: var(--large-text);
     margin-left: auto;
     margin-right: auto;
 }
@@ -159,6 +153,6 @@ body {
         display: none;
     }
     .playbill__title {
-        font-size: 20px;
+        font-size: var(--medium-text);
     }    
 }

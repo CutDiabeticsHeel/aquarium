@@ -26,7 +26,7 @@
     transform: scale(1.08)
 }
 .actors__info {
-    font-size: 25px;
+    font-size: var(--second-medium-text);
     text-align: center;
     padding: 10px;
 }

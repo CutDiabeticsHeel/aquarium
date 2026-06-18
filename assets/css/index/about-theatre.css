@@ -37,7 +37,7 @@
     cursor: pointer;
     display: block;
     justify-self: center;
-    font-size: 30px;
+    font-size: var(--large-text);
     font-style: italic;
     padding: 10px;
     margin-top: 5px;
@@ -96,13 +96,7 @@
     height: 400px;
     min-width: 0;
 }
-.pin-spacer {
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-.about-theatre__swiper-wrapper {
-    width: 88% !important;
-}
+
 .accordion-wrapper {
     min-width: 0;
 }
@@ -120,9 +114,7 @@
 .about-theatre__swiper-pagination {
     display: none;
 }
-.swiper-slide {
-    width: 100% !important;
-}
+
 
 @media (max-width: 1301px) {
     .about-theatre__wraper {

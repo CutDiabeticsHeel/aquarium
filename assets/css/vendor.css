@@ -1,0 +1,39 @@
+.swiper-pagination-bullet {
+    width: 20px !important;
+    height: 20px !important;
+    background: white !important;
+    opacity: 0.5 !important;
+
+}
+.swiper-pagination-bullet-active {
+    width: 20px !important;
+    height: 20px !important;
+    background: #4da3ff !important;
+    opacity: 1 !important;
+}
+.pin-spacer {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.about-theatre__swiper-wrapper {
+    width: 88% !important;
+}
+.swiper-slide {
+    width: 100% !important;
+}
+.dates-list .swiper-slide {
+    overflow: visible !important;
+}
+.dates-list .swiper-slide,
+.remove-filter.swiper-slide {
+    width: auto !important;
+}
+.swiper-slide.topic-list__item {
+    transition: opacity 0.35s ease !important;
+}
+.topic-list .swiper-slide {
+    width: auto  !important;
+}
+.service {
+    margin-right: 40px !important;
+}

@@ -1,0 +1,60 @@
+@import url('/css/partials/header.css'); 
+@import url('/css/index/main-section.css');
+@import url('/css/index/services.css');
+@import url('/css/index/about-theatre.css');
+@import url('/css/partials/footer.css');
+@import url('/css/actor/actor.css');
+@import url('/css/collective-visit/collective-visit-section.css');
+@import url('/css/drama-school/drama-school-section.css');
+@import url('/css/performance/performance.css');
+@import url('/css/playbill/playbill.css');
+@import url('/css/repertoire/repertoire.css');
+@import url('/css/reviews/reviews.css');
+@import url('/css/tnt/tnt-section.css');
+@import url('/css/troupe/troupe-section.css');
+@import url('/css/partials/theatre-location.css');
+@import url('/css/partials/curtains.css');
+@import url('tag-style.css');
+@import url('vendor.css');
+@import url('printery.css');
+@import url('wave.css');
+
+:root {
+    --main-background: #001d3d;
+    --additionaly-background: #114d94;
+    --button-background: #ffcc00;
+    --border-color: #dde8ed;
+    --background-opacity: rgba(117, 152, 206, 0.2);
+}
+::-webkit-scrollbar {
+    background-color: var(--main-background);
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--additionaly-background);
+    border-radius: 400px;
+    background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+    background-color: var(--main-background);
+}
+
+body.disable-scroll {
+    overflow: hidden;
+}
+.hidden {
+    display: none;
+}
+.buy-ticket {
+    background-color: var(--button-background);
+    height: 60px;
+    width: 180px;
+    font-size: var(--buy-ticket-text);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.buy-ticket:hover {
+    background-color: #ffd700;
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);  
+}
