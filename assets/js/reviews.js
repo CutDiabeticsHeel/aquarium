@@ -28,7 +28,7 @@ const refreshReviewList = function(activeTopic) {
 
     tl.add(() => {
         for (let review of reviews) {
-            if (!activeTopic || review.dataset.topic === activeTopic.dataset.topic) {
+            if (activeTopic === review.dataset.topic || activeTopic === undefined) {
                 review.style.display = "grid"
                 gsap.fromTo(review,
                     { opacity: 0, scale: 0.3 },
@@ -50,8 +50,7 @@ dramaSchool.addEventListener("click", ()=> {
     for (let topic of topicList){
         topic.classList.remove("active-topic")
     }
-    dramaSchool.classList.add("active-topic")
-    refreshReviewList()
+    refreshReviewList(dramaSchool.dataset.topic)
 })
 
 tnt.addEventListener("click", ()=> {
@@ -59,7 +58,7 @@ tnt.addEventListener("click", ()=> {
         topic.classList.remove("active-topic")
     }
     tnt.classList.add("active-topic")
-    refreshReviewList()
+    refreshReviewList(tnt.dataset.topic)
 })
 
 performance.addEventListener("click", ()=>{
@@ -67,7 +66,7 @@ performance.addEventListener("click", ()=>{
         topic.classList.remove("active-topic")
     }
     performance.classList.add("active-topic")
-    refreshReviewList()
+    refreshReviewList(performance.dataset.topic)
 })
 
 service.addEventListener("click", ()=>{
@@ -75,7 +74,7 @@ service.addEventListener("click", ()=>{
         topic.classList.remove("active-topic")
     }
     service.classList.add("active-topic")
-    refreshReviewList()
+    refreshReviewList(service.dataset.topic)
 })
 
 likes.forEach(like => {
