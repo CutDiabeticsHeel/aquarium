@@ -41,10 +41,6 @@
     z-index: 10;
 }
 
-.tnt__arrow-back:active path,
-.tnt__arrow-next:active path{
-    stroke: var(--additionaly-background);
-}
 .tnt__swiper {
     width: 100%;
     overflow: hidden;

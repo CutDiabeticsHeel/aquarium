@@ -37,6 +37,7 @@
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.4s ease, visibility 0.4s ease;
+    font-size: var(--large-text);
 }
 .performance-list__item:hover .performance__image-description {
     visibility: visible;
@@ -67,7 +68,7 @@
     position: absolute;
     bottom: 5%;
     left: 5%;
-    font-size: var(--second-medium-text);
+    font-size: var(--large-text);
     align-items: center;
     opacity: 1;
     transition: opacity 0.4s ease;

@@ -58,3 +58,26 @@ body.disable-scroll {
     background-color: #ffd700;
     box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);  
 }
+
+[class*="__arrow-back"] .hover-circle,
+[class*="__arrow-next"] .hover-circle {
+    stroke: var(--additionaly-background);
+
+    stroke-dasharray: 63; 
+
+    stroke-dashoffset: 63; 
+
+    transform-origin: 12px 12px;
+    transform: rotate(-90deg);
+
+    transition: stroke-dashoffset 0.4s ease-in-out;
+}
+
+[class*="__arrow-back"]:hover .hover-circle,
+[class*="__arrow-next"]:hover .hover-circle {
+    stroke-dashoffset: 0;
+}
+[class*="__arrow-back"]:active path,
+[class*="__arrow-next"]:active path{
+    stroke: var(--additionaly-background);
+}
