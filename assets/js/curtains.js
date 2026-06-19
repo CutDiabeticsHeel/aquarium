@@ -22,7 +22,8 @@ function openCurtains() {
 
     })
     gsap.to(overlay, {
-            // opacity: 0,
+            opacity: 0,
+            duration: 1.5,
 
     })
 }
@@ -45,7 +46,8 @@ function closeCurtains() {
 
     })
     gsap.to(overlay, {
-            // opacity: 1,
+            opacity: 1,
+            duration: 1.5,
 
     })
 }
@@ -63,7 +65,6 @@ document.querySelectorAll('a').forEach(link => {
 
         e.preventDefault();
         const href = link.href;
-        sessionStorage.setItem("curtainTransition", "true");
         closeCurtains();
         setTimeout(() => {
             window.location.href = href;
@@ -72,16 +73,5 @@ document.querySelectorAll('a').forEach(link => {
 });
 
 window.addEventListener('load', () => {
-    if (sessionStorage.getItem("curtainTransition") === "true") {
-        sessionStorage.removeItem("curtainTransition");
-        openCurtains();
-        return;
-    }
-
-    if (sessionStorage.getItem("curtainOpened") === "true") {
-        gsap.set(curtainsContainer, { zIndex: -1, visibility: "hidden" });
-        return;
-    }
     openCurtains();
-    sessionStorage.setItem("curtainOpened", "true");
 });

@@ -9,15 +9,21 @@
     margin: 50px 20px;
 }
 .actors-list__item {
+    background-image: url('/img/frame.avif');
+    background-position: center;
+    background-size: 180% 129%;
     background-color: var(--background-opacity);
-    border-radius: 20px;
     padding: 10px 0px;
+    box-shadow: 
+        inset 0 0 40px rgba(255, 255, 255, 0.4),
+        inset 0 0 60px rgba(255, 255, 255, 0.2);
+    z-index: 3;
 }
 .actors-list__link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    margin-top: 15px;
 }
 .actors-list__link:hover {
     color: rgba(255, 255, 255, 0.5);
@@ -28,10 +34,11 @@
 .actors__info {
     font-size: var(--second-medium-text);
     text-align: center;
-    padding: 10px;
+    padding: 10px 20px;
 }
 .actors__image {
-    border-radius: 50%;
     text-align: center;
     transition: transform 0.3s ease;
+    border-radius: 50%;
+    z-index: -1;
 }

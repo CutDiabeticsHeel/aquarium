@@ -61,8 +61,8 @@
 .actors__image {
     max-width: 300px;
     height: auto;
-    border-radius: 50%;
     object-fit: cover;
+    
 }
 
 .roles.wave {
