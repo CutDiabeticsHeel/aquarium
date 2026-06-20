@@ -31,6 +31,44 @@ const observer = new IntersectionObserver((entries) =>{
 
 observer.observe(document.querySelector('.main-section-swiper'));
 
+const button = document.querySelector('.about-theatre__learn-more');
+
+const pulseTl = gsap.timeline({
+    paused: true,
+    repeat: -1,
+    defaults: {
+        duration: 0.5,
+        ease: "sine.inOut"
+    }
+});
+
+pulseTl
+    .to(button, { scale: 1.1 })
+    .to(button, { scale: 0.7 })
+    .to(button, { scale: 1.1 })
+    .to(button, { scale: 1.0 })
+
+button.addEventListener('mouseenter', () => {
+    pulseTl.play();
+});
+
+button.addEventListener('mouseleave', () => {
+    gsap.to(pulseTl, {
+        timeScale: 0,
+        duration: 0.5,
+        onComplete: () => {
+            pulseTl.pause();
+            pulseTl.timeScale(1); 
+
+            gsap.to(button, {
+                scale: 1,
+                duration: 0.5,
+                ease: "sine.inOut"
+            });
+        }
+    });
+});
+
 
 const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
     

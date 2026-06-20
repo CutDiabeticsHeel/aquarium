@@ -51,12 +51,18 @@
     cursor: pointer;
     font-size: var(--small-text);
     font-weight: bold;
+    transition: all 0.2s ease;
 }
 .map-button::before {
     position: absolute;
     inset: 0;
     content: "";
     z-index: 5;
+}
+.map-button:hover {
+    transform: scale(1.1);
+    color: var(--additionaly-background);
+    border: 3px solid var(--additionaly-background);
 }
 .map-picture {
     display: block;

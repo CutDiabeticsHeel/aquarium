@@ -99,8 +99,3 @@
         display: block;
     }
 }
-@media (max-width: 340px) {
-    .main-navigation.opened {
-        top: 132px;
-    }
-}
