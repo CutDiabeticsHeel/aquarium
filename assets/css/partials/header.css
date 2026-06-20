@@ -23,7 +23,8 @@
 .navigation-list__item {
     text-transform: uppercase;
     text-decoration: none;
-    padding: 10px;
+    text-align: center;
+    margin: 0px 10px;
     font-size: var(--second-medium-text);
 }
 .under-line-link {
@@ -33,6 +34,8 @@
     background-size: 0% 2px;
     transition: background-size .3s;
     display: inline;
+    width: fit-content;
+    height: fit-content;
     position: relative;
 }
 .under-line-link:hover {
