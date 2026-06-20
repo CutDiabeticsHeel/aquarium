@@ -11,6 +11,7 @@
 }
 .starring-title {
     padding-left: 20px;
+    margin: 0;
 }
 .starring-list .performance-list {
     grid-template-columns: repeat(4, 1fr);
@@ -39,16 +40,18 @@
 .actor__swiper-container {
     position: relative;
     min-height: 500px;
+    height: 83vh;
     display: flex;
     align-items: flex-end;
 }
 .actor__swiper {
     width: 100%;
+    height: 100%;
     min-height: 500px;
 }
 .actor__image {
     width: 100%;
-    height: 73vh;
+    height: 100%;
     opacity: 0.8;
 }
 .actors__fcs {
@@ -68,29 +71,19 @@
     bottom: 15%;
     z-index: 10;
 }
-@media (max-width: 1409px) {
-    .actor__image {
-        height: 70vh;
-    }
-}
-@media (max-width: 1190px) {
-    .actor__image {
-        height: 75vh;
-    }
-}
-@media (max-width: 1025px) {
-    .actor__image {
-        height: 78vh;
-    }
-}
-@media (max-width: 768px) {
-    .actor__image {
-        height: 80.5vh;
-    }
-}
 @media (max-width: 367px) {
-    .actor__image {
-        height: 77vh;
+    .actor__swiper-container {
+        height: 79vh;
+    }
+}
+@media (min-width: 769px) {
+    .actor__swiper-container {
+        height: 78.5vh;
+    }
+}
+@media (min-width: 1026px) {
+    .actor__swiper-container {
+        height: 74.5vh;
     }
 }
 @media (max-width: 800px) {

@@ -44,7 +44,7 @@ const pulseTl = gsap.timeline({
 
 pulseTl
     .to(button, { scale: 1.1 })
-    .to(button, { scale: 0.7 })
+    .to(button, { scale: 0.9 })
     .to(button, { scale: 1.1 })
     .to(button, { scale: 1.0 })
 

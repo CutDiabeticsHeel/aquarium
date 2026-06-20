@@ -38,8 +38,7 @@
     height: 100%;
     opacity: 0.8;
 }
-.drama-school__text,
-.record-drama-school {
+.drama-school__text {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,7 +49,20 @@
     text-align: center;
 }
 .record-drama-school {
+    background-color: var(--additionaly-background);
     font-size: var(--large-text);
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    outline: 3px solid  transparent;
+}
+.record-drama-school:hover {
+    outline: 3px solid var(--additionaly-background);
+    background-color: var(--main-background);
 }
 .features-list {
     grid-column: 1/3;

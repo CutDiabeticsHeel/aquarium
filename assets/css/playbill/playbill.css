@@ -44,7 +44,7 @@ body {
     height: 100%;
     text-align: center;
     align-items: center;
-    font-size: var(--medium-text);
+    font-size: var(--second-medium-text);
     background-color: var(--background-opacity);
     border-radius: 20px;
     padding-bottom: 7px;

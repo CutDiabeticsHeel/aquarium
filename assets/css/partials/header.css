@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 10vh;
     padding: 15px 20px;
     z-index: 100;
     width: 100%;
@@ -35,6 +36,9 @@
     position: relative;
 }
 .under-line-link:hover {
+    background-size: 100% 2px;
+}
+.active-link {
     background-size: 100% 2px;
 }
 .under-line-link:active {

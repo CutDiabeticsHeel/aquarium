@@ -15,7 +15,7 @@
     padding: 0px 20px;
     margin: 0;
 }
-.description-list__item {
+.description-list__item:not(:last-child) {
     text-align: center;
     border-radius: 20px;
     background-color: var(--background-opacity);
@@ -24,6 +24,20 @@
 }
 .collective-visit__text {
     text-align: left;
+}
+.description-list__item:last-child {
+    background-color: var(--additionaly-background);
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    outline: 3px solid  transparent;
+}
+.description-list__item:last-child:hover {
+    outline: 3px solid var(--additionaly-background);
+    background-color: var(--main-background);
 }
 .record-collective-visit {
     font-size: var(--large-text);

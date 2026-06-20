@@ -40,13 +40,28 @@
     top: 70%;
     z-index: 10;
 }
-
 .tnt__swiper {
     width: 100%;
     overflow: hidden;
 }
 .tnt__wrapper h3 {
     text-align: center;
+}
+.record-tnt {
+    background-color: var(--additionaly-background);
+    font-size: var(--large-text);
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    outline: 3px solid  transparent;
+}
+.record-tnt:hover {
+    outline: 3px solid var(--additionaly-background);
+    background-color: var(--main-background);
 }
 .swiper-slide {
     position: relative;
