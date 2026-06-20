@@ -88,44 +88,62 @@ const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {
 })
 
 gsap.registerPlugin(ScrollTrigger)
-let aboutTrigger = null;
-let heigth = 0
+let aboutTrigger;
 
-function createScrollTrigger(heigth) {
-    if (aboutTrigger) {
-        aboutTrigger.kill();
-    }
+function createScrollTrigger() {
+    
     if (window.innerWidth <= 1301) return;
     aboutTrigger = ScrollTrigger.create({
         trigger: ".about-theatre",
         start: `top top`,
-        end: "+=" + Math.max(heigth - 397, 0),
+        end: () => "+=" + Math.max(calculateDynamicHeight() - 397, 0),
         pin: ".about-theatre__swiper",
         pinSpacing: false,
+        invalidateOnRefresh: true,
+        anticipatePin: 1
     });
 }
+function calculateDynamicHeight() {
+    const openContent = document.querySelector('.about-theatre__text.open');
+    return openContent ? openContent.scrollHeight : 300; 
+}
 
-const elements = document.querySelectorAll('.accordion-wrapper');
 
-Array.from(elements).forEach(function(el){
+document.querySelectorAll('.accordion-wrapper').forEach(function(el){
 	const btn = el.querySelector('.about-theatre__learn-more');
 	const content = el.querySelector('.about-theatre__text');
+    const swiper = document.querySelector('.about-theatre__swiper');
 
 	btn.addEventListener('click', function(){
+        const swiper = document.querySelector('.about-theatre__swiper');
 		if(!content.classList.contains('open')){
 			content.style.maxHeight = content.scrollHeight + 'px';
-            heigth = content.scrollHeight
-			content.classList.add('open');
 			btn.textContent = 'Свернуть';
+            content.classList.add('open');
+            setTimeout(() => {
+                if (aboutTrigger) { aboutTrigger.kill(); aboutTrigger = null; }
+                createScrollTrigger();
+                ScrollTrigger.refresh();
+            }, 1000);
 		} else {
 			content.style.maxHeight = '200px';
-            heigth = 300
-			content.classList.remove('open');
 			btn.textContent = 'Узнать больше';
+            content.classList.remove('open');
+            if (window.innerWidth > 1301) {
+                const currentY = swiper.getBoundingClientRect().top - 
+                        swiper.parentElement.getBoundingClientRect().top;
+                if (aboutTrigger) {
+                    aboutTrigger.kill();
+                    aboutTrigger = null;
+                }
+                gsap.set(swiper, { y: currentY });
+                gsap.to(swiper, {
+                    y: 0,
+                    duration: 0.9,
+                    ease: "power2.inOut",     
+                });
+            }
 		}
-        setTimeout(() => {
-            createScrollTrigger(heigth);
-        }, 1000);
 	});
 });
 
