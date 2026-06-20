@@ -72,7 +72,7 @@ document.querySelectorAll('a').forEach(link => {
     });
 });
 
-window.addEventListener('load', () => {
+window.addEventListener('pageshow', () => {
     const currentPath = window.location.pathname;
     document.querySelectorAll(".under-line-link").forEach(link =>{
         const linkPath = new URL(link.href).pathname;
@@ -81,5 +81,8 @@ window.addEventListener('load', () => {
             link.classList.add('active-link');
         }
     })
+    if (event.persisted) {
+        openCurtains();
+    }
     openCurtains();
 });
