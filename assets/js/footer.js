@@ -1,4 +1,4 @@
-const mapButton = document.querySelector(".map-button")
+const mapButton = document.querySelector(".map")
 const map = document.querySelector(".theatre-location")
 const closeModal = document.querySelector(".close-modal")
 
