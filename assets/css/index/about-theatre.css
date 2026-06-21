@@ -7,6 +7,7 @@
     grid-template-columns: minmax(0, 1.5fr) minmax(0, 3fr);
     gap: 150px;
     padding: 20px;
+    transition: all 1s ease-in-out;
 }
 .about-theatre__text {
     box-sizing: border-box;
@@ -15,7 +16,7 @@
 	overflow: hidden;
     padding: 0;
     margin: 0;
-	transition: max-height 1s;
+	transition: all 1s ease-in-out;
 }
 .about-theatre__text::after {
 	content: "";
@@ -67,6 +68,7 @@
 .about-theatre__image {
     display: block;
     cursor: pointer;
+    height: 100%;
     width: 100%;
     border: 1px solid var(--border-color);
     box-sizing: border-box;
