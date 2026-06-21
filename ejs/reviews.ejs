@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Театр Аквариум</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-    <script type="module" src="/js/curtains.js"></script>
+    <%- include("partials/head") %>
 </head>
 <body>
     
@@ -40,7 +33,9 @@
                     <p class="text"><%= item.text %></p>
                     <div class="feedback">
                         <span class="feedback__question">Отзыв полезен?</span>
-                        <svg class="feedback__like" data-reviewId="<%= item.review_id %>" width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        <svg class="feedback__like" data-reviewId="<%= item.review_id %>" height="25" width="25">
+                            <use href="/svg/sprite.svg#like"></use> 
+                        </svg>
                         <span class="feedback__counter"><%= item.likes %></span>
                     </div>
                 </li>
