@@ -42,12 +42,13 @@
     background-color: var(--main-background);
     border: none;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 .close-modal::before {
     content: "";
     position: absolute;
     top: 25px;
-    left: 20px;
+    left: 5px;
     width: 35px;
     height: 2px;
     background-color: var(--button-background);
@@ -57,9 +58,12 @@
     content: "";
     position: absolute;
     top: 25px;
-    left: 20px;
+    left: 5px;
     width: 35px;
     height: 2px;
     background-color: var(--button-background);
     transform: rotate(-45deg);
+}
+.close-modal:hover{
+    transform: scale(1.2);
 }

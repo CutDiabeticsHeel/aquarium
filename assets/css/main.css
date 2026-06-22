@@ -1,24 +1,3 @@
-@import url('/css/partials/header.css'); 
-@import url('/css/index/main-section.css');
-@import url('/css/index/services.css');
-@import url('/css/index/about-theatre.css');
-@import url('/css/partials/footer.css');
-@import url('/css/actor/actor.css');
-@import url('/css/collective-visit/collective-visit-section.css');
-@import url('/css/drama-school/drama-school-section.css');
-@import url('/css/performance/performance.css');
-@import url('/css/playbill/playbill.css');
-@import url('/css/repertoire/repertoire.css');
-@import url('/css/reviews/reviews.css');
-@import url('/css/tnt/tnt-section.css');
-@import url('/css/troupe/troupe-section.css');
-@import url('/css/partials/theatre-location.css');
-@import url('/css/partials/curtains.css');
-@import url('tag-style.css');
-@import url('vendor.css');
-@import url('printery.css');
-@import url('wave.css');
-
 :root {
     --main-background: #001d3d;
     --additionaly-background: #114d94;
@@ -41,6 +20,7 @@
 
 body.disable-scroll {
     overflow: hidden;
+    padding-right: 10px;
 }
 .hidden {
     display: none;

@@ -10,5 +10,10 @@
     "ejs": "^6.0.1",
     "fastify": "^5.8.5",
     "sqlite3": "^6.0.1"
-  }
+  },
+  "scripts": {
+  "build:css": "node build-css.js",
+  "start": "node build-css.js && node server.js",
+  "dev": "node build-css.js && nodemon server.js"
+}
 }

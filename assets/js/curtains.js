@@ -55,6 +55,7 @@ function closeCurtains() {
 document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', (e) => {
 
+        if (e.target.closest('button')) return;
         if (link.dataset.fancybox !== undefined) return;
         if (link.href === window.location.href) {
             return;
@@ -80,8 +81,8 @@ window.addEventListener('pageshow', () => {
             link.classList.add('active-link');
         }
     })
-    if (event.persisted) {
-        openCurtains();
-    }
+    // if (event.persisted) {
+    //     openCurtains();
+    // }
     openCurtains();
 });

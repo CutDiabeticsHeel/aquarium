@@ -91,12 +91,11 @@
     .main-navigation.opened::before {
         content: '';
         position: absolute;
-        top: -20vh;
         inset: 0;
         background-image: url(/svg/harlequin.svg);
         background-size: 75px 75px;
+        background-repeat: space;
         opacity: 0.3; 
-        height: 120vh;
         z-index: -1;
     }
     .navigation-list {

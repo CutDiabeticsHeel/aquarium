@@ -30,6 +30,7 @@
     text-align: center;
     border-radius: 20px;
     padding: 10px;
+    margin: 20px 0;
     box-sizing: border-box;
     cursor: pointer;
     transition: all 0.4s ease;
@@ -77,8 +78,5 @@
     }
     .collective-visit__swiper {
         grid-column: 1;
-    }
-    .collective-visit__arrow-back {
-        left: 2%;
     }
 }
