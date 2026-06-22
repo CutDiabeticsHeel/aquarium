@@ -949,8 +949,12 @@ body.disable-scroll {
     .navigation-list {
         flex-direction: column;
     }
+    .navigation-list__item {
+        padding: 10px;
+    }
     .main-navigation__toggle {
         display: block;
+        cursor: pointer;
     }
 }.theatre-location {
     position: fixed;

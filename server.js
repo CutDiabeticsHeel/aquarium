@@ -7,7 +7,6 @@ import cookie from "@fastify/cookie";
 import fastifyStatic from "@fastify/static";
 import ejs from 'ejs';
 import path from "path";
-import crypto from "crypto";
 import { rejects } from "assert";
 import { request } from "http";
 import { Temporal } from '@js-temporal/polyfill';
@@ -203,31 +202,9 @@ const playbillData = await getPlaybill();
 const playbillPerformanceData = await getPerformanceData(playbillData);
 const performancesData = await getPerformances();
 
+app.get("/welcome", async (request, reply) => {
 
-app.addHook("onRequest", async (request, reply) => {
-
-    let token = request.cookies.userToken;
-
-    if (!token) {
-
-        token = crypto.randomUUID();
-
-        reply.setCookie(
-            "userToken",
-            token,
-            {
-                path: "/",
-                maxAge: 60 * 60 * 24 * 365
-            }
-        );
-    }
-
-    request.userToken = token;
-});
-
-app.get("/index", async (request, reply) => {
-
-    return reply.view("index.ejs", {
+    return reply.view("welcome.ejs", {
     });
 
 });
