@@ -100,19 +100,29 @@
     grid-template-columns: 1fr 2fr;
     column-gap: 20px;
     margin-bottom: 50px;
+    align-items: stretch;
 }
 .collective-visit__swiper {
     width: 100%;
 }
 .description-list {
+    display: flex;
+    flex-direction: column;
     padding: 0px 20px;
     margin: 0;
+    height: 100%;
+}
+.description-list__item {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    margin: 10px 0;
 }
 .description-list__item:not(:last-child) {
     text-align: center;
     border-radius: 20px;
     background-color: var(--background-opacity);
-    margin: 20px 0;
     padding: 20px;
 }
 .collective-visit__text {
@@ -123,7 +133,7 @@
     text-align: center;
     border-radius: 20px;
     padding: 10px;
-    margin: 20px 0;
+    margin: 10px 0;
     box-sizing: border-box;
     cursor: pointer;
     transition: all 0.4s ease;
@@ -150,6 +160,7 @@
     position: relative;
     display: flex;
     align-items: flex-end;
+    height: 100%;
 }
 .collective-visit__arrow-back {
     cursor: pointer;
@@ -223,9 +234,12 @@
     text-align: center;
 }
 .record-drama-school {
+    display: flex;
     background-color: var(--additionaly-background);
     font-size: var(--large-text);
     text-align: center;
+    justify-content: center;
+    align-items: center;
     border-radius: 20px;
     padding: 10px;
     margin: 10px 20px;
@@ -549,7 +563,7 @@ body.disable-scroll {
 }
 .buy-ticket:hover {
     background-color: #ffd700;
-    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);  
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 1.4);  
 }
 [class*="__arrow-back"] .hover-circle,
 [class*="__arrow-next"] .hover-circle {
@@ -691,10 +705,13 @@ body.disable-scroll {
 }.main-footer {
     display: grid;
     gap: 5px;
-    text-align: center;
     align-items: center;
     grid-template-columns: 1fr;
     position: relative;
+}
+.main-footer h2{
+    padding-left: 20px;
+    width: calc(100% - 20px)
 }
 .info-list {
     display: grid;
@@ -723,6 +740,7 @@ body.disable-scroll {
     align-items: normal;
     width: 100%;
     grid-column: 1/5;
+    text-align: center;
 }
 .map{
     position: relative;
@@ -779,6 +797,7 @@ body.disable-scroll {
     display: grid;
     grid-template-columns: 1fr 1fr;
     position: relative;
+    text-align: center;
 }
 .watermark {
   position: absolute;
@@ -845,6 +864,10 @@ body.disable-scroll {
     }
     .vk {
         grid-row: 9;
+    }
+    .watermark {
+        top: 40%;
+        height: auto;
     }
 }.main-header {
     display: flex;
@@ -929,7 +952,7 @@ body.disable-scroll {
         align-content: center;
         width: 100%;
         inset: 0;
-        top: 98px;
+        top: 89px;
         padding: 0;
         margin: 0;
         background-color: var(--main-background);

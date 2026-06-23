@@ -12,8 +12,9 @@
     "sqlite3": "^6.0.1"
   },
   "scripts": {
-  "build:css": "node build-css.js",
-  "start": "node build-css.js && node server.js",
-  "dev": "node build-css.js && nodemon server.js"
-}
+    "build:css": "node build-css.js",
+    "build:js": "node build-js.js",
+    "start": "node build-css.js && node build-js.js && node server.js",
+    "dev": "node build-css.js && node build-js.js && nodemon server.js"
+  }
 }

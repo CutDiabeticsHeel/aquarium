@@ -81,8 +81,5 @@ window.addEventListener('pageshow', () => {
             link.classList.add('active-link');
         }
     })
-    // if (event.persisted) {
-    //     openCurtains();
-    // }
     openCurtains();
 });

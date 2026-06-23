@@ -49,9 +49,12 @@
     text-align: center;
 }
 .record-drama-school {
+    display: flex;
     background-color: var(--additionaly-background);
     font-size: var(--large-text);
     text-align: center;
+    justify-content: center;
+    align-items: center;
     border-radius: 20px;
     padding: 10px;
     margin: 10px 20px;

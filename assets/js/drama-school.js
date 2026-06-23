@@ -1,23 +1,27 @@
-const dramaSchoolSwiper = new Swiper('.drama-school__swiper', {
+function initDramaSchoolJs(){
+    if (!document.querySelector(".drama-school-section")) return;
+    const dramaSchoolSwiper = new Swiper('.drama-school__swiper', {
 
-    keyboard: {
-        enabled: true,
-    },
+        keyboard: {
+            enabled: true,
+        },
 
 
-    pagination: {
-        el: '.swiper-pagination',
-        type: 'bullets',
-        clickable: true
-    },
-    
-    navigation: {
-        nextEl: '.drama-school__arrow-next',
-        prevEl: '.drama-school__arrow-back',
-    },
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true
+        },
+        
+        navigation: {
+            nextEl: '.drama-school__arrow-next',
+            prevEl: '.drama-school__arrow-back',
+        },
 
-    loop: true
+        loop: true
+    });
+    Fancybox.bind("[data-fancybox]", {
+        
 });
-Fancybox.bind("[data-fancybox]", {
-    
-});
+};
+initDramaSchoolJs();

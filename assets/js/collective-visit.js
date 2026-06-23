@@ -1,23 +1,28 @@
-const collectiveVisitSwiper = new Swiper('.collective-visit__swiper', {
-    keyboard: {
-        enabled: true,
-        onlyInViewport: false,
-        pageUpDown: true
-    },
+function initCollectiveVisitJs(){
+    if (!document.querySelector(".collective-visit__section")) return;
 
-    pagination: {
-        el: '.swiper-pagination',
-        type: 'bullets',
-        clickable: true
-    },
-    
-    navigation: {
-        nextEl: '.collective-visit__arrow-next',
-        prevEl: '.collective-visit__arrow-back',
-    },
+    const collectiveVisitSwiper = new Swiper('.collective-visit__swiper', {
+        keyboard: {
+            enabled: true,
+            onlyInViewport: false,
+            pageUpDown: true
+        },
 
-    loop: true
-})
-Fancybox.bind("[data-fancybox]", {
-    
-});
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true
+        },
+        
+        navigation: {
+            nextEl: '.collective-visit__arrow-next',
+            prevEl: '.collective-visit__arrow-back',
+        },
+
+        loop: true
+    })
+    Fancybox.bind("[data-fancybox]", {
+        
+    });
+};
+initCollectiveVisitJs();
