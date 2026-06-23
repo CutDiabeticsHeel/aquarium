@@ -2,3 +2,5 @@ node_modules
 /1.png
 /2.png
 /text.txt
+/package.json
+/package-lock.json
