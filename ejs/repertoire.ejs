@@ -11,11 +11,11 @@
         <h1 class="wave">Спектакли</h1>
         
         <ul class="performance-list">
-            <% performances.forEach(performance => { %>
+            <% performances.forEach((performance, index) => { %>
                 <li class="performance-list__item">
                     <a href="/performance/<%= performance.performance_id %>">
                         <figure class="performance-figure">
-                                <img loading="lazy" class="performance__image" src="<%= performance.img1 %>" width="400" height="225px" alt="Фото спектакля">
+                                <img  class="performance__image" src="<%= performance.img1 %>" width="400" <%= index >= 7 ? "loading=lazy" : "" %>  decoding="async" height="225px" alt="Фото спектакля" >
                                 <p class="performance__image-description">Узнать о спектакле подробнее</p>
                             <figcaption class="performance__figcaption">
                                 <svg height="25" width="25">

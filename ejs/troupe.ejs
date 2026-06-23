@@ -11,10 +11,10 @@
         <h1 class="wave">Труппа теара</h1>
         
         <ul class="actors-list">
-            <% troupe.forEach(actor => { %>
+            <% troupe.forEach((actor, index) => { %>
                 <li class="actors-list__item">
                     <a class="actors-list__link" href="/actor/<%= actor.actor_id %>" data-actorId="<%= actor.actor_id %>">
-                        <img loading="lazy" class="actors__image" src="<%= actor.portrait %>"  width="250" height="250" alt="Фото">
+                        <img class="actors__image" src="<%= actor.portrait %>" <%= index >= 9 ? "loading=lazy" : "" %> decoding="async"  width="250" height="250" alt="Фото">
                         <span class="actors__info"> <%= actor.first_name %> <%= actor.last_name %> <br> <%= actor.role_name %> </span>
                     </a>
                 </li>

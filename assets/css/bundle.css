@@ -1765,10 +1765,11 @@ html {
 }
 .actors-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    row-gap: 50px;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 20px;
     column-gap: 20px;
-    padding: 50px 20px;
+    padding: 20px 20px 50px 20px;
+    margin: 0;
 }
 .actors-list__item {
     background-image: url('/img/frame.avif');
@@ -1803,6 +1804,21 @@ html {
     transition: transform 0.3s ease;
     border-radius: 50%;
     z-index: -1;
+}
+@media (max-width: 1250px) {
+    .actors-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 950px) {
+    .actors-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 650px) {
+    .actors-list {
+        grid-template-columns:  1fr;
+    }
 }.swiper-pagination-bullet {
     width: 20px !important;
     height: 20px !important;
