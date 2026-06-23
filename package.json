@@ -2,6 +2,7 @@
   "type": "module",
   "dependencies": {
     "@fancyapps/ui": "^6.1.14",
+    "@fastify/compress": "^9.0.0",
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^11.2.0",
     "@fastify/formbody": "^8.0.2",
@@ -15,7 +16,7 @@
     "postcss": "^8.5.15",
     "sqlite3": "^6.0.1",
     "swiper": "^12.2.0",
-    "uglify-js": "^3.19.3"
+    "terser": "^5.48.0"
   },
   "scripts": {
     "build:css": "node build-css.js",

@@ -70,6 +70,5 @@ async function buildBundle() {
   const minified = await minifyJs(bundle);
   fs.writeFileSync(OUTPUT_FILE, minified, 'utf8');
 }
-
-buildBundle();
 copyVendorJs();
+buildBundle();

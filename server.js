@@ -5,6 +5,7 @@ import view from "@fastify/view";
 import formbody from "@fastify/formbody";
 import cookie from "@fastify/cookie";
 import fastifyStatic from "@fastify/static";
+import compress from '@fastify/compress';
 import ejs from 'ejs';
 import path from "path";
 import { rejects } from "assert";
@@ -35,6 +36,10 @@ await app.register(fastifyStatic, {
 });
 
 await app.register(formbody)
+
+await app.register(compress, {
+    encodings: ['zstd', 'br', 'gzip'] 
+});
 
 async function getPlaybill() {
     return new Promise((resolve, reject) => {
