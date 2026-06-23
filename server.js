@@ -36,8 +36,6 @@ await app.register(fastifyStatic, {
 
 await app.register(formbody)
 
-await app.register(cookie);
-
 async function getPlaybill() {
     return new Promise((resolve, reject) => {
 

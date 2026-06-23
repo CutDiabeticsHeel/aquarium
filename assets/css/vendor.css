@@ -32,7 +32,8 @@
     transition: opacity 0.35s ease !important;
 }
 .topic-list .swiper-slide {
-    width: auto  !important;
+    width: auto !important;
+    height: auto !important;
 }
 .service {
     margin-right: 40px !important;

@@ -14,16 +14,16 @@
             <p class="greetings__text">Мы ценим мнение каждого зрителя. Ваши отзывы помогают нам становиться лучше и создавать ещё больше ярких впечатлений.</p>
             <img class="greetings__image" src="/img/main-section.jpg" width="500" height="500" alt="">
         </div>
-        <div class="swiper topic-list-swiper">
-            <ul class="swiper-wrapper topic-list">
-                <li class="swiper-slide topic-list__item all-reviews">Все отзывы</li>
-                <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
-                <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
-                <li class="swiper-slide topic-list__item performances" data-topic="performance">Спектакли</li>
-                <li class="swiper-slide topic-list__item service" data-topic="service">Обслуживание</li>
-            </ul>
-        </div>
         <div class="review-wrapper">
+            <div class="swiper topic-list-swiper">
+                <ul class="swiper-wrapper topic-list">
+                    <li class="swiper-slide topic-list__item all-reviews">Все отзывы</li>
+                    <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
+                    <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
+                    <li class="swiper-slide topic-list__item performances" data-topic="performance">Спектакли</li>
+                    <li class="swiper-slide topic-list__item service" data-topic="service">Обслуживание</li>
+                </ul>
+            </div>
             <ul class="review-list">
                 <% reviews.forEach(item => { %>
                 <li class="review-list__item" data-topic="<%= item.data %>">
