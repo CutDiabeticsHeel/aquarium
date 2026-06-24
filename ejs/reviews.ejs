@@ -6,87 +6,96 @@
 <body>
     
     <%- include("partials/header") %>
-    <%- include("partials/curtains") %>
+    <main>
+        <%- include("partials/curtains") %>
 
-    <section class="reviews">
-        <div class="greetings">
-            <h1 class="greetings__title wave">Отзывы</h1>
-            <p class="greetings__text">Мы ценим мнение каждого зрителя. Ваши отзывы помогают нам становиться лучше и создавать ещё больше ярких впечатлений.</p>
-            <img class="greetings__image" src="/img/main-section.webp" width="500" height="500" alt="">
-        </div>
-        <div class="review-wrapper">
-            <div class="swiper topic-list-swiper">
-                <ul class="swiper-wrapper topic-list">
-                    <li class="swiper-slide topic-list__item all-reviews">Все отзывы</li>
-                    <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
-                    <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
-                    <li class="swiper-slide topic-list__item performances" data-topic="performance">Спектакли</li>
-                    <li class="swiper-slide topic-list__item service" data-topic="service">Обслуживание</li>
-                </ul>
+        <section class="reviews">
+            <div class="greetings">
+                <h1 class="greetings__title wave">Отзывы</h1>
+                <p class="greetings__text">Мы ценим мнение каждого зрителя. Ваши отзывы помогают нам становиться лучше и создавать ещё больше ярких впечатлений.</p>
+                <img class="greetings__image" src="/img/main-section.webp" width="500" height="500" alt="Фото театра">
             </div>
-            <ul class="review-list">
-                <% reviews.forEach(item => { %>
-                <li class="review-list__item" data-topic="<%= item.data %>">
-                    <span class="name"><%= item.name %></span>
-                    <span class="date"><%= item.date %></span>
-                    <span class="topic"><%= item.topic %></span>
-                    <p class="text"><%= item.text %></p>
-                    <div class="feedback">
-                        <span class="feedback__question">Отзыв полезен?</span>
-                        <svg class="feedback__like" data-reviewId="<%= item.review_id %>" height="25" width="25">
-                            <use href="/svg/sprite.svg#like"></use> 
-                        </svg>
-                        <span class="feedback__counter"><%= item.likes %></span>
-                    </div>
-                </li>
-                <% }); %>
-            </ul>
-            <form action="/reviews" class="write-review" method="POST">
-                <label class="write-review__name">
-                    <input name="name" id="name" type="text" placeholder="Имя" minlength="5"  required autocomplete="off">
-                </label>
-                <select name="topicData" id="topicData">
-                    <option value="teatralka:Театральная студия">Театральная студия</option>
-                    <option value="tnt:Театр народного творчества">Театр народного творчества</option>
-                    <% performances.forEach(item => { %>
-                    <option value="performance:<%= item.title %>">Спектакль: <%= item.title %></option>
+            <div class="review-wrapper">
+                <div class="swiper topic-list-swiper">
+                    <ul class="swiper-wrapper topic-list">
+                        <li class="swiper-slide topic-list__item all-reviews">Все отзывы</li>
+                        <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
+                        <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
+                        <li class="swiper-slide topic-list__item performances" data-topic="performance">Спектакли</li>
+                        <li class="swiper-slide topic-list__item service" data-topic="service">Обслуживание</li>
+                    </ul>
+                </div>
+                <ul class="review-list">
+                    <% reviews.forEach(item => { %>
+                    <li class="review-list__item" data-topic="<%= item.data %>">
+                        <span class="name"><%= item.name %></span>
+                        <span class="date"><%= item.date %></span>
+                        <span class="topic"><%= item.topic %></span>
+                        <p class="text"><%= item.text %></p>
+                        <div class="feedback">
+                            <span class="feedback__question">Отзыв полезен?</span>
+                            <svg class="feedback__like" data-reviewId="<%= item.review_id %>" height="25" width="25">
+                                <use href="/svg/sprite.svg#like"></use> 
+                            </svg>
+                            <span class="feedback__counter"><%= item.likes %></span>
+                        </div>
+                    </li>
                     <% }); %>
-                    <option value="service:Обслуживание">Обслуживание</option>
-                    <option value="other:Другое">Другое</option>
-                </select>
-                <textarea name="review" id="review" minlength="25" maxlength="1000" placeholder="Опишите свое впечатление о театре" rows="20" cols="10" required></textarea>
-                <button class="buy-ticket write-review__button" type="submit">
-                    Оставить отзыв
+                </ul>
+                <form action="/reviews" class="write-review" method="POST">
+                    <label class="name__label">
+                        <span class="hidden-text">Введите имя под которым пользователи будут видеть ваш отзыв</span>
+                        <input name="name" id="name" type="text" placeholder="Имя" minlength="5"  required autocomplete="off">
+                    </label>
+                    <label class="topicData__label">
+                        <span class="hidden-text">Выберите тему отзыва</span>
+                        <select name="topicData" id="topicData">
+                            <option value="teatralka:Театральная студия">Театральная студия</option>
+                            <option value="tnt:Театр народного творчества">Театр народного творчества</option>
+                            <% performances.forEach(item => { %>
+                            <option value="performance:<%= item.title %>">Спектакль: <%= item.title %></option>
+                            <% }); %>
+                            <option value="service:Обслуживание">Обслуживание</option>
+                            <option value="other:Другое">Другое</option>
+                        </select>
+                    </label>
+                    <label class="review__label">
+                        <span class="hidden-text">Оставьте свой отзыв:</span>
+                        <textarea name="review" id="review" minlength="25" maxlength="1000" placeholder="Опишите свое впечатление о театре" rows="20" cols="10" required></textarea>
+                    </label>
+                    <button class="buy-ticket write-review__button" type="submit">
+                        Оставить отзыв
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <div id="review-modal__review" class="modal">
+            <div class="modal__content review-js success-modal">
+
+                <h2>Отзыв отправлен</h2>
+
+                <p>
+                    Спасибо за ваш отзыв! Он будет опубликован после проверки модератором.
+                </p>
+
+                <button class="buy-ticket" id="close-modal">
+                    Понятно
                 </button>
-            </form>
+            </div>
         </div>
-    </section>
 
-    <div id="review-modal__review" class="modal">
-        <div class="modal__content review-js success-modal">
+        <div id="review-modal__like" class="modal">
+            <div class="modal__content like-js success-modal">
 
-            <h2>Отзыв отправлен</h2>
+                <h2>Вы уже оценили этот отзыв</h2>
 
-            <p>
-                Спасибо за ваш отзыв! Он будет опубликован после проверки модератором.
-            </p>
-
-            <button class="buy-ticket" id="close-modal">
-                Понятно
-            </button>
+                <button class="buy-ticket" id="close-modal">
+                    Понятно
+                </button>
+            </div>
         </div>
-    </div>
-
-    <div id="review-modal__like" class="modal">
-        <div class="modal__content like-js success-modal">
-
-            <h2>Вы уже оценили этот отзыв</h2>
-
-            <button class="buy-ticket" id="close-modal">
-                Понятно
-            </button>
-        </div>
-    </div>
+    </main>
 
     <%- include("partials/footer") %>
 </body>

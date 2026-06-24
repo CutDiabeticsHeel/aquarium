@@ -6,8 +6,9 @@
 </head>
 <body>
     <%- include("partials/header") %>
-    <%- include("partials/curtains") %>
-    <section class="welcome">
+    <main class="welcome">
+        <%- include("partials/curtains") %>
+
         <section class="main-section">
             <div class="swiper main-section-swiper" tabindex="0">
                 <div class="swiper-wrapper">
@@ -19,22 +20,22 @@
                                     /img/performance1-1024.webp 1024w,
                                     /img/performance1-1440.webp 1440w"
                             sizes="100vw"
-                            alt="Здесь будет картинка"> 
+                            alt="Фото театра"> 
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="/img/main-section.webp" data-fancybox="main-section__gallery">
-                            <img class="main-section__image" src="/img/main-section.webp" fetchpriority="high" loading="eager" alt="Здесь будет картинка">
+                            <img class="main-section__image" src="/img/main-section.webp" fetchpriority="high" loading="eager" alt="Фото театра">
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="/img/main-section.webp" data-fancybox="main-section__gallery">
-                            <img class="main-section__image" src="/img/main-section.webp" fetchpriority="high" loading="eager" alt="Здесь будет картинка">
+                            <img class="main-section__image" src="/img/main-section.webp" fetchpriority="high" loading="eager" alt="Фото спектакля">
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a href="/img/main-section.webp" data-fancybox="main-section__gallery">
-                            <img class="main-section__image" src="/img/main-section.webp" fetchpriority="high" loading="eager" alt="Здесь будет картинка">
+                            <img class="main-section__image" src="/img/main-section.webp" fetchpriority="high" loading="eager" alt="Фото спектакля">
                         </a>
                     </div>
                 </div>
@@ -92,12 +93,12 @@
                     <div class="swiper-wrapper about-theatre__swiper-wrapper">
                         <div class="swiper-slide">
                             <a href="/img/collective1.webp" data-fancybox="about-theatre__gallery">
-                                <img class="about-theatre__image" width="800" height="400" src="/img/collective1.webp" loading="lazy" decoding="async" alt="Здесь будет картинка">
+                                <img class="about-theatre__image" width="800" height="400" src="/img/collective1.webp" loading="lazy" decoding="async" alt="Здесь будет фото спектакля">
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="/img/about-theatre.webp" data-fancybox="about-theatre__gallery">
-                                <img class="about-theatre__image" width="800" height="400" src="/img/about-theatre.webp" loading="lazy" decoding="async" alt="Здесь будет картинка">
+                                <img class="about-theatre__image" width="800" height="400" src="/img/about-theatre.webp" loading="lazy" decoding="async" alt="Здесь будет фото спектакля">
                             </a>
                         </div>
                         <div class="swiper-slide">
@@ -108,7 +109,7 @@
                                         /img/tnt3.webp 1440w"
                                 sizes="(max-width: 768px) 300px,
                                        (min-width: 769px) 400px"
-                                alt="Здесь будет картинка">
+                                alt="Здесь будет фото спектакля">
                             </a>
                         </div>
                         <div class="swiper-slide">
@@ -121,7 +122,7 @@
                 </div>
         </div>
         </section>
-    </section>
+    </main>
 
     <%- include("partials/footer") %>
 </body>

@@ -6,38 +6,40 @@
 <body>
 
     <%- include("partials/header") %>
-    <%- include("partials/curtains") %>
+    <main>
+        <%- include("partials/curtains") %>
 
-    <section class="playbill">
+        <section class="playbill">
 
-        <h1 class="wave">Афиша</h1>
+            <h1 class="wave">Афиша</h1>
 
-        <img class="no-js" style="display: none;" src="/img/playbill.webp" alt="">
+            <img class="no-js" style="display: none;" src="/img/playbill.webp" alt="Афиша спектакля">
 
-        <div class="swiper dates-list-swiper">
-            <ul class="swiper-wrapper dates-list"></ul>
-        </div>
+            <div class="swiper dates-list-swiper">
+                <ul class="swiper-wrapper dates-list"></ul>
+            </div>
 
-        <ul class="performances-list">
-            <% if (performances && performances.length > 0) { %>
-                <% performances.forEach((performance, index) => { %>
-                    <li class="performances-list__item-wrapper" data-date="<%=performance.date%>">
-                        <a class="performances-list__item" href="/performance/<%= performance.performance_id %>">
-                            <h3 class="playbill__title"><%= performance.performance %></h3>
-                            <span class="playbill__date"><%= performance.date %></span>
-                            <span class="playbill__age-limit"><%= performance.age_limit %></span>
-                            <button class="buy-ticket">Купить билет</button>
-                            <div class="playbill__image-wrapper">
-                                <img class="playbill__image" src="<%= performance.image %>" <%= index >= 5 ? "loading=lazy" : "" %> decoding="async" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
-                            </div>
-                        </a>
-                    </li>
-                <% }); %>
-            <% } %>
-        </ul>
-        <span class="hidden-modal">В этот день нет спектаклей :(</span>
+            <ul class="performances-list">
+                <% if (performances && performances.length > 0) { %>
+                    <% performances.forEach((performance, index) => { %>
+                        <li class="performances-list__item-wrapper" data-date="<%=performance.date%>">
+                            <a class="performances-list__item" href="/performance/<%= performance.performance_id %>">
+                                <h3 class="playbill__title"><%= performance.performance %></h3>
+                                <span class="playbill__date"><%= performance.date %></span>
+                                <span class="playbill__age-limit"><%= performance.age_limit %></span>
+                                <button class="buy-ticket">Купить билет</button>
+                                <div class="playbill__image-wrapper">
+                                    <img class="playbill__image" src="<%= performance.image %>" <%= index >= 5 ? "loading=lazy" : "" %> decoding="async" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
+                                </div>
+                            </a>
+                        </li>
+                    <% }); %>
+                <% } %>
+            </ul>
+            <span class="hidden-modal">В этот день нет спектаклей :(</span>
 
-    </section>
+        </section>
+    </main>
 
     <%- include("partials/footer") %>
 </body>

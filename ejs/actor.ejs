@@ -5,84 +5,87 @@
 </head>
 <body>
     <%- include("partials/header") %>
-    <%- include("partials/curtains") %>
-    
-    <section class="actor">
-        <h1 class="actor__name wave"> <%= actor.first_name %> <%= actor.last_name %> <%= actor.patronymic %> </h1>
-        <div class="actor__wrapper">
-            <div class="actor__swiper-container">
-                <div class="swiper actor__swiper" tabindex="0">
-                    <div class="swiper-wrapper actor__swiper-wrapper">
-                        <div class="swiper-slide">
-                            <a href="<%= actor.img1 %>" data-fancybox="actor__gallery">
-                                <img class="actor__image" width="800px" src="<%= actor.img1 %>" alt="Фото актера">
-                            </a>
+    <main>
+        <%- include("partials/curtains") %>
+        <section class="actor">
+            <h1 class="actor__name wave"> <%= actor.first_name %> <%= actor.last_name %> <%= actor.patronymic %> </h1>
+            <div class="actor__wrapper">
+                <div class="actor__swiper-container">
+                    <div class="swiper actor__swiper" tabindex="0">
+                        <div class="swiper-wrapper actor__swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a href="<%= actor.img1 %>" data-fancybox="actor__gallery">
+                                    <img class="actor__image" width="800px" src="<%= actor.img1 %>" alt="Фото актера">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="<%= actor.img2 %>" data-fancybox="actor__gallery">
+                                    <img class="actor__image" width="800px" src="<%= actor.img2 %>" alt="Фото актера">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="<%= actor.img3 %>" data-fancybox="actor__gallery">
+                                    <img class="actor__image" width="800px" src="<%= actor.img3 %>" alt="Фото актера">
+                                </a>
+                            </div>
                         </div>
-                        <div class="swiper-slide">
-                            <a href="<%= actor.img2 %>" data-fancybox="actor__gallery">
-                                <img class="actor__image" width="800px" src="<%= actor.img2 %>" alt="Фото актера">
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="<%= actor.img3 %>" data-fancybox="actor__gallery">
-                                <img class="actor__image" width="800px" src="<%= actor.img3 %>" alt="Фото актера">
-                            </a>
-                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <svg class="actor__arrow-back" width="72" height="72" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="base-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle class="hover-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                        <path d="M12 8L8 12M8 12L12 16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <svg class="actor__arrow-next" width="72" height="72" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="base-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle class="hover-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                        <path d="M12 16L16 12M16 12L12 8M16 12H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
                 </div>
-                <svg class="actor__arrow-back" width="72" height="72" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="base-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-                    <circle class="hover-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
-                    <path d="M12 8L8 12M8 12L12 16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                </svg>
-                <svg class="actor__arrow-next" width="72" height="72" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="base-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-                    <circle class="hover-circle" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
-                    <path d="M12 16L16 12M16 12L12 8M16 12H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                </svg>
-            </div>
-            <ul class="actor__achievements achievement-list">
-                <li class="achievement-list__item actor__biografy"> <%= actor.biografy  %> </li>
-                <% const achievementsList = actor.achievements.split(',').map(item => item.trim()) %>
-                <% achievementsList.forEach(item => { %>
-                <li class="achievement-list__item"> <%= item %> </li>
-                <% }); %>
-            </ul>        
-            <h2 class="starring-title">Участвует в спектаклях:</h2>
-            <ul class="actor__starring starring-list">
-                <ul class="performance-list">
-                    <%
-                    const filteredPerformances = performances.filter(performance =>
-                        performancesList.some(item =>
-                            item.performance_id === performance.performance_id
-                        )
-                    );
-                    %>
-                    <% filteredPerformances.forEach(performance => { %>
-                        <li class="performance-list__item">
-                            <a href="/performance/<%= performance.performance_id %>">
-                                <figure class="performance-figure">
-                                        <img class="performance__image" src="<%= performance.img1 %>" decoding="async" width="400" height="225px" alt="Фото спектакля">
-                                        <p class="performance__image-description">Узнать о спектакле подробнее</p>
-                                    <figcaption class="performance__figcaption">
-                                        <svg height="25" width="25">
-                                            <use href="/svg/sprite.svg#clock"></use> 
-                                        </svg>
-                                        <%= performance.duration %> минут <%= performance.age_limit %>
-                                    </figcaption>
-                                </figure>
-                                <div class="performance__info">
-                                    <h3 class="performance__title"> <%= performance.title %> </h3>
-                                    <span class="performance__author"> <%= performance.description %> </span>
-                                </div>
-                            </a>
-                        </li>
-                    <% }) %>
+                <ul class="actor__achievements achievement-list">
+                    <li class="achievement-list__item actor__biografy"> <%= actor.biografy  %> </li>
+                    <% const achievementsList = actor.achievements.split(',').map(item => item.trim()) %>
+                    <% achievementsList.forEach(item => { %>
+                    <li class="achievement-list__item"> <%= item %> </li>
+                    <% }); %>
+                </ul>        
+                <h2 class="starring-title">Участвует в спектаклях:</h2>
+                <ul class="actor__starring starring-list">
+                    <li>
+                        <ul class="performance-list">
+                            <%
+                            const filteredPerformances = performances.filter(performance =>
+                                performancesList.some(item =>
+                                    item.performance_id === performance.performance_id
+                                )
+                            );
+                            %>
+                            <% filteredPerformances.forEach(performance => { %>
+                                <li class="performance-list__item">
+                                    <a href="/performance/<%= performance.performance_id %>">
+                                        <figure class="performance-figure">
+                                                <img class="performance__image" src="<%= performance.img1 %>" decoding="async" width="400" height="225px" alt="Фото спектакля">
+                                                <p class="performance__image-description">Узнать о спектакле подробнее</p>
+                                            <figcaption class="performance__figcaption">
+                                                <svg height="25" width="25">
+                                                    <use href="/svg/sprite.svg#clock"></use> 
+                                                </svg>
+                                                <%= performance.duration %> минут <%= performance.age_limit %>
+                                            </figcaption>
+                                        </figure>
+                                        <div class="performance__info">
+                                            <h3 class="performance__title"> <%= performance.title %> </h3>
+                                            <span class="performance__author"> <%= performance.description %> </span>
+                                        </div>
+                                    </a>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </li>
                 </ul>
-            </ul>
-        </div>
-    </section>
+            </div>
+        </section>
+    </main>
 
     <%- include("partials/footer") %>
 </body>

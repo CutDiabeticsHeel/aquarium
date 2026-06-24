@@ -4,13 +4,13 @@
             <li class="info-list__item">
                 Санкт-Петербург, пр.Просвещения д.87.к1
                 <div class="map">
-                    <button class="map-button">
+                    <button class="map-button" type="button" aria-label="Открыть расположение театра на карте">
                         <svg class="info-list__item-svg" height="24" width="24">
                             <use href="/svg/sprite.svg#mark"></use> 
                         </svg>
                         Посмотреть на карте
                     </button>
-                    <img class="map-picture" src="/img/map.webp" width="800" height="100" alt="Карта">
+                    <img class="map-picture" src="/img/map.webp" width="800" height="100" alt="Расположение театра на карте">
                 </div>            
             </li>
             <li class="info-list__item contact-description">Телефон:</li>
@@ -23,25 +23,27 @@
                 </svg>
                 <a href="tel:+79212281337" class="ticket-office-contact__item">+7 921 228 13 37</a>
             </li>
-            <ul class="ticket-office-contact">
-                <li class="ticket-office-contact__item">
-                    <svg class="info-list__item-svg" height="32" width="32">
-                        <use href="/svg/sprite.svg#telephone"></use> 
-                    </svg>
-                    <a href="tel:+78125904259" class="ticket-office-contact__item">8 812 590 4259</a>
-                </li>
-                <li class="ticket-office-contact__item">
-                    <svg class="info-list__item-svg" height="32" width="32">
-                        <use href="/svg/sprite.svg#telephone"></use> 
-                    </svg>
-                    <a href="tel:+79291112000" class="ticket-office-contact__item">8 929 111 2000</a>
-                </li>
-            </ul>
+            <li>
+                <ul class="ticket-office-contact">
+                    <li class="ticket-office-contact__item">
+                        <svg class="info-list__item-svg" height="32" width="32">
+                            <use href="/svg/sprite.svg#telephone"></use> 
+                        </svg>
+                        <a href="tel:+78125904259" class="ticket-office-contact__item">8 812 590 4259</a>
+                    </li>
+                    <li class="ticket-office-contact__item">
+                        <svg class="info-list__item-svg" height="32" width="32">
+                            <use href="/svg/sprite.svg#telephone"></use> 
+                        </svg>
+                        <a href="tel:+79291112000" class="ticket-office-contact__item">8 929 111 2000</a>
+                    </li>
+                </ul>
+            </li>
             <li class="info-list__item mail">
                 <svg class="info-list__item-svg" height="32" width="32">
                     <use href="/svg/sprite.svg#mail"></use> 
                 </svg>
-                teatrakvarium@mail.ru
+                <a href="mailto:teatrakvarium@mail.ru">teatrakvarium@mail.ru</a>
             </li>
             <li class="info-list__item vk">
                 <svg class="info-list__item-svg" height="32" width="32">
@@ -76,6 +78,9 @@
                 <span class="visually-hidden">Закрыть модалку</span>
             </button>
         </p>
-        <iframe class="theatre-location__map" src="https://yandex.ru/map-widget/v1/?um=constructor%3A478111c2196b5bea4b468fb3d45b34905f60f240d80755581aafed79ad7a7e3d&amp;source=constructor" width="300" height="425" frameborder="0"></iframe>
+        <iframe class="theatre-location__map" 
+            title="Театр Аквариум на карте"
+            src="https://yandex.ru/map-widget/v1/?um=constructor%3A478111c2196b5bea4b468fb3d45b34905f60f240d80755581aafed79ad7a7e3d&amp;source=constructor" 
+            width="300" height="425" frameborder="0"></iframe>
     </div>
 </div>

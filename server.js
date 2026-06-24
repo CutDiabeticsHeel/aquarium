@@ -6,8 +6,10 @@ import formbody from "@fastify/formbody";
 import cookie from "@fastify/cookie";
 import fastifyStatic from "@fastify/static";
 import compress from '@fastify/compress';
+import helmet from '@fastify/helmet';
 import ejs from 'ejs';
 import path from "path";
+import fs from "fs";
 import { rejects } from "assert";
 import { request } from "http";
 import { Temporal } from '@js-temporal/polyfill';
@@ -16,7 +18,11 @@ const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля'
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
 const app = Fastify({
-    logger: true
+    logger: true,
+    https: {
+        key: fs.readFileSync('./server.key'),
+        cert: fs.readFileSync('./server.crt')
+    }
 });
 
 const db = new sqlite3.Database("database/theatre.db");
@@ -40,6 +46,14 @@ await app.register(formbody)
 await app.register(compress, {
     encodings: ['zstd', 'br', 'gzip'] 
 });
+await app.register(helmet, {
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            frameSrc: ["'self'", "https://yandex.ru"]
+        }
+    }
+})
 
 async function getPlaybill() {
     return new Promise((resolve, reject) => {

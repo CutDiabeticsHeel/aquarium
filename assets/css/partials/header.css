@@ -14,6 +14,8 @@
 }
 .main-navigation__toggle {
     display: none;
+    background-color: inherit;
+    border: none;
 }
 .navigation-list {
     display: flex;

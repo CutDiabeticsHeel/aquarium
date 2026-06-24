@@ -154,7 +154,7 @@
     border-radius: 20px;
     color: #ffffff;
     resize: none;
-    
+    width: calc(100% - 20px);
 }
 .modal {
     position: fixed;

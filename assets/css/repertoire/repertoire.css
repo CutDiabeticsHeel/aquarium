@@ -31,7 +31,7 @@
 }
 .performance__image-description {
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 15%;
     color: #fff;
     visibility: hidden;

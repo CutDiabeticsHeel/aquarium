@@ -5,34 +5,36 @@
 </head>
 <body>
     <%- include("partials/header") %>
-    <%- include("partials/curtains") %>
+    <main>
+        <%- include("partials/curtains") %>
 
-    <section class="repertoire">
-        <h1 class="wave">Спектакли</h1>
-        
-        <ul class="performance-list">
-            <% performances.forEach((performance, index) => { %>
-                <li class="performance-list__item">
-                    <a href="/performance/<%= performance.performance_id %>">
-                        <figure class="performance-figure">
-                                <img  class="performance__image" src="<%= performance.img1 %>" width="400" <%= index >= 7 ? "loading=lazy" : "" %>  decoding="async" height="225px" alt="Фото спектакля" >
-                                <p class="performance__image-description">Узнать о спектакле подробнее</p>
-                            <figcaption class="performance__figcaption">
-                                <svg height="25" width="25">
-                                    <use href="/svg/sprite.svg#clock"></use> 
-                                </svg>
-                                <%= performance.duration %> минут <%= performance.age_limit %>
-                            </figcaption>
-                        </figure>
-                        <div class="performance__info">
-                            <h3 class="performance__title"> <%= performance.title %> </h3>
-                            <span class="performance__author"> <%= performance.description %> </span>
-                        </div>
-                    </a>
-                </li>
-            <% }) %>
-        </ul>
-    </section>
+        <section class="repertoire">
+            <h1 class="wave">Спектакли</h1>
+            
+            <ul class="performance-list">
+                <% performances.forEach((performance, index) => { %>
+                    <li class="performance-list__item">
+                        <a href="/performance/<%= performance.performance_id %>">
+                            <figure class="performance-figure">
+                                    <img  class="performance__image" src="<%= performance.img1 %>" width="400" <%= index >= 7 ? "loading=lazy" : "" %>  decoding="async" height="225px" alt="Фото спектакля" >
+                                    <p class="performance__image-description">Узнать о спектакле подробнее</p>
+                                <figcaption class="performance__figcaption">
+                                    <svg height="25" width="25">
+                                        <use href="/svg/sprite.svg#clock"></use> 
+                                    </svg>
+                                    <%= performance.duration %> минут <%= performance.age_limit %>
+                                </figcaption>
+                            </figure>
+                            <div class="performance__info">
+                                <h3 class="performance__title"> <%= performance.title %> </h3>
+                                <span class="performance__author"> <%= performance.description %> </span>
+                            </div>
+                        </a>
+                    </li>
+                <% }) %>
+            </ul>
+        </section>
+    </main>
 
     <%- include("partials/footer") %>
 </body>
