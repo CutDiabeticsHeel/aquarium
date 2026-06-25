@@ -19,8 +19,6 @@ import { Temporal } from '@js-temporal/polyfill';
 const config = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
 
 const CAPTCHA_KEY = config.captchaKey
-console.log(CAPTCHA_KEY)
-
 const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
@@ -432,6 +430,41 @@ app.post("/reviews/:id/like", (request, reply) => {
             );
         }
     );
+});
+
+app.setErrorHandler((error, request, reply) =>{
+    const code = error.statusCode || 500
+
+    if (code === 400) {
+        return reply.status(400).view("/partials/error-page.ejs", {
+            errorCode: "400",
+            errorText: "Bad Request: Неверный запрос"
+        })
+    }
+    if (code === 403) {
+        return reply.status(403).view("/partials/error-page.ejs", {
+            errorCode: "403",
+            errorText: "Forbidden: Доступ запрещен"
+        })
+    }
+    if (code === 404) {
+        return reply.status(404).view("/partials/error-page.ejs", {
+            errorCode: "404",
+            errorText: "Not Found: Не найдено"
+        })
+    }
+    if (code === 408) {
+        return reply.status(408).view("/partials/error-page.ejs", {
+            errorCode: "408",
+            errorText: "Request Timeout: Время ожидания истекло"
+        })
+    }
+})
+
+app.get('/test-408', (request, reply) => {
+    const error = new Error('Доступ запрещен');
+    error.statusCode = 408;
+    throw error;
 });
 
 try {
