@@ -1,4 +1,4 @@
-import Fastify from "fastify";
+import Fastify, { fastify } from "fastify";
 import sqlite3 from "sqlite3";
 import cors from "@fastify/cors";
 import view from "@fastify/view";
@@ -7,6 +7,7 @@ import cookie from "@fastify/cookie";
 import fastifyStatic from "@fastify/static";
 import compress from '@fastify/compress';
 import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
@@ -53,6 +54,13 @@ await app.register(helmet, {
             frameSrc: ["'self'", "https://yandex.ru"]
         }
     }
+})
+
+await app.register(rateLimit, {
+    max: 100,
+    timeWindow: 5000,
+    ban: 5,
+    continueExceeding: true,
 })
 
 async function getPlaybill() {
