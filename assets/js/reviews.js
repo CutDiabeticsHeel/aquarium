@@ -9,7 +9,9 @@ function initReviewJs(){
     const likes = document.querySelectorAll(".feedback__like")
     const form = document.querySelector(".write-review");
     const modalReview = document.querySelector("#review-modal__review");
+    const modalReviewContent = document.querySelector(".review-js");
     const modalLike = document.querySelector("#review-modal__like");
+    const modalLikeContent = document.querySelector(".like-js");
     const closeBtn = document.querySelectorAll("#close-modal");
     const topicList = document.querySelectorAll(".topic-list__item")
 
@@ -79,6 +81,21 @@ function initReviewJs(){
         refreshReviewList(service.dataset.topic)
     })
 
+    const openModal = function(modal){
+        gsap.fromTo(modal, 
+            {
+                scale: 0.1,
+                opacity: 0.1
+            },
+            {
+                scale: 1,
+                opacity: 1,
+                duration: 0.3,
+                ease: "power2.out"
+            }
+        )
+    }
+
     likes.forEach(like => {
 
         like.addEventListener("click", async () => {
@@ -102,7 +119,7 @@ function initReviewJs(){
                 like.classList.add("liked")
             }
             else {
-
+                openModal(modalLikeContent);
                 modalLike.classList.add("active");
                 document.body.classList.add("disable-scroll");
             }
@@ -135,23 +152,40 @@ function initReviewJs(){
         });
 
         if (response.ok) {
+            openModal(modalReviewContent);
             modalReview.classList.add("active");
             document.body.classList.add("disable-scroll");
             form.reset();
         }
     });
 
+    const closeModal = function(modal){
+        gsap.to(modal, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.3,
+            ease: "power2.out",
+            onComplete: () => {
+                modalReview.classList.remove("active");
+                modalLike.classList.remove("active");
+                gsap.set(modal, { clearProps: "all" });
+            }
+        })
+    }
+
     for (let button of closeBtn){
             button.addEventListener("click", () => {
-            modalReview.classList.remove("active");
-            modalLike.classList.remove("active");
+            closeModal(modalLikeContent);
+            closeModal(modalReviewContent);
             document.body.classList.remove("disable-scroll");
         });
     }
+
     document.querySelectorAll(".modal").forEach(modal => {
         modal.addEventListener("click", function(event) {
             if (event.target === this) {
-                this.classList.remove("active");
+                closeModal(modalLikeContent);
+                closeModal(modalReviewContent);
                 document.body.classList.remove("disable-scroll");
             }
         });

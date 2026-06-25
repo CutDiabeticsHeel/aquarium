@@ -26,10 +26,8 @@ const openMapModal = function () {
 
     const tl = gsap.timeline();
     tl.to(mapPicture, {
-            top: "50%",
-            left: "50%",
-            xPercent: -50,
-            yPercent: -50,
+            top: "24%",
+            left: "10%",
             width: "80%",
             height: "57%",
             duration: 0.5,
@@ -44,7 +42,7 @@ const openMapModal = function () {
             opacity: 0,
             duration: 0.2,
             ease: "power2.out"
-        }, "<")
+        }, ">")
 };
 
 const closeMapModal = function () {
