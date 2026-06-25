@@ -145,10 +145,14 @@ function initReviewJs(){
         e.preventDefault();
 
         const formData = new FormData(form);
+        const token = await grecaptcha.execute('6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY', { action: 'submit' });
 
         const response = await fetch("/reviews", {
             method: "POST",
-            body: new URLSearchParams(formData)
+            body: new URLSearchParams({
+                ...Object.fromEntries(formData),
+                'g-recaptcha-response': token
+            })
         });
 
         if (response.ok) {

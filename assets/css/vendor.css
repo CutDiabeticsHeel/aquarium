@@ -38,3 +38,6 @@
 .service {
     margin-right: 40px !important;
 }
+.grecaptcha-badge {
+    visibility: hidden;
+}

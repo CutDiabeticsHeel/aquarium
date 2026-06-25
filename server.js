@@ -8,12 +8,18 @@ import fastifyStatic from "@fastify/static";
 import compress from '@fastify/compress';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import recaptcha from "fastify-recaptcha";
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
 import { rejects } from "assert";
 import { request } from "http";
 import { Temporal } from '@js-temporal/polyfill';
+
+const config = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
+
+const CAPTCHA_KEY = config.captchaKey
+console.log(CAPTCHA_KEY)
 
 const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
@@ -51,7 +57,14 @@ await app.register(helmet, {
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            frameSrc: ["'self'", "https://yandex.ru"]
+            frameSrc: ["'self'", "https://yandex.ru" ,"https://www.google.com", "https://recaptcha.google.com"],
+            scriptSrc: ["'self'", "https://www.google.com", "https://www.gstatic.com"],
+            connectSrc: [
+                "'self'",
+                "https://www.google.com",
+                "https://*.google.com",
+                "https://www.gstatic.com"
+            ]
         }
     }
 })
@@ -61,6 +74,11 @@ await app.register(rateLimit, {
     timeWindow: 5000,
     ban: 5,
     continueExceeding: true,
+})
+
+await app.register(recaptcha, {
+    recaptcha_secret_key: CAPTCHA_KEY,
+    reply: true
 })
 
 async function getPlaybill() {
@@ -321,8 +339,9 @@ app.get("/troupe", async (request, reply) => {
 
 
 app.post("/reviews", (request, reply) =>{
-
-
+    if (!recaptcha.success || recaptcha.score < 0.99) {
+        return reply.code(403).send({ error: 'Капча не пройдена' });
+    }
     const {name, review, topicData} = request.body;
     const [topicTitle, topicText] = topicData.split(":")
 
