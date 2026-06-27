@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <link rel="stylesheet" href="/vendor/swiper-bundle.min.css">
+    <script src="/vendor/swiper-bundle.min.js" defer></script>
     <%- include("partials/head") %>
 </head>
 <body>
@@ -29,7 +31,7 @@
                                 <span class="playbill__age-limit"><%= performance.age_limit %></span>
                                 <button class="buy-ticket">Купить билет</button>
                                 <div class="playbill__image-wrapper">
-                                    <img class="playbill__image" src="<%= performance.image %>" <%= index >= 5 ? "loading=lazy" : "" %> decoding="async" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
+                                    <img class="playbill__image" src="<%= performance.image %>" <%= index >= 2 ? "loading=lazy" : "" %> decoding="async" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
                                 </div>
                             </a>
                         </li>
