@@ -337,10 +337,7 @@ app.get("/troupe", async (request, reply) => {
 
 
 app.post("/reviews", (request, reply) =>{
-    if (!recaptcha.success || recaptcha.score < 0.99) {
-        return reply.code(403).send({ error: 'Капча не пройдена' });
-    }
-    const {name, review, topicData} = request.body;
+    const {name, review, topicData, star} = request.body;
     const [topicTitle, topicText] = topicData.split(":")
 
     let date = Temporal.Now.plainDateISO();
@@ -357,9 +354,10 @@ app.post("/reviews", (request, reply) =>{
             likes,
             topic,
             data,
-            approve
+            approve,
+            star
         )
-        VALUES(?, ?, ?, ?, ?, ?, ?)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
         `,
         [
             name,
@@ -368,7 +366,8 @@ app.post("/reviews", (request, reply) =>{
             0,
             topicText,
             topicTitle,
-            'false'
+            'false',
+            star
         ],
         (err) => {
 

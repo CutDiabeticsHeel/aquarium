@@ -145,6 +145,7 @@ function initReviewJs(){
         e.preventDefault();
 
         const formData = new FormData(form);
+        console.log(formData)
         const token = await grecaptcha.execute('6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY', { action: 'submit' });
 
         const response = await fetch("/reviews", {

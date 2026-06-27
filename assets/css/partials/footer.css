@@ -94,6 +94,7 @@
     grid-template-columns: 1fr 1fr;
     position: relative;
     text-align: center;
+    align-items: center;
 }
 .watermark {
   position: absolute;
@@ -133,6 +134,9 @@
 }
 .ticket-office-contact__item:hover {
     color: var(--additionaly-background)
+}
+.gold-text {
+    color: var(--button-background);
 }
 .google-policies {
     grid-column: 1/3;

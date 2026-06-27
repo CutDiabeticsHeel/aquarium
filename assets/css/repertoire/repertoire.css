@@ -19,7 +19,6 @@
 .performance__image {
     width: 100%;
     height: auto;
-    opacity: 0.8;
     display: block;
     border-radius: 20px;
 }
@@ -30,9 +29,11 @@
     border-radius: 20px;
 }
 .performance__image-description {
+    width: 70%;
     position: absolute;
-    top: 25%;
-    left: 15%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #fff;
     visibility: hidden;
     opacity: 0;
@@ -64,11 +65,15 @@
     font-size: var(--medium-text);    
 }
 .performance__figcaption {
+    background: rgba(0,0,0,0.6);
+    border-radius: 20px;
+    padding: 0 12px;
+    gap: 5px;
     display: flex;
     position: absolute;
     bottom: 5%;
-    left: 5%;
-    font-size: var(--large-text);
+    left: 0;
+    font-size: var(--second-medium-text);
     align-items: center;
     opacity: 1;
     transition: opacity 0.4s ease;

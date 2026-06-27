@@ -38,7 +38,7 @@
 }
 .topic-list__item:hover,
 .topic-list__item.active-topic{
-    opacity: 0.8;
+    opacity: 0.5;
 }
 .review-wrapper {
     display: grid;
@@ -60,11 +60,12 @@
 }
 .review-list__item {
     display: grid;
+    align-items: center;
     grid-template-rows: auto auto 1fr auto;
+    grid-auto-rows: min-content;
     border-radius: 20px;
     background-color: var(--background-opacity);
     padding: 10px;
-    min-height: 240px;
     opacity: 1;
 }
 .invisible {
@@ -90,27 +91,33 @@
     border-radius: 20px;
     padding: 10px;
 }
+.review-rating {
+    grid-row: 3;
+    grid-column: 1/3;
+    margin: 5px 0px;
+    font-size: var(--medium-text);
+    line-height: var(--medium-text);
+}
+.active-star {
+    color: var(--button-background);
+}
 .text {
     padding: 10px 0px;
-    grid-row: 3;
+    grid-row: 4;
     grid-column: 1/3;
     align-self: start;
 }
 .feedback {
-    grid-row: 4;
-    grid-column: 2;
-    display: grid;
-    justify-content: end;
-    row-gap: 10px;
-    
+    grid-row: 5;
+    grid-column: 1;
+    display: flex;
+    gap: 10px;
 }
 .feedback__like {
-    grid-row: 2;
     cursor: pointer;
     justify-self: end;
 }
 .feedback__counter {
-    grid-row: 2;
     font-size: var(--second-medium-text);  
 }
 .feedback__like.liked {
@@ -135,8 +142,31 @@
 #name:focus {
     outline: none;
 }
-#review:focus {
-    background-color: var(--background-opacity);
+.review-container {
+  width: 100%;
+  margin: 0px;
+  text-align: left;
+}
+.star-form {
+    display: flex;
+    justify-content: left;
+    flex-direction: row-reverse;
+    gap: 5px;
+}
+.star-form input { 
+    display: none; 
+}
+.star-form label{
+    display: block;
+    color: #aaaaaa;
+    font-size: var(--large-text);
+    line-height: var(--large-text);
+    cursor: pointer;
+}
+.star-form  input:checked ~ label,
+.star-form  label:hover,
+.star-form  label:hover ~ label {
+    color: var(--button-background);
 }
 #topicData {
     margin: 10px 0px;
@@ -158,6 +188,9 @@
     color: #ffffff;
     resize: none;
     width: calc(100% - 20px);
+}
+#review:focus {
+    background-color: var(--background-opacity);
 }
 .modal {
     position: fixed;

@@ -32,9 +32,13 @@
                         <span class="name"><%= item.name %></span>
                         <span class="date"><%= item.date %></span>
                         <span class="topic"><%= item.topic %></span>
+                        <div class="review-rating">
+                            <% for(let i = 1; i <=5; i++) {%>
+                                <span class="<%= i <= item.star ? 'active-star' : '' %>">★</span>
+                            <%}%>
+                        </div>
                         <p class="text"><%= item.text %></p>
                         <div class="feedback">
-                            <span class="feedback__question">Отзыв полезен?</span>
                             <svg class="feedback__like" data-reviewId="<%= item.review_id %>" height="25" width="25">
                                 <use href="/svg/sprite.svg#like"></use> 
                             </svg>
@@ -48,6 +52,18 @@
                         <span class="hidden-text">Введите имя под которым пользователи будут видеть ваш отзыв</span>
                         <input name="name" id="name" type="text" placeholder="Имя" minlength="5"  required autocomplete="off">
                     </label>
+                    <div class="star-form">
+                        <input type="radio" name="star" id="rate-1" value="5">
+                        <label for="rate-1">★</label>
+                        <input type="radio" name="star" id="rate-2" value="4">
+                        <label for="rate-2">★</label>
+                        <input type="radio" name="star" id="rate-3" value="3">
+                        <label for="rate-3">★</label>
+                        <input type="radio" name="star" id="rate-4" value="2">
+                        <label for="rate-4">★</label>
+                        <input type="radio" name="star" id="rate-5" value="1">
+                        <label for="rate-5">★</label>
+                    </div>
                     <label class="topicData__label">
                         <span class="hidden-text">Выберите тему отзыва</span>
                         <select name="topicData" id="topicData">

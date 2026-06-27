@@ -149,6 +149,7 @@ function initWelcomeJs(){
     });
 
     const title = document.querySelector(".main-section__title");
+    const link = document.querySelector(".main-section__link")
 
     const lines = title.innerHTML.split("<br>");
 
@@ -169,7 +170,7 @@ function initWelcomeJs(){
         })
         .join("");
         
-    const letters = title.querySelectorAll(".letter");
+    const letters = title.querySelectorAll(".letter"); 
 
     const tl = gsap.timeline();
 
@@ -204,6 +205,19 @@ function initWelcomeJs(){
         },
         "-=0.8"
     );
+
+    tl.fromTo(
+        link,
+        {
+            filter: "blur(100px)"
+        },
+        {
+            filter: "blur(0px)",
+            ease: "expo.out",
+            duration: 1.2,
+        },
+        "<"
+    )
 
 
     const header = document.querySelector(".main-header")

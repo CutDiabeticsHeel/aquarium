@@ -24,13 +24,19 @@ const openMapModal = function () {
     gsap.set(map, { opacity: 0 });
     document.body.classList.add("disable-scroll");
 
+    let heigth = 57;
+    let top = 24
+
+    if (window.innerWidth <= 621) heigth = 53, top = 27;
+    if (window.innerWidth <= 356) heigth = 50, top = 30;
+
     const tl = gsap.timeline();
     tl.to(mapPicture, {
-            top: "24%",
+            top: `${top}%`,
             left: "10%",
             width: "80%",
-            height: "57%",
-            duration: 0.5,
+            height: `${heigth}%`,
+            duration: 0.4,
             ease: "power2.out"
         })
         .to(map, {
@@ -40,7 +46,7 @@ const openMapModal = function () {
         }, ">")
         .to(mapPicture, {
             opacity: 0,
-            duration: 0.2,
+            duration: 0.3,
             ease: "power2.out"
         }, ">")
 };
