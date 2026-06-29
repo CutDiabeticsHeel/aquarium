@@ -153,8 +153,10 @@
     flex-direction: row-reverse;
     gap: 5px;
 }
-.star-form input { 
-    display: none; 
+.star-form input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 .star-form label{
     display: block;

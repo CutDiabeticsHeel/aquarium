@@ -6,7 +6,9 @@ function initTntJs(){
         speed: 600,
 
         pagination: {
-            el: ".swiper-pagination"
+            el: ".swiper-pagination",
+            type: 'bullets',
+            clickable: true
         },
 
         navigation: {
