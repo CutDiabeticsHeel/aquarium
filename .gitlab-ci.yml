@@ -7,7 +7,6 @@ deploy:
     - main
 
   script:
-    - cd ~/aquarium
 
     - echo "$CAPTCHA_KEY" > captcha.json
     - echo "$SERVER_KEY" > server.key
