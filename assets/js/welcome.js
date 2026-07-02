@@ -1,5 +1,7 @@
 function initWelcomeJs(){
+
     if (!document.querySelector(".welcome")) return;
+
     const mainSectionSwiper = new Swiper('.main-section-swiper', {    
 
         keyboard: {
@@ -18,6 +20,7 @@ function initWelcomeJs(){
 
         loop: true
     });
+
 
     const observer = new IntersectionObserver((entries) =>{
         entries.forEach(entry => {
@@ -43,7 +46,7 @@ function initWelcomeJs(){
             ease: "sine.inOut"
         }
     });
-
+    // TODO yoyo properrty GSAP-
     pulseTl
         .to(button, { scale: 1.1 })
         .to(button, { scale: 0.9 })
@@ -61,12 +64,12 @@ function initWelcomeJs(){
             onComplete: () => {
                 pulseTl.pause();
                 pulseTl.timeScale(1); 
-
-                gsap.to(button, {
-                    scale: 1,
-                    duration: 0.5,
-                    ease: "sine.inOut"
-                });
+                // TODO GSAP clearProps
+                // gsap.to(button, {
+                //     scale: 1,
+                //     duration: 0.5,
+                //     ease: "sine.inOut"
+                // });
             }
         });
     });
@@ -88,12 +91,12 @@ function initWelcomeJs(){
             prevEl: '.about-theatre__arrow-back'
         }
     })
-
+    // TODO up to the top this plugin
     gsap.registerPlugin(ScrollTrigger)
     let aboutTrigger;
 
     function createScrollTrigger() {
-        
+        // TODO use match media https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
         if (window.innerWidth <= 1301) return;
         aboutTrigger = ScrollTrigger.create({
             trigger: ".about-theatre",
@@ -112,12 +115,15 @@ function initWelcomeJs(){
 
 
     document.querySelectorAll('.accordion-wrapper').forEach(function(el){
+        // TODO Старайся не использовать сокращения btn = button, el = element
         const btn = el.querySelector('.about-theatre__learn-more');
         const content = el.querySelector('.about-theatre__text');
+        // TODO use camelCase
         const AboutTheatreSwiper = document.querySelector('.about-theatre__swiper');
 
         btn.addEventListener('click', function(){
             if(!content.classList.contains('open')){
+                // TODO use GSAP
                 content.style.maxHeight = content.scrollHeight + 'px';
                 btn.textContent = 'Свернуть';
                 content.classList.add('open');
@@ -127,9 +133,11 @@ function initWelcomeJs(){
                     ScrollTrigger.refresh();
                 }, 1000);
             } else {
+                // TODO use GSAP
                 content.style.maxHeight = '200px';
                 btn.textContent = 'Узнать больше';
                 content.classList.remove('open');
+                // TODO use match media https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
                 if (window.innerWidth > 1301) {
                     const currentY = AboutTheatreSwiper.getBoundingClientRect().top - 
                             AboutTheatreSwiper.parentElement.getBoundingClientRect().top;
@@ -152,7 +160,7 @@ function initWelcomeJs(){
     const link = document.querySelector(".main-section__link")
 
     const lines = title.innerHTML.split("<br>");
-
+    // TODO do not ue innerHTML
     title.innerHTML = lines
         .map(line => {
             return `
@@ -227,7 +235,7 @@ function initWelcomeJs(){
         position: "absolute",
         "background-color": "none",
     });
-
+    // TODO Хорошо б разделить на логические части этот код сейчас все сплошняком
     window.addEventListener("load", () => {
         gsap.to(header, {
             opacity: 1,

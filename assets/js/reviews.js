@@ -54,6 +54,7 @@ function initReviewJs(){
         for (let topic of topicList){
             topic.classList.remove("active-topic")
         }
+        dramaSchool.classList.add("active-topic")
         refreshReviewList(dramaSchool.dataset.topic)
     })
 
