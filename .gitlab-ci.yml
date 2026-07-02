@@ -1,0 +1,14 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  only:
+    - main
+
+  script:
+    - cd ~/aquarium
+
+    - echo "$CAPTCHA_JSON" > captcha.json
+    - echo "$SERVER_KEY" > server_key.pem
+    - echo "$DATABASE_ENV" > database.env
