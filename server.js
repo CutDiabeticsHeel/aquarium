@@ -30,10 +30,10 @@ const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля'
 
 const app = Fastify({
     logger: true,
-    https: {
-        key: fs.readFileSync('./server.key'),
-        cert: fs.readFileSync('./server.crt')
-    }
+    // https: {
+    //     key: fs.readFileSync('./server.key'),
+    //     cert: fs.readFileSync('./server.crt')
+    // }
 });
 
 const db = new sqlite3.Database("database/theatre.db");
