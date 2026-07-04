@@ -20,6 +20,7 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews} from './database-function.js';
 
+//привет
 const config = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
 
 const CAPTCHA_KEY = config.captchaKey
