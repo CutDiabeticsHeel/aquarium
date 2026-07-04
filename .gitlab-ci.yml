@@ -9,6 +9,7 @@ deploy:
   image: docker:latest
 
   script:
+    - sleep 120
     - echo "===TEST START==="
     - echo "$CAPTCHA_KEY" > captcha.json
     - echo "$SERVER_KEY" > server.key
