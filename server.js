@@ -22,6 +22,7 @@ import {getPlaybill, getPerformanceData, getTroupe,
 
 //привет
 //привет
+//привет
 const config = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
 
 const CAPTCHA_KEY = config.captchaKey
