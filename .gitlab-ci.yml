@@ -10,6 +10,9 @@ test:
     - echo "BRANCH=$CI_COMMIT_BRANCH"
     - echo "REF=$CI_COMMIT_REF_NAME"
     - echo "PIPELINE_SOURCE=$CI_PIPELINE_SOURCE"
+    - docker compose build
+    - docker compose up -d
+    - docker compose ps
 
 deploy:
   stage: deploy
