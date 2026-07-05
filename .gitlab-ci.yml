@@ -12,8 +12,7 @@ deploy:
     - apk add --no-cache docker-compose
   script:
     - echo "AAAAAAAAAAAAAAAA"
-    - sleep 30
-    - exit 1
+    - sleep 20
     - echo "===TEST START==="
 
     - pwd
