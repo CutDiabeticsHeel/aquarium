@@ -12,6 +12,10 @@ test:
   before_script:
     - apk update
     - apk add --no-cache docker-cli-compose
+    - which docker-compose || true
+    - find / -iname "docker-compose*" 2>/dev/null
+    - echo "HOME=$HOME"
+    - docker info --format '{{json .ClientInfo.Plugins}}' 2>/dev/null || docker version
   script:
     - echo "HELLO CI"
     - echo "BRANCH=$CI_COMMIT_BRANCH"
