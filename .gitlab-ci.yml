@@ -4,22 +4,21 @@ stages:
 
 test:
   stage: test
-  # image: alpine
-  # image: docker:latest
   image:
-    name: docker/compose:latest
+    name: docker:latest
     entrypoint: [""]
   before_script:
-    - apk update
-    - apk add --no-cache docker-cli-compose
+    - apk add --no-cache py3-pip
+    - pip install docker-compose --break-system-packages
+    - docker-compose --version
   script:
     - echo "HELLO CI"
     - echo "BRANCH=$CI_COMMIT_BRANCH"
     - echo "REF=$CI_COMMIT_REF_NAME"
     - echo "PIPELINE_SOURCE=$CI_PIPELINE_SOURCE"
-    - docker compose build
-    - docker compose up -d
-    - docker compose ps
+    - docker-compose build
+    - docker-compose up -d
+    - docker-compose ps
 
 deploy:
   stage: deploy
