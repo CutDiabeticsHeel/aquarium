@@ -10,6 +10,9 @@ test:
     - docker compose version
   script:
     - echo "HELLO CI"
+    - echo "$CAPTCHA_KEY" > captcha.json
+    - echo "$SERVER_KEY" > server.key
+    - echo "$SERVER_CRT" > server.crt
     - docker compose build
     - docker compose up -d
     - docker compose ps
