@@ -12,10 +12,20 @@ deploy:
     - apk add --no-cache docker-compose
   script:
     - echo "===TEST START==="
-    - echo "$CAPTCHA_KEY" > captcha.json
-    - echo "$SERVER_KEY" > server.key
-    - echo "$SERVER_CRT" > server.crt
+
+    - pwd
+    - ls -la
+
+    - docker compose config
+
     - docker compose down
     - docker compose build
     - docker compose up -d
+
+    - echo "===COMPOSE PS==="
+    - docker compose ps
+
+    - echo "===DOCKER PS==="
+    - docker ps -a
+
     - echo "===TEST END==="
