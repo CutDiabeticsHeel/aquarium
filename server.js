@@ -20,7 +20,7 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews} from './database-function.js';
 
-
+// test gitlab-runner
 
 const config = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
 
