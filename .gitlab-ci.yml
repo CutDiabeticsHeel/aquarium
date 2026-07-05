@@ -1,8 +1,14 @@
 stages:
   - test
+  - deploy
 
 test:
   stage: test
   image: alpine
   script:
     - echo "HELLO CI"
+
+deploy:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
