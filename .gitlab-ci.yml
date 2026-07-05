@@ -9,6 +9,8 @@ test:
   image:
     name: docker:latest
     entrypoint: [""]
+  before_script:
+    - apk add --no-cache docker-cli-compose
   script:
     - echo "HELLO CI"
     - echo "BRANCH=$CI_COMMIT_BRANCH"
