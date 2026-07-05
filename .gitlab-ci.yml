@@ -12,3 +12,5 @@ deploy:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+  script:                         
+    - echo "===DEPLOY START==="
