@@ -5,6 +5,8 @@ stages:
 test:
   stage: test
   image: alpine
+  services:
+    - docker:dind
   script:
     - echo "HELLO CI"
     - echo "BRANCH=$CI_COMMIT_BRANCH"
@@ -18,5 +20,5 @@ deploy:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
-  script:                         
+  script:
     - echo "===DEPLOY START==="
