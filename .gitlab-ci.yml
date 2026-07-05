@@ -7,6 +7,9 @@ test:
   image: alpine
   script:
     - echo "HELLO CI"
+    - echo "BRANCH=$CI_COMMIT_BRANCH"
+    - echo "REF=$CI_COMMIT_REF_NAME"
+    - echo "PIPELINE_SOURCE=$CI_PIPELINE_SOURCE"
 
 deploy:
   stage: deploy
