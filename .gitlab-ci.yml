@@ -4,16 +4,19 @@ stages:
 
 test:
   stage: test
-  image: alpine
+  # image: alpine
   # image: docker:latest
+  image:
+    name: docker:latest
+    entrypoint: [""]
   script:
     - echo "HELLO CI"
     - echo "BRANCH=$CI_COMMIT_BRANCH"
     - echo "REF=$CI_COMMIT_REF_NAME"
     - echo "PIPELINE_SOURCE=$CI_PIPELINE_SOURCE"
-    # - docker compose build
-    # - docker compose up -d
-    # - docker compose ps
+    - docker compose build
+    - docker compose up -d
+    - docker compose ps
 
 deploy:
   stage: deploy
