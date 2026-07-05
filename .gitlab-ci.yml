@@ -3,8 +3,6 @@ stages:
 
 deploy:
   stage: deploy
-  tags:
-    - runner777
   only:
     - main
 
