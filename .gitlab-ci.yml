@@ -1,33 +1,8 @@
 stages:
-  - deploy
+  - test
 
-deploy:
-  stage: deploy
-  only:
-    - main
-
-  image: docker:latest
-
-  before_script:
-    - apk add --no-cache docker-compose
+test:
+  stage: test
+  image: alpine
   script:
-    - echo "AAAAAAAAAAAAAAAA"
-    - sleep 20
-    - echo "===TEST START==="
-
-    - pwd
-    - ls -la
-
-    - docker compose config
-
-    - docker compose down
-    - docker compose build
-    - docker compose up -d
-
-    - echo "===COMPOSE PS==="
-    - docker compose ps
-
-    - echo "===DOCKER PS==="
-    - docker ps -a
-
-    - echo "===TEST END==="
+    - echo "HELLO CI"
