@@ -4,7 +4,7 @@ stages:
 deploy:
   stage: deploy
   tags:
-    - runner228
+    - runner777
   only:
     - main
 
