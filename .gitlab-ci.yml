@@ -10,16 +10,9 @@ test:
     name: docker:latest
     entrypoint: [""]
   before_script:
-    - apk update
-    - apk add --no-cache docker-cli-compose
-    - which docker-compose || true
-    - find / -iname "docker-compose*" 2>/dev/null
-    - echo "HOME=$HOME"
-    - docker info --format '{{json .ClientInfo.Plugins}}' 2>/dev/null || docker version
-    - uname -m
-    - docker version --format '{{.Server.Arch}}'
-    - docker info --format '{{.OSType}}/{{.Architecture}}'
-    - file /usr/local/libexec/docker/cli-plugins/docker-compose
+    - apk add --no-cache py3-pip
+    - pip install docker-compose --break-system-packages
+    - docker-compose --version
   script:
     - echo "HELLO CI"
     - echo "BRANCH=$CI_COMMIT_BRANCH"
