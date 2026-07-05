@@ -1,3 +1,7 @@
+stages:
+  - test
+  - deploy
+
 test:
   stage: test
   image:
@@ -19,7 +23,23 @@ test:
 
 deploy:
   stage: deploy
+  image: alpine:latest
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - chmod 600 "$SSH_PRIVATE_KEY"
   script:
     - echo "===DEPLOY START==="
+    - >
+      ssh -i "$SSH_PRIVATE_KEY" -o StrictHostKeyChecking=no
+      "$DEPLOY_USER@$DEPLOY_HOST"
+      "cd ~/aquarium &&
+      git pull &&
+      echo \"$CAPTCHA_KEY\" > captcha.json &&
+      echo \"$SERVER_KEY\" > server.key &&
+      echo \"$SERVER_CRT\" > server.crt &&
+      docker compose down &&
+      docker compose up -d --build &&
+      docker compose ps"
+    - echo "===DEPLOY DONE==="
