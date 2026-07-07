@@ -1,0 +1,23 @@
+details {
+    margin: 10px 0px;
+}
+.reform__wrapper {
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.reform__details {
+    border: 1px solid var(--border-color);
+    font-size: var(--second-medium-text);
+    padding: 10px;
+    border-radius: 10px;
+}
+.add-actor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.confirm-button {
+    width: 30%;
+}

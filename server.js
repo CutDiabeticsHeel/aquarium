@@ -8,23 +8,30 @@ import fastifyStatic from "@fastify/static";
 import compress from '@fastify/compress';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import session from '@fastify/session';
+import multipart from "@fastify/multipart";
 import recaptcha from "fastify-recaptcha";
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
+import { pipeline } from "stream/promises";
 import { rejects } from "assert";
 import { request } from "http";
 import { Temporal } from '@js-temporal/polyfill';
 
 import {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
-    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews} from './database-function.js';
+    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
+    addActorToDatabase} from './database-function.js';
 
-// test gitlab-runner
 
-const config = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
+const captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
+const secretConfig = JSON.parse(fs.readFileSync("./admin-panel.json", "utf-8"));
 
-const CAPTCHA_KEY = config.captchaKey
+const CAPTCHA_KEY = captchaConfig.captchaKey
+const SECRET_KEY = secretConfig.secret
+const USER_NAME = secretConfig.username
+const PASSWORD = secretConfig.password
 const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
@@ -57,6 +64,13 @@ await app.register(fastifyStatic, {
 });
 
 await app.register(formbody)
+await app.register(cookie);
+await app.register(multipart, {
+    limits: {
+        fileSize: 20 * 1024 * 1024,
+        files: 15
+    }
+});
 
 await app.register(helmet, {
     contentSecurityPolicy: {
@@ -84,6 +98,14 @@ await app.register(rateLimit, {
 await app.register(recaptcha, {
     recaptcha_secret_key: CAPTCHA_KEY,
     reply: true
+})
+
+await app.register(session, {
+    secret: SECRET_KEY,
+    cookie: {
+        secure: true,
+        maxAge: 24 * 60 * 60 * 1000
+    }
 })
 
 const troupeData = await getTroupe();
@@ -183,6 +205,26 @@ app.get("/troupe", async (request, reply) => {
 
 });
 
+app.get("/admin", async (request, reply) => {
+
+    return reply.view("admin.ejs", {
+
+    });
+
+});
+
+app.get("/admin-panel", async (request, reply) => {
+
+    // if (!request.session.user) {
+    //     return reply.redirect('/admin');
+    // }
+
+    return reply.view("admin-panel.ejs", {
+
+    });
+
+});
+
 
 app.post("/reviews", (request, reply) =>{
     const {name, review, topicData, star} = request.body;
@@ -228,6 +270,19 @@ app.post("/reviews", (request, reply) =>{
             });
         }
     );
+})
+
+app.post("/admin", (request, reply) => {
+    const {username, password} = request.body;
+    if (username === USER_NAME && password === PASSWORD) {
+        request.session.user = {
+            username: username,
+            password: password
+        };
+        return reply.redirect("/admin-panel")
+    } else {
+        console.log("Неверное имя пользователя или пароль")
+    }
 })
 
 app.post("/reviews/:id/like", (request, reply) => {
@@ -278,6 +333,35 @@ app.post("/reviews/:id/like", (request, reply) => {
         }
     );
 });
+
+app.post("/add-actor", async (request, reply) => {
+    const actorData = {};
+    const actorImages = [];
+    let actorPortrait = null;
+    try {
+        for await (const part of request.parts()) {
+            if (part.type === 'file') {
+                console.log(part)
+                if (!part.filename) continue;
+
+                const filename = part.filename;
+                await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
+                console.log(
+                    fs.statSync(`./assets/img/${part.filename}`).size
+                );
+
+                if (part.fieldname === 'imgs') actorImages.push(filename);
+                else actorPortrait = filename;
+            } else {
+                actorData[part.fieldname] = part.value;
+            }
+        }
+        await addActorToDatabase(actorData, actorImages, actorPortrait);
+        reply.redirect("/admin-panel");
+    } catch (err) {
+        reply.code(500).send({ error: err.message });
+    }
+})
 
 app.setErrorHandler((error, request, reply) =>{
     const code = error.statusCode || 500

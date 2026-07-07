@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/bundle.css">
+</head>
+<body>
+    <div class="reform__wrapper">
+        <h1>Admin Panel</h1>
+        <details class="reform__details" name="reform">
+            <summary>Изменить актеров</summary>
+            <details class="reform__details add__actor" name="reform__item">
+                <summary>Добавить актера</summary>
+                <%- include("partials/add-actor")%>
+            </details>
+            <details class="reform__details remove__actor" name="reform__item">
+                <summary>Удалить Актера</summary>
+                <p>Удалить Актера</p>
+            </details>
+            <details class="reform__details change__actor" name="reform__item">
+                <summary>Изменить информацию об актере</summary>
+                <p>Изменить информацию об актере</p>
+            </details>
+        </details>
+        <details class="reform__details" name="reform">
+            <summary>Изменить спектакли</summary>
+            <p>Добавить спектакль</p>
+            <p>Удалить спектакль</p>
+            <p>Изменить информацию об спектакле</p>
+        </details>
+        <details class="reform__details" name="reform">
+            <summary>Изменить афишу</summary>
+            <p>Добавить спектакль в афишу</p>
+        </details>
+        <details class="reform__details" name="reform">
+            <summary>Изменить отзывы</summary>
+            <p>Одобрить отзыв</p>
+        </details>
+    </div>
+</body>
+</html>

@@ -161,6 +161,45 @@ async function getReviews(){
     })
 }
 
+async function addActorToDatabase(actorData, actorImages, actorPortrait){
+    const actorImagesPath = actorImages.map(item => `/img/${item}`).join(',')
+    console.log(actorImagesPath)
+    const portraitPath = `/img/${actorPortrait}`;
+    
+    return new Promise((resolve, reject) => {
+        db.run(
+        `
+        INSERT INTO troupe(
+            first_name,
+            last_name,
+            role_name,
+            patronymic,
+            biografy,
+            achievements,
+            imgs,
+            portrait
+        )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+        [
+            actorData.first_name,
+            actorData.last_name,
+            actorData.role_name,
+            actorData.patronymic,
+            actorData.biografy,
+            actorData.achievements,
+            actorImagesPath,
+            portraitPath
+        ],
+        (err) => {
+                if (err) return reject(err);
+                resolve();
+            }
+    );
+    })
+}
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
-    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews}
+    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
+    addActorToDatabase}
