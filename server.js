@@ -22,7 +22,8 @@ import { Temporal } from '@js-temporal/polyfill';
 import {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
-    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData} from './database-function.js';
+    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
+    updateCastInfo} from './database-function.js';
 
 
 const captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
@@ -149,7 +150,6 @@ app.get("/drama-school", async (request, reply) => {
 });
 
 app.get("/performance/:id", async (request, reply) => {
-
     const {id} = request.params;
 
     const performanceData = await getPerformancePageData(id)
@@ -382,8 +382,6 @@ app.post("/delete-actor", async(request, reply) =>{
     try {
         const {firstName, lastName, patronymic} = request.body;
         await deleteActorFromDatabase(firstName, lastName, patronymic)
-        console.log("Удалил актера")
-        console.log(firstName, lastName, patronymic)
         reply.redirect("/admin-panel");
     } catch (err){
         reply.code(500).send({ error: err.message });
@@ -412,6 +410,16 @@ app.post("/update-actor", async (request, reply) => {
         await updateActorData(id, actorData, actorImages, actorPortrait);
         reply.redirect("/admin-panel");
     } catch (err) {
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/update-cast", async (request, reply) => {
+    try {
+        const {performanceTitle, role, firstName, lastName, patronymic} = request.body;
+        await updateCastInfo(performanceTitle, role, firstName, lastName, patronymic)
+        reply.redirect("/admin-panel");
+    } catch (err){
         reply.code(500).send({ error: err.message });
     }
 })

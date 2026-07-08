@@ -41,6 +41,32 @@
                     <button class="confirm-button" type="submit">Поиск</button>
                 </form>
             </details>
+            <details class="reform__details" name="reform__item">
+                <summary>Изменить/Добавить актерский состав спектакля</summary>
+                <form class="update-cast" action="/update-cast" method="post" autocomplete="off">
+                    <label>
+                        Введите название спектакля
+                        <input type="text" name="performanceTitle" autocomplete="off"/>
+                    </label>
+                    <label>
+                        Введите роль, которую играет актер в этом пектакле
+                        <input type="text" name="role" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите Имя
+                        <input type="text" name="firstName" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите Фамилию
+                        <input type="text" name="lastName" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите Отчество
+                        <input type="text" name="patronymic" autocomplete="off"/>
+                    </label>
+                    <button class="confirm-button" type="submit">Обновить каст</button>
+                </form>
+            </details>
         </details>
         <details class="reform__details" name="reform">
             <summary>Изменить спектакли</summary>

@@ -14,7 +14,7 @@ details {
     border-radius: 10px;
 }
 .delete-actor,
-.update-actor,
+.update-cast,
 .add-actor {
     display: flex;
     flex-direction: column;

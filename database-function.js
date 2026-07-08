@@ -23,6 +23,7 @@ async function getPlaybill() {
 }
 
 async function getPerformanceData(playbillData) {
+    console.log("Отработала функция даты спектакля")
 
     const titles = playbillData.map(item => item.performance);
 
@@ -136,7 +137,7 @@ async function getHrefPerformanceForActor(id){
 async function getStarringListFromPerformance(id){
     return new Promise((resolve, reject) =>{
         db.all(
-            "SELECT t.actor_id, t.first_name, t.last_name, t.portrait, character_name FROM performance_cast pc JOIN troupe t ON t.actor_id = pc.actor_id WHERE pc.performance_id = ?",
+            "SELECT t.actor_id, t.first_name, t.last_name, t.portrait, role FROM performance_cast pc JOIN troupe t ON t.actor_id = pc.actor_id WHERE pc.performance_id = ?",
             [id],
             (err, rows) =>{
                 if (err) reject(err)
@@ -265,7 +266,120 @@ async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
     });
 }
 
+async function getActorId(firstName, lastName, patronymic) {
+    return new Promise((resolve, reject) => {
+        db.get(
+            `SELECT actor_id
+             FROM troupe
+             WHERE first_name = ?
+               AND last_name = ?
+               AND patronymic = ?`,
+            [firstName, lastName, patronymic],
+            (err, actor) => {
+                if (err) return reject(err);
+                if (!actor) return reject(new Error("Актер не найден"));
+
+                resolve(actor.actor_id);
+            }
+        );
+    });
+}
+
+async function getPerformanceId(title) {
+    return new Promise((resolve, reject) => {
+        db.get(
+            `SELECT performance_id
+             FROM performances
+             WHERE title = ?`,
+            [title],
+            (err, performance) => {
+                if (err) return reject(err);
+                if (!performance) return reject(new Error("Спектакль не найден"));
+
+                resolve(performance.performance_id);
+            }
+        );
+    });
+}
+
+async function getCastRecord(performanceId, actorId) {
+    return new Promise((resolve, reject) => {
+        db.get(
+            `SELECT cast_id
+             FROM performance_cast
+             WHERE performance_id = ?
+               AND actor_id = ?`,
+            [performanceId, actorId],
+            (err, row) => {
+                if (err) return reject(err);
+
+                resolve(row);
+            }
+        );
+    });
+}
+
+async function updateCastRole(castId, role) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE performance_cast
+             SET role = ?
+             WHERE cast_id = ?`,
+            [role, castId],
+            function (err) {
+                if (err) return reject(err);
+
+                resolve();
+            }
+        );
+    });
+}
+
+async function insertCast(performanceId, actorId, role) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `INSERT INTO performance_cast (performance_id, actor_id, role)
+             VALUES (?, ?, ?)`,
+            [performanceId, actorId, role],
+            function (err) {
+                if (err) return reject(err);
+
+                resolve(this.lastID);
+            }
+        );
+    });
+}
+
+async function updateCastInfo(performanceTitle, role, firstName, lastName, patronymic) {
+    const actorId = await getActorId(firstName, lastName, patronymic);
+    const performanceId = await getPerformanceId(performanceTitle);
+
+    const cast = await getCastRecord(performanceId, actorId);
+
+    if (cast) {
+        await updateCastRole(cast.cast_id, role);
+
+        return {
+            updated: true,
+            castId: cast.cast_id,
+            performanceId,
+            actorId,
+            role
+        };
+    }
+
+    const castId = await insertCast(performanceId, actorId, role);
+
+    return {
+        updated: false,
+        castId,
+        performanceId,
+        actorId,
+        role
+    };
+}
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
-    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData}
+    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo}
