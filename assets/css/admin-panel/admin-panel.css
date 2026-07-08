@@ -58,3 +58,16 @@ input[type="text"] {
 .change-info {
     margin: 10px;
 }
+.playbill__admin-panel {
+    margin: 25px 0px;
+}
+.playbill__data-item {
+    margin: 10px;
+}
+.confirm-button.redact-playbill-item,
+.confirm-button.delete-playbill-item {
+    text-align: center;
+    display: inline-block;
+    font-size: var(--second-medium-text);
+    margin: 10px 0px;
+}

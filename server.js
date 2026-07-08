@@ -23,7 +23,8 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
-    updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance} from './database-function.js';
+    updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
+    deletePlaybillItem} from './database-function.js';
 import console from "console";
 
 
@@ -164,7 +165,6 @@ app.get("/performance/:id", async (request, reply) => {
 });
 
 app.get("/playbill", async (request, reply) => {
-
     return reply.view("playbill.ejs", {
         performances: playbillPerformanceData
     });
@@ -221,7 +221,7 @@ app.get("/admin-panel", async (request, reply) => {
     // }
 
     return reply.view("admin-panel.ejs", {
-
+        playbillData: playbillData
     });
 
 });
@@ -428,7 +428,6 @@ app.post("/update-cast", async (request, reply) => {
 app.post("/delete-performance", async (request, reply) => {
     try {
         const {title} = request.body;
-        console.log(title)
         await deletePerformanceFromDatabase(title)
         reply.redirect("/admin-panel")
     } catch {
@@ -462,6 +461,28 @@ app.post("/redact-performance", async (request, reply) => {
     }
 })
 
+app.post("/add-playbill", async(request, reply) =>{
+    try {
+        const {title, date, time} = request.body
+        console.log(title, date, time)
+        await addPerformanceToPlaybill(title, date, time)
+        reply.redirect("/admin-panel")
+    } catch (error) {
+        reply.code(500).send({ error: err.message });
+    }
+    
+})
+
+app.post("/delete-playbill", async(request, reply) =>{
+    try {
+        const {id} = request.body
+        await deletePlaybillItem(id)
+        reply.redirect("/admin-panel")
+    } catch (error) {
+        reply.code(500).send({ error: err.message });
+    }
+})
+
 app.setErrorHandler((error, request, reply) =>{
     const code = error.statusCode || 500
 
@@ -490,12 +511,6 @@ app.setErrorHandler((error, request, reply) =>{
         })
     }
 })
-
-app.get('/test-408', (request, reply) => {
-    const error = new Error('Доступ запрещен');
-    error.statusCode = 408;
-    throw error;
-});
 
 try {
 

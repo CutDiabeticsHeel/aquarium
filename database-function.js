@@ -6,7 +6,7 @@ async function getPlaybill() {
     return new Promise((resolve, reject) => {
 
         db.all(
-            "SELECT id, performance, date FROM playbill",
+            "SELECT * FROM playbill",
             [],
             (err, rows) => {
 
@@ -50,6 +50,7 @@ async function getPerformanceData(playbillData) {
                         performance: item.performance,
                         performance_id: found?.performance_id,
                         date: item.date,
+                        time: item.time,
                         age_limit: found?.age_limit,
                         title_image: found?.title_image
                     };
@@ -507,8 +508,51 @@ async function addOrUpdatePerformance(performanceData, performanceImages, titleI
     });
 }
 
+async function addPerformanceToPlaybill(title, date, time) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `INSERT INTO playbill (performance, date, time) VALUES (?, ?, ?)`,
+            [title, date, time],
+            function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        id: this.lastID,
+                        title: title,
+                        date: date,
+                        time: time,
+                        message: 'Спектакль успешно добавлен'
+                    });
+                }
+            }
+        );
+    });
+}
+
+async function deletePlaybillItem(id) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `DELETE FROM playbill WHERE id = ?`,
+            [id],
+            function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        success: true,
+                        deletedId: id,
+                        changes: this.changes
+                    });
+                }
+            }
+        );
+    });
+}
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
-    deletePerformanceFromDatabase, addOrUpdatePerformance}
+    deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
+    deletePlaybillItem}

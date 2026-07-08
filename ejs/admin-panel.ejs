@@ -123,7 +123,41 @@
         </details>
         <details class="reform__details" name="reform">
             <summary>Изменить афишу</summary>
-            <p>Добавить спектакль в афишу</p>
+            <details class="reform__details" name="reform__item">
+                <summary>Изменить запись в афише</summary>
+                <% playbillData.forEach(performance => {%>
+                    <div class="playbill__admin-panel">
+                        <span class="playbill__data-item"><%= performance.id %></span>
+                        <span class="playbill__data-item"><%= performance.performance %></span>
+                        <span class="playbill__data-item"><%= performance.date %></span>
+                        <span class="playbill__data-item"><%= performance.time %></span>
+                        <br>
+                        <a class="confirm-button redact-playbill-item" href="">Изменить запись</a>
+                        <form action="/delete-playbill" method="POST" style="display: inline;">
+                            <input type="hidden" name="id" value="<%= performance.id %>" />
+                            <button class="confirm-button delete-playbill-item">Удалить запись</button>
+                        </form>
+                    </div>
+                <%})%>
+            </details>
+            <details class="reform__details" name="reform__item">
+                <summary>Добавить запись в афишу</summary>
+                <form class="delete-actor" action="/add-playbill" method="POST" autocomplete="off">
+                    <label>
+                        Введите название спектакля
+                        <input type="text" name="title" autocomplete="off"/>
+                    </label>
+                    <label>
+                        Введите дату формат (Число.месяц)
+                        <input type="text" name="date" autocomplete="off"/>
+                    </label>
+                    <label>
+                        Введите время (часы:минуты) 
+                        <input type="text" name="time" autocomplete="off"/>
+                    </label>
+                    <button class="confirm-button" type="submit">Добавить</button>
+                </form>
+            </details>
         </details>
         <details class="reform__details" name="reform">
             <summary>Изменить отзывы</summary>
