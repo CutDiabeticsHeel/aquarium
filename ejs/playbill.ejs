@@ -31,7 +31,7 @@
                                 <span class="playbill__age-limit"><%= performance.age_limit %></span>
                                 <button class="buy-ticket">Купить билет</button>
                                 <div class="playbill__image-wrapper">
-                                    <img class="playbill__image" src="<%= performance.image %>" <%= index >= 2 ? "loading=lazy" : "" %> decoding="async" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
+                                    <img class="playbill__image" src="<%= performance.title_image %>" <%= index >= 2 ? "loading=lazy" : "" %> decoding="async" width="400px" height="400px" alt='Фото спектакля "<%= performance.performance %>"'>
                                 </div>
                             </a>
                         </li>

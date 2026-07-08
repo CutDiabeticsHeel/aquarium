@@ -23,21 +23,14 @@
                 <div class="performance__swiper-container">
                     <div class="swiper performance__swiper" tabindex="0">
                         <div class="swiper-wrapper performance__swiper-wrapper">
-                            <div class="swiper-slide">
-                                <a href="<%= performanceData.img1 %>" data-fancybox="performance__gallery">                            
-                                    <img class="performance-swiper__image" src="<%= performanceData.img1 %>" width="50px" height="50px" alt="Фото спектакля">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="<%= performanceData.img2 %>" data-fancybox="performance__gallery">
-                                    <img class="performance-swiper__image" src="<%= performanceData.img2 %>" width="50px" height="50px" alt="Фото спектакля">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="<%= performanceData.img3 %>" data-fancybox="performance__gallery">
-                                    <img class="performance-swiper__image" src="<%= performanceData.img3 %>" width="50px" height="50px" alt="Фото спектакля">
-                                </a>
-                            </div>
+                            <% const performanceImages = performanceData.imgs.split(',').map(image => image.trim())  %>
+                            <% performanceImages.forEach(image => { %>
+                                <div class="swiper-slide">
+                                    <a href="<%= image %>" data-fancybox="performance__gallery">                            
+                                        <img class="performance-swiper__image" src="<%= image %>" width="50px" height="50px" alt="Фото спектакля">
+                                    </a>
+                                </div>
+                            <% }); %>
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>

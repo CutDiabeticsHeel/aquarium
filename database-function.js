@@ -23,7 +23,6 @@ async function getPlaybill() {
 }
 
 async function getPerformanceData(playbillData) {
-    console.log("Отработала функция даты спектакля")
 
     const titles = playbillData.map(item => item.performance);
 
@@ -52,7 +51,7 @@ async function getPerformanceData(playbillData) {
                         performance_id: found?.performance_id,
                         date: item.date,
                         age_limit: found?.age_limit,
-                        image: found?.img1
+                        title_image: found?.title_image
                     };
 
                 });
@@ -95,7 +94,7 @@ async function getActorData(id) {
 async function getPerformances() {
     return new Promise((resolve, reject) => {
         db.all(
-            "SELECT performance_id, title, duration, age_limit, description, img1 FROM performances",
+            "SELECT performance_id, title, duration, age_limit, description, imgs, title_image FROM performances",
             [],
             (err, rows) => {
                 if (err) reject(err);
@@ -109,7 +108,7 @@ async function getPerformances() {
 async function getPerformancePageData(id){
     return new Promise((resolve, reject) =>{
         db.get(
-            "SELECT title, origin, audience, info, img1, img2, img3 FROM performances WHERE performance_id=?",
+            "SELECT title, origin, audience, info, imgs, title_image FROM performances WHERE performance_id=?",
             [id],
             (err, rows) =>{
                 if (err) reject(err)
@@ -227,40 +226,52 @@ async function findActors(lastName){
 }
 
 async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
-    const imagesPath = actorImages?.map(item => `/img/${item}`).join(",") || "";
     const portraitPath = actorPortrait ? `/img/${actorPortrait}` : "";
 
     return new Promise((resolve, reject) => {
-        db.run(
-            `UPDATE troupe 
-             SET 
-                first_name = COALESCE(NULLIF(?, ''), first_name), 
-                last_name = COALESCE(NULLIF(?, ''), last_name), 
-                role_name= COALESCE(NULLIF(?, ''), role_name), 
-                patronymic = COALESCE(NULLIF(?, ''), patronymic), 
-                biografy= COALESCE(NULLIF(?, ''), biografy), 
-                achievements= COALESCE(NULLIF(?, ''), achievements), 
-                imgs= COALESCE(NULLIF(?, ''), imgs), 
-                portrait = COALESCE(NULLIF(?, ''), portrait)
-             WHERE actor_id = ?`,
-            [
-                actorData.first_name,
-                actorData.last_name,
-                actorData.role_name,
-                actorData.patronymic,
-                actorData.biografy,
-                actorData.achievements,
-                imagesPath,
-                portraitPath,
-                actorId
-            ],
-            function (err) {
+        db.get(
+            "SELECT imgs FROM troupe WHERE actor_id = ?",
+            [actorId],
+            (err, row) => {
                 if (err) return reject(err);
 
-                resolve({
-                    updated: this.changes > 0,
-                    changes: this.changes
-                });
+                const oldImages = row?.imgs || "";
+                const newImages = actorImages?.map(item => `/img/${item}`).join(",") || "";
+
+                const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
+
+                db.run(
+                    `UPDATE troupe
+                     SET
+                        first_name = COALESCE(NULLIF(?, ''), first_name),
+                        last_name = COALESCE(NULLIF(?, ''), last_name),
+                        role_name = COALESCE(NULLIF(?, ''), role_name),
+                        patronymic = COALESCE(NULLIF(?, ''), patronymic),
+                        biografy = COALESCE(NULLIF(?, ''), biografy),
+                        achievements = COALESCE(NULLIF(?, ''), achievements),
+                        imgs = ?,
+                        portrait = COALESCE(NULLIF(?, ''), portrait)
+                     WHERE actor_id = ?`,
+                    [
+                        actorData.first_name,
+                        actorData.last_name,
+                        actorData.role_name,
+                        actorData.patronymic,
+                        actorData.biografy,
+                        actorData.achievements,
+                        imagesPath,
+                        portraitPath,
+                        actorId
+                    ],
+                    function (err) {
+                        if (err) return reject(err);
+
+                        resolve({
+                            updated: this.changes > 0,
+                            changes: this.changes
+                        });
+                    }
+                );
             }
         );
     });
@@ -379,7 +390,125 @@ async function updateCastInfo(performanceTitle, role, firstName, lastName, patro
     };
 }
 
+async function deletePerformanceFromDatabase(title){
+    return new Promise((resolve, reject) =>{
+        db.run(
+            `DELETE FROM performances WHERE title = ? `,
+            [title],
+            (err) => {
+                    if (err) return reject(err);
+                    resolve();
+            }
+        )
+    })
+}
+
+async function updatePerformance(performanceData, performanceImages, titleImage) {
+    const imagesPath = performanceImages.map(item => `/img/${item}`).join(",");
+    const titleImagePath = titleImage ? `/img/${titleImage}` : "";
+
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE performances
+            SET
+                duration = COALESCE(NULLIF(?, ''), duration),
+                age_limit = COALESCE(NULLIF(?, ''), age_limit),
+                description = COALESCE(NULLIF(?, ''), description),
+                origin = COALESCE(NULLIF(?, ''), origin),
+                audience = COALESCE(NULLIF(?, ''), audience),
+                info = COALESCE(NULLIF(?, ''), info),
+                imgs = COALESCE(NULLIF(?, ''), imgs),
+                title_image = COALESCE(NULLIF(?, ''), title_image)
+            WHERE title = ?`,
+            [
+                performanceData.duration,
+                performanceData.ageLimit,
+                performanceData.description,
+                performanceData.origin,
+                performanceData.audience,
+                performanceData.info,
+                imagesPath,
+                titleImagePath,
+                performanceData.title,
+            ],
+            function (err) {
+                if (err) return reject(err);
+
+                resolve({
+                    updated: true,
+                    changes: this.changes
+                });
+            }
+        );
+    });
+}
+
+async function addPerformance(performanceData, performanceImages, titleImage) {
+    const imagesPath = performanceImages.map(item => `/img/${item}`).join(",");
+    const titleImagePath = titleImage ? `/img/${titleImage}` : "";
+
+    return new Promise((resolve, reject) => {
+        db.run(
+            `INSERT INTO performances(
+                title,
+                duration,
+                age_limit,
+                description,
+                origin,
+                audience,
+                info,
+                imgs,
+                title_image
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                performanceData.title,
+                performanceData.duration,
+                performanceData.ageLimit,
+                performanceData.description,
+                performanceData.origin,
+                performanceData.audience,
+                performanceData.info,
+                imagesPath,
+                titleImagePath
+            ],
+            function (err) {
+                if (err) return reject(err);
+
+                resolve(this.lastID);
+            }
+        );
+    });
+}
+
+async function addOrUpdatePerformance(performanceData, performanceImages, titleImage) {
+    return new Promise((resolve, reject) => {
+        db.get(
+            `SELECT 1
+             FROM performances
+             WHERE title = ?`,
+            [performanceData.title],
+            async (err, row) => {
+                if (err) return reject(err);
+
+                try {
+                    if (row) {
+                        await updatePerformance(performanceData, performanceImages, titleImage);
+                    } else {
+                        await addPerformance(performanceData, performanceImages, titleImage);
+                    }
+
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            }
+        );
+    });
+}
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
-    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo}
+    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
+    deletePerformanceFromDatabase, addOrUpdatePerformance}

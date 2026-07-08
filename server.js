@@ -23,7 +23,8 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
-    updateCastInfo} from './database-function.js';
+    updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance} from './database-function.js';
+import console from "console";
 
 
 const captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
@@ -171,7 +172,7 @@ app.get("/playbill", async (request, reply) => {
 });
 
 app.get("/repertoire", async (request, reply) => {
-
+    console.log(performancesData)
     return reply.view("repertoire.ejs", {
         performances: performancesData
     });
@@ -420,6 +421,43 @@ app.post("/update-cast", async (request, reply) => {
         await updateCastInfo(performanceTitle, role, firstName, lastName, patronymic)
         reply.redirect("/admin-panel");
     } catch (err){
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/delete-performance", async (request, reply) => {
+    try {
+        const {title} = request.body;
+        console.log(title)
+        await deletePerformanceFromDatabase(title)
+        reply.redirect("/admin-panel")
+    } catch {
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/redact-performance", async (request, reply) => {
+    const performanceData = {};
+    const performanceImages = [];
+    let titleImage = null;
+    try {
+        for await (const part of request.parts()) {
+            if (part.type === 'file') {
+                if (!part.filename) continue;
+
+                const filename = part.filename;
+                await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
+
+                if (part.fieldname === 'imgs') performanceImages.push(filename);
+                else titleImage = filename;
+            } else {
+                performanceData[part.fieldname] = part.value;
+            }
+        }
+        console.log(performanceData, performanceImages, titleImage)
+        await addOrUpdatePerformance(performanceData, performanceImages, titleImage);
+        reply.redirect("/admin-panel");
+    } catch (err) {
         reply.code(500).send({ error: err.message });
     }
 })

@@ -69,10 +69,57 @@
             </details>
         </details>
         <details class="reform__details" name="reform">
-            <summary>Изменить спектакли</summary>
-            <p>Добавить спектакль</p>
-            <p>Удалить спектакль</p>
-            <p>Изменить информацию об спектакле</p>
+            <summary>Администрирование спектаклей</summary>
+            <details class="reform__details delete__actor" name="reform__item">
+                <summary>Изменить информацию об спектакле / добавить спектакль</summary>
+                <form class="redact-performance" action="/redact-performance" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    <label>
+                        Введите название спектакля
+                        <input type="text" name="title" autocomplete="off"/>
+                    </label>
+                    <label>
+                        Введите длительность спектакля в минутах (Страница всех спектаклей)
+                        <input type="text" name="duration" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите возрастное ограничение. Пример: 14+ (Страница всех спектаклей)
+                        <input type="text" name="ageLimit" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите краткое описание, которое показывается на странице всех спектаклей (Страница всех спектаклей)
+                        <input type="text" name="description" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите по мотивам чего поставлен спектакль / его первоисточник (Страница спектакля)
+                        <input type="text" name="origin" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите аудиторию спектакля (Страница спектакля)
+                        <input type="text" name="audience" autocomplete="new-password"/>
+                    </label>
+                    <label>
+                        Введите краткое описание спектакля (Страница спектакля)
+                        <input type="text" name="info" autocomplete="new-password"/>
+                    </label>
+                    <label for="imgs">Загрузите одну или несколько фотографий для страницы спектакля
+                        <input type="file" id="imgs" name="imgs" multiple />
+                    </label>
+                    <label for="titleImage">Загрузите приветственное изображения спектакля для афиши и страницы всех спектаклей
+                        <input type="file" id="titleImage" name="titleImage"/>
+                    </label>
+                    <button class="confirm-button" type="submit">Внести изменения</button>
+                </form>
+            </details>
+            <details class="reform__details delete__actor" name="reform__item">
+                <summary>Удалить спектакль</summary>
+                <form class="delete-actor" action="/delete-performance" method="POST" autocomplete="off">
+                    <label>
+                        Введите Название спектакля
+                        <input type="text" name="title" autocomplete="off"/>
+                    </label>
+                    <button class="confirm-button" type="submit">Удалить</button>
+                </form>
+            </details>
         </details>
         <details class="reform__details" name="reform">
             <summary>Изменить афишу</summary>

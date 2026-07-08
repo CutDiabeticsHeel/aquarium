@@ -15,6 +15,7 @@ details {
 }
 .delete-actor,
 .update-cast,
+.redact-performance,
 .add-actor {
     display: flex;
     flex-direction: column;
