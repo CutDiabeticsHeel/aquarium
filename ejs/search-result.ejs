@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Результаты поиска</title>
+    <link rel="stylesheet" href="/css/bundle.css">
+</head>
+<body>
+    <div class="search-result">
+    <h2>Результаты поиска</h2>
+    <% if (actors.length === 0) { %>
+        <p>Ничего не найдено</p>
+    <% } else { %>
+        <h3>Выберите актера, информацию о котором хотите изменить</h3>
+        <% actors.forEach(actor => { %>
+            <div class="search-item">
+                <%= actor.last_name %>
+                <%= actor.first_name %>
+
+                <a class="redact" href="/edit-actor/<%= actor.actor_id %>">
+                    Редактировать
+                </a>
+            </div>
+
+        <% }) %>
+
+    <% } %>
+    </div>
+</body>
+</html>

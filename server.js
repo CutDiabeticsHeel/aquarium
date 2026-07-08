@@ -22,7 +22,7 @@ import { Temporal } from '@js-temporal/polyfill';
 import {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
-    addActorToDatabase} from './database-function.js';
+    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData} from './database-function.js';
 
 
 const captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
@@ -225,6 +225,25 @@ app.get("/admin-panel", async (request, reply) => {
 
 });
 
+app.get("/find-actor", async (request, reply) => {
+    const { lastName  } = request.query;
+
+    const actors = await findActors(lastName)
+
+    return reply.view("search-result.ejs", {
+        actors: actors
+    });
+});
+
+app.get("/edit-actor/:id", async (request, reply) => {
+    const {id} = request.params;
+
+
+    return reply.view("update-actor.ejs", {
+        id
+    });
+});
+
 
 app.post("/reviews", (request, reply) =>{
     const {name, review, topicData, star} = request.body;
@@ -341,14 +360,10 @@ app.post("/add-actor", async (request, reply) => {
     try {
         for await (const part of request.parts()) {
             if (part.type === 'file') {
-                console.log(part)
                 if (!part.filename) continue;
 
                 const filename = part.filename;
                 await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
-                console.log(
-                    fs.statSync(`./assets/img/${part.filename}`).size
-                );
 
                 if (part.fieldname === 'imgs') actorImages.push(filename);
                 else actorPortrait = filename;
@@ -357,6 +372,44 @@ app.post("/add-actor", async (request, reply) => {
             }
         }
         await addActorToDatabase(actorData, actorImages, actorPortrait);
+        reply.redirect("/admin-panel");
+    } catch (err) {
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/delete-actor", async(request, reply) =>{
+    try {
+        const {firstName, lastName, patronymic} = request.body;
+        await deleteActorFromDatabase(firstName, lastName, patronymic)
+        console.log("Удалил актера")
+        console.log(firstName, lastName, patronymic)
+        reply.redirect("/admin-panel");
+    } catch (err){
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/update-actor", async (request, reply) => {
+    const { id } = request.query;
+    const actorData = {};
+    const actorImages = [];
+    let actorPortrait = null;
+    try {
+        for await (const part of request.parts()) {
+            if (part.type === 'file') {
+                if (!part.filename) continue;
+
+                const filename = part.filename;
+                await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
+
+                if (part.fieldname === 'imgs') actorImages.push(filename);
+                else actorPortrait = filename;
+            } else {
+                actorData[part.fieldname] = part.value;
+            }
+        }
+        await updateActorData(id, actorData, actorImages, actorPortrait);
         reply.redirect("/admin-panel");
     } catch (err) {
         reply.code(500).send({ error: err.message });

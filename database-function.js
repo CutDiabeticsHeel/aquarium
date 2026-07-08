@@ -163,7 +163,6 @@ async function getReviews(){
 
 async function addActorToDatabase(actorData, actorImages, actorPortrait){
     const actorImagesPath = actorImages.map(item => `/img/${item}`).join(',')
-    console.log(actorImagesPath)
     const portraitPath = `/img/${actorPortrait}`;
     
     return new Promise((resolve, reject) => {
@@ -192,14 +191,81 @@ async function addActorToDatabase(actorData, actorImages, actorPortrait){
             portraitPath
         ],
         (err) => {
-                if (err) return reject(err);
-                resolve();
-            }
+            if (err) return reject(err);
+            resolve();
+        }
     );
     })
+}
+
+async function deleteActorFromDatabase(firstName, lastName, patronymic){
+    return new Promise((resolve, reject) =>{
+        db.run(
+            `DELETE FROM troupe WHERE first_name = ? AND last_name = ? AND patronymic = ?`,
+            [firstName, lastName, patronymic],
+            (err) => {
+                    if (err) return reject(err);
+                    resolve();
+            }
+        )
+    })
+}
+
+async function findActors(lastName){
+    return new Promise((resolve, reject) =>{
+        db.all(
+            `SELECT * FROM troupe WHERE last_name LIKE ?`,
+            [`%${lastName}%`],
+            (err, rows) =>{
+                if (err) reject(err)
+
+                resolve(rows)
+            }
+        )
+    })
+}
+
+async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
+    const imagesPath = actorImages?.map(item => `/img/${item}`).join(",") || "";
+    const portraitPath = actorPortrait ? `/img/${actorPortrait}` : "";
+
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE troupe 
+             SET 
+                first_name = COALESCE(NULLIF(?, ''), first_name), 
+                last_name = COALESCE(NULLIF(?, ''), last_name), 
+                role_name= COALESCE(NULLIF(?, ''), role_name), 
+                patronymic = COALESCE(NULLIF(?, ''), patronymic), 
+                biografy= COALESCE(NULLIF(?, ''), biografy), 
+                achievements= COALESCE(NULLIF(?, ''), achievements), 
+                imgs= COALESCE(NULLIF(?, ''), imgs), 
+                portrait = COALESCE(NULLIF(?, ''), portrait)
+             WHERE actor_id = ?`,
+            [
+                actorData.first_name,
+                actorData.last_name,
+                actorData.role_name,
+                actorData.patronymic,
+                actorData.biografy,
+                actorData.achievements,
+                imagesPath,
+                portraitPath,
+                actorId
+            ],
+            function (err) {
+                if (err) return reject(err);
+
+                resolve({
+                    updated: this.changes > 0,
+                    changes: this.changes
+                });
+            }
+        );
+    });
 }
 
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
-    addActorToDatabase}
+    addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData}

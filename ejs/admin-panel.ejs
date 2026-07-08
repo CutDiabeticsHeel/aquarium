@@ -5,20 +5,41 @@
 </head>
 <body>
     <div class="reform__wrapper">
-        <h1>Admin Panel</h1>
+        <h1>Панель администратора</h1>
         <details class="reform__details" name="reform">
-            <summary>Изменить актеров</summary>
+            <summary>Администрирование информации об актерах</summary>
             <details class="reform__details add__actor" name="reform__item">
                 <summary>Добавить актера</summary>
                 <%- include("partials/add-actor")%>
             </details>
-            <details class="reform__details remove__actor" name="reform__item">
+            <details class="reform__details delete__actor" name="reform__item">
                 <summary>Удалить Актера</summary>
-                <p>Удалить Актера</p>
+                <form class="delete-actor" action="/delete-actor" method="POST" autocomplete="off">
+                    <label>
+                        Введите Имя
+                        <input type="text" name="firstName" autocomplete="off"/>
+                    </label>
+                    <label>
+                        Введите Фамилию
+                        <input type="text" name="lastName" autocomplete="off"/>
+                    </label>
+                    <label>
+                        Введите Отчество 
+                        <input type="text" name="patronymic" autocomplete="off"/>
+                    </label>
+                    <button class="confirm-button" type="submit">Удалить</button>
+                </form>
             </details>
             <details class="reform__details change__actor" name="reform__item">
                 <summary>Изменить информацию об актере</summary>
-                <p>Изменить информацию об актере</p>
+                <h3>Сначала введите Фамилию актера, информацию которого хотите обновить</h3>
+                <form class="find-actor" action="/find-actor" method="get" autocomplete="off">
+                    <label>
+                        Введите Фамилию
+                        <input type="text" name="lastName" autocomplete="off"/>
+                    </label>
+                    <button class="confirm-button" type="submit">Поиск</button>
+                </form>
             </details>
         </details>
         <details class="reform__details" name="reform">

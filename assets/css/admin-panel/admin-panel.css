@@ -13,11 +13,47 @@ details {
     padding: 10px;
     border-radius: 10px;
 }
+.delete-actor,
+.update-actor,
 .add-actor {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin: 10px 0px;
 }
 .confirm-button {
     width: 30%;
+    border: none;
+    color: #ffffff;
+    background: var(--additionaly-background);
+    border-radius: 20px;
+    font-size: var(--large-text);
+    cursor: pointer;
+}
+input[type="text"] {
+    margin: 10px 0;
+    padding: 5px 0;
+    border: none;
+    background-color: var(--main-background);
+    color: #ffffff;
+    border-bottom: 2px solid var(--border-color);
+    font-size: var(--second-medium-text);
+}
+#input:focus {
+    outline: none;
+}
+.change__actor h3 {
+    text-align: center;
+}
+.search-result {
+    margin: 10px;
+}
+.search-item {
+    margin: 10px 0px;
+}
+.redact {
+    color: #114d94;
+}
+.change-info {
+    margin: 10px;
 }
