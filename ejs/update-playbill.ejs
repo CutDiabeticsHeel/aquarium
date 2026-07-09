@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="/css/bundle.css">
+    <title>Изменении информации об актере</title>
+</head>
+<body>
+    <div class="change-info">
+        <h3>Теперь введите информацию, которую хотите обновить</h3>
+        <form class="redact-playbill" action="/update-playbill?id=<%= id %>" method="POST" autocomplete="off">
+            <div class="playbill__item">
+                <label class="playbill__data-item">
+                    Название <b><%= playbillData.performance %></b> изменить на:
+                    <input type="text" name="title" autocomplete="off"/>
+                </label>
+                <label class="playbill__data-item">
+                    Дата <b><%= playbillData.date %></b> изменить на:
+                    <input type="text" name="date" autocomplete="off"/>
+                </label>
+                <label class="playbill__data-item">
+                    Время <b><%= playbillData.time %></b> изменить на:
+                    <input type="text" name="time" autocomplete="off"/>
+                </label>
+                <button class="confirm-button" type="submit">Изменить</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

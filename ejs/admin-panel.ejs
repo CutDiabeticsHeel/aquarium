@@ -132,7 +132,7 @@
                         <span class="playbill__data-item"><%= performance.date %></span>
                         <span class="playbill__data-item"><%= performance.time %></span>
                         <br>
-                        <a class="confirm-button redact-playbill-item" href="">Изменить запись</a>
+                        <a class="confirm-button redact-playbill-item" href="/update-playbill/<%= performance.id %>">Изменить запись</a>
                         <form action="/delete-playbill" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<%= performance.id %>" />
                             <button class="confirm-button delete-playbill-item">Удалить запись</button>

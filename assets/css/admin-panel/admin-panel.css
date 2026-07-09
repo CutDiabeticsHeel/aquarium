@@ -16,6 +16,7 @@ details {
 .delete-actor,
 .update-cast,
 .redact-performance,
+.update-actor,
 .add-actor {
     display: flex;
     flex-direction: column;
@@ -63,6 +64,7 @@ input[type="text"] {
 }
 .playbill__data-item {
     margin: 10px;
+    font-size: var(--second-medium-text);
 }
 .confirm-button.redact-playbill-item,
 .confirm-button.delete-playbill-item {
@@ -70,4 +72,9 @@ input[type="text"] {
     display: inline-block;
     font-size: var(--second-medium-text);
     margin: 10px 0px;
+}
+.playbill__item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
 }

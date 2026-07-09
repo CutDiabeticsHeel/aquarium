@@ -550,9 +550,28 @@ async function deletePlaybillItem(id) {
     });
 }
 
+async function updatePlaybillItem(id, title, date, time) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE playbill
+            SET 
+                performance = COALESCE(NULLIF(?, ''), performance),
+                date = COALESCE(NULLIF(?, ''), date),
+                time = COALESCE(NULLIF(?, ''), time)
+            WHERE id = ?`,
+            [title, date, time, id],
+            function (err) {
+                if (err) return reject(err);
+                if (this.changes === 0) return reject(new Error('Not found'));
+                resolve({ updated: true });
+            }
+        );
+    });
+}
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
     deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
-    deletePlaybillItem}
+    deletePlaybillItem, updatePlaybillItem}

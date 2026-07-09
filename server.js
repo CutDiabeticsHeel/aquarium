@@ -24,7 +24,7 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
     updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
-    deletePlaybillItem} from './database-function.js';
+    deletePlaybillItem, updatePlaybillItem} from './database-function.js';
 import console from "console";
 
 
@@ -244,6 +244,16 @@ app.get("/edit-actor/:id", async (request, reply) => {
         id
     });
 });
+
+app.get("/update-playbill/:id", async (request, reply) => {
+    const {id} = request.params;
+    const playbillItemResult = playbillData.find(item => item.id === Number(id))
+
+    return reply.view("update-playbill.ejs", {
+        playbillData: playbillItemResult,
+        id
+    });
+})
 
 
 app.post("/reviews", (request, reply) =>{
@@ -479,6 +489,19 @@ app.post("/delete-playbill", async(request, reply) =>{
         await deletePlaybillItem(id)
         reply.redirect("/admin-panel")
     } catch (error) {
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/update-playbill", async (request, reply) =>{
+    const { id } = request.query;
+    const {title, date, time} = request.body;
+    console.log(id, title, date, time)
+    try {
+        console.log(id, title, date, time)
+        await updatePlaybillItem(Number(id), title, date, time);
+        reply.redirect("/admin-panel");
+    } catch (err) {
         reply.code(500).send({ error: err.message });
     }
 })
