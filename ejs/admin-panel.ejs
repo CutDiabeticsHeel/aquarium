@@ -32,7 +32,7 @@
             </details>
             <details class="reform__details change__actor" name="reform__item">
                 <summary>Изменить информацию об актере</summary>
-                <h3>Сначала введите Фамилию актера, информацию которого хотите обновить</h3>
+                <h3>Введите Фамилию актера, информацию которого хотите обновить</h3>
                 <form class="find-actor" action="/find-actor" method="get" autocomplete="off">
                     <label>
                         Введите Фамилию
@@ -160,8 +160,32 @@
             </details>
         </details>
         <details class="reform__details" name="reform">
-            <summary>Изменить отзывы</summary>
-            <p>Одобрить отзыв</p>
+            <summary>Одобрить отзывы</summary>
+            <h3>Неопубликованные отзывы</h3>
+            <form action="/approve-review" method="POST">
+                <% unpublishedReviews.forEach(review => {%>
+                    <div class="review-item">
+                        <span class="review-item__name">Имя: <%= review.name %></span>
+                        <span class="review-item__date">Дата: <%= review.date %></span>
+                        <span class="review-item__topic">Тема:<%= review.topic %></span>
+                        <span class="review-item__star">Рейтинг по звездам:<%= review.star %></span>
+                        <span class="review-item__text"><%= review.text %></span>
+                        <div class="approve-review">
+                            Одобрить отзыв?
+                            <label class="radio-button">
+                                <input type="radio" name="<%= review.review_id %>" value="yes">
+                                Да
+                            </label>
+
+                            <label class="radio-button">
+                                <input type="radio" name="<%= review.review_id %>" value="no">
+                                Нет
+                            </label>
+                        </div>
+                    </div>
+                <%});%>
+                <button class="confirm-button" type="submit">Обновить отзывы</button>
+            </form>
         </details>
     </div>
 </body>

@@ -162,6 +162,20 @@ async function getReviews(){
     })
 }
 
+async function getUnpublishedReviews(){
+    return new Promise((resolve, reject) =>{
+        db.all(
+            "SELECT * FROM reviews WHERE approve ='false'",
+            [],
+            (err, rows) =>{
+                if (err) reject(err)
+
+                resolve(rows)
+            }
+        )
+    })
+}
+
 async function addActorToDatabase(actorData, actorImages, actorPortrait){
     const actorImagesPath = actorImages.map(item => `/img/${item}`).join(',')
     const portraitPath = `/img/${actorPortrait}`;
@@ -569,9 +583,40 @@ async function updatePlaybillItem(id, title, date, time) {
     });
 }
 
+async function processReviews(reviews) {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            const approveStmt = db.prepare(`
+                UPDATE reviews
+                SET approve = 'true'
+                WHERE review_id = ?
+            `);
+
+            const deleteStmt = db.prepare(`
+                DELETE FROM reviews
+                WHERE review_id = ?
+            `);
+
+            for (const [id, decision] of Object.entries(reviews)) {
+                if (decision === "yes") {
+                    approveStmt.run(id);
+                } else if (decision === "no") {
+                    deleteStmt.run(id);
+                }
+            }
+
+            approveStmt.finalize();
+            deleteStmt.finalize(err => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+    });
+}
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
     deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
-    deletePlaybillItem, updatePlaybillItem}
+    deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews}

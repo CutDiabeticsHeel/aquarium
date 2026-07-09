@@ -22,6 +22,15 @@ details {
     flex-direction: column;
     gap: 10px;
     margin: 10px 0px;
+    background-color: var(--background-opacity);
+    border-radius: 10px;
+    padding: 10px;
+}
+.find-actor {
+    margin: 10px 0px;
+    background-color: var(--background-opacity);
+    border-radius: 10px;
+    padding: 10px;
 }
 .confirm-button {
     width: 30%;
@@ -36,9 +45,8 @@ input[type="text"] {
     margin: 10px 0;
     padding: 5px 0;
     border: none;
-    background-color: var(--main-background);
+    background-color: var(--background-opacity);
     color: #ffffff;
-    border-bottom: 2px solid var(--border-color);
     font-size: var(--second-medium-text);
 }
 #input:focus {
@@ -61,6 +69,9 @@ input[type="text"] {
 }
 .playbill__admin-panel {
     margin: 25px 0px;
+    background-color: var(--background-opacity);
+    border-radius: 10px;
+    padding: 10px;
 }
 .playbill__data-item {
     margin: 10px;
@@ -77,4 +88,25 @@ input[type="text"] {
     display: flex;
     flex-direction: column;
     gap: 10px
+}
+.review-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0px;
+    padding: 10px;
+    background-color: var(--background-opacity);
+    border-radius: 10px;
+}
+.review-item__text {
+    grid-column: 1/5;
+}
+.radio-button {
+    cursor: pointer;
+}
+.approve-review {
+    grid-column: 1/5;
+    border: 3px solid  var(--additionaly-background);
+    padding: 5px;
+    border-radius: 10px;
 }

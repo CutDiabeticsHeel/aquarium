@@ -24,7 +24,8 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
     updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
-    deletePlaybillItem, updatePlaybillItem} from './database-function.js';
+    deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews,
+    processReviews} from './database-function.js';
 import console from "console";
 
 
@@ -219,9 +220,11 @@ app.get("/admin-panel", async (request, reply) => {
     // if (!request.session.user) {
     //     return reply.redirect('/admin');
     // }
-
+    const unpublishedReviews = await getUnpublishedReviews()
+    
     return reply.view("admin-panel.ejs", {
-        playbillData: playbillData
+        playbillData: playbillData,
+        unpublishedReviews: unpublishedReviews
     });
 
 });
@@ -502,6 +505,16 @@ app.post("/update-playbill", async (request, reply) =>{
         await updatePlaybillItem(Number(id), title, date, time);
         reply.redirect("/admin-panel");
     } catch (err) {
+        reply.code(500).send({ error: err.message });
+    }
+})
+
+app.post("/approve-review", async (request, reply) =>{
+    const reviewData = { ...request.body}
+    try {
+        await processReviews(reviewData)
+        reply.redirect("/admin-panel")
+    } catch(err) {
         reply.code(500).send({ error: err.message });
     }
 })
