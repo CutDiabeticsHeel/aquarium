@@ -12,6 +12,21 @@ function initPlaybillJs(){
     const playbill = document.querySelector('.playbill');
     const performancesList = document.querySelector('.performances-list')
 
+    const fadeIn = function(performance){
+        const tl = gsap.timeline();
+
+        tl.fromTo(
+            performance,
+            { scale: 1 },
+            { scale: 0.92, duration: 0.25 }
+        );
+
+        tl.to(performance, {
+            scale: 1,
+            duration: 0.25
+        });
+    }
+
     function getWeekends(startDate, endDate) {
         const weekends = [];
         let currentDate = startDate;
@@ -38,8 +53,10 @@ function initPlaybillJs(){
             weekendsListItem.textContent = `${day} ${month}`;
             
             
-            let charmonth = date.month < 10 ? `0${date.month}` : `${date.month}`;
-            weekendsListItem.dataset.date = `${day}.${charmonth}`;
+            const charDay = day < 10 ? `0${day}` : `${day}`;
+            const charMonth = date.month < 10 ? `0${date.month}` : `${date.month}`;
+
+            weekendsListItem.dataset.date = `${charDay}.${charMonth}`;
 
             weekendsListItemWprapper.append(weekendsListItem);
             weekendsList.append(weekendsListItemWprapper);
@@ -57,7 +74,7 @@ function initPlaybillJs(){
     displayDates();
 
     const performancesDates = document.querySelectorAll(".dates-list__item");
-    const performancesItem = document.querySelectorAll(".performances-list__item")
+    const performancesItem = document.querySelectorAll(".performances-list__item-wrapper")
     const removeFilter = document.querySelector(".remove-filter")
     const modal = document.querySelector(".hidden-modal")
 
@@ -69,7 +86,8 @@ function initPlaybillJs(){
             }
         }
         modal.classList.toggle("hidden-modal", visiblePerformance !== 0)
-        modal.classList.toggle("zero-performances", visiblePerformance === 0) 
+        modal.classList.toggle("zero-performances", visiblePerformance === 0)
+        fadeIn(modal) 
     }
 
     for (let date of performancesDates) {
@@ -78,8 +96,9 @@ function initPlaybillJs(){
             for (let performance of performancesItem) {
 
                 const shouldHide = performance.dataset.date !== date.dataset.date;
-
                 performance.classList.toggle("hidden-modal", shouldHide);
+
+                fadeIn(performance)
             }
 
             updateCounter();
@@ -90,6 +109,7 @@ function initPlaybillJs(){
 
         for (let performance of performancesItem) {
             performance.classList.remove("hidden-modal");
+            fadeIn(performance)
         }
 
         updateCounter();
