@@ -112,10 +112,6 @@ await app.register(session, {
     }
 })
 
-const troupeData = await getTroupe();
-const playbillData = await getPlaybill();
-const playbillPerformanceData = await getPerformanceData(playbillData);
-const performancesData = await getPerformances();
 
 app.get("/welcome", async (request, reply) => {
 
@@ -129,6 +125,7 @@ app.get("/actor/:id", async (request, reply) => {
     
     const actorData = await getActorData(id)
     const performancesList = await getHrefPerformanceForActor(id)
+    const performancesData = await getPerformances();
 
     return reply.view("actor.ejs", {
         actor: actorData,
@@ -166,6 +163,9 @@ app.get("/performance/:id", async (request, reply) => {
 });
 
 app.get("/playbill", async (request, reply) => {
+    const playbillData = await getPlaybill();
+    const playbillPerformanceData = await getPerformanceData(playbillData);
+
     return reply.view("playbill.ejs", {
         performances: playbillPerformanceData
     });
@@ -173,7 +173,8 @@ app.get("/playbill", async (request, reply) => {
 });
 
 app.get("/repertoire", async (request, reply) => {
-    console.log(performancesData)
+    const performancesData = await getPerformances();
+
     return reply.view("repertoire.ejs", {
         performances: performancesData
     });
@@ -200,6 +201,8 @@ app.get("/tnt", async (request, reply) => {
 });
 
 app.get("/troupe", async (request, reply) => {
+    
+    const troupeData = await getTroupe();
 
     return reply.view("troupe.ejs", {
         troupe: troupeData
@@ -217,10 +220,11 @@ app.get("/admin", async (request, reply) => {
 
 app.get("/admin-panel", async (request, reply) => {
 
-    // if (!request.session.user) {
-    //     return reply.redirect('/admin');
-    // }
+    if (!request.session.user) {
+        return reply.redirect('/admin');
+    }
     const unpublishedReviews = await getUnpublishedReviews()
+    const playbillData = await getPlaybill();
     
     return reply.view("admin-panel.ejs", {
         playbillData: playbillData,
@@ -231,8 +235,11 @@ app.get("/admin-panel", async (request, reply) => {
 
 app.get("/find-actor", async (request, reply) => {
     const { lastName  } = request.query;
-
     const actors = await findActors(lastName)
+
+    if (!request.session.user) {
+        return reply.redirect('/admin');
+    }
 
     return reply.view("search-result.ejs", {
         actors: actors
@@ -242,6 +249,9 @@ app.get("/find-actor", async (request, reply) => {
 app.get("/edit-actor/:id", async (request, reply) => {
     const {id} = request.params;
 
+    if (!request.session.user) {
+        return reply.redirect('/admin');
+    }
 
     return reply.view("update-actor.ejs", {
         id
@@ -250,7 +260,12 @@ app.get("/edit-actor/:id", async (request, reply) => {
 
 app.get("/update-playbill/:id", async (request, reply) => {
     const {id} = request.params;
+    const playbillData = await getPlaybill();
     const playbillItemResult = playbillData.find(item => item.id === Number(id))
+
+    if (!request.session.user) {
+        return reply.redirect('/admin');
+    }
 
     return reply.view("update-playbill.ejs", {
         playbillData: playbillItemResult,
@@ -314,7 +329,7 @@ app.post("/admin", (request, reply) => {
         };
         return reply.redirect("/admin-panel")
     } else {
-        console.log("Неверное имя пользователя или пароль")
+        return reply.code(401).send({ error: "Неверный логин или пароль" });
     }
 })
 
@@ -395,6 +410,7 @@ app.post("/add-actor", async (request, reply) => {
 app.post("/delete-actor", async(request, reply) =>{
     try {
         const {firstName, lastName, patronymic} = request.body;
+        console.log(firstName, lastName, patronymic)
         await deleteActorFromDatabase(firstName, lastName, patronymic)
         reply.redirect("/admin-panel");
     } catch (err){
