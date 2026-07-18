@@ -22,8 +22,8 @@
 .wave {
     --c: var(--additionaly-background);   
     --t: 5px;
-    --h: 32px;
-    --w: 77px;   
+    --h: 33px;
+    --w: 81px;   
     --p: 12px;
     background:
         radial-gradient(

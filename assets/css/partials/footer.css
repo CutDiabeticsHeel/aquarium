@@ -101,7 +101,7 @@
   width: 100%;
   height: 100%;
   color: rgba(255,255,255, 0.07);
-  font-size: clamp(60px, 22.6vw, 190px);
+  font-size: clamp(60px, 18.6vw, 190px);
   z-index: 0;
   pointer-events: none;
   user-select: none;
@@ -160,7 +160,11 @@
     .ticket-office-contact {
         grid-row: 3;
     }
+    .value-office {
+        grid-row: 3;
+    }
 }
+
 @media (max-width: 500px) {
     .info-list__item:first-child {
         grid-column: 1/1;
@@ -168,17 +172,32 @@
     .ticket-office-wrapper {
         grid-template-columns: 1fr;
     }
-    .ticket-office-contact {
-        grid-row: 5;
-    }
-    .mail {
-        grid-row: 7;
-    }
-    .vk {
-        grid-row: 9;
-    }
     .watermark {
         top: 40%;
         height: auto;
     }
+
+    .info-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .info-list__item {
+        justify-self: unset;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .label-phone  { order: 1; }
+    .value-phone  { order: 2; }
+    .label-office { order: 3; }
+    .value-office { order: 4; }
+    .label-mail   { order: 5; }
+    .value-mail   { order: 6; }
+    .label-vk     { order: 7; }
+    .value-vk     { order: 8; }
 }

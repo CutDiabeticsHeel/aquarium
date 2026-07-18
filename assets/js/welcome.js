@@ -52,27 +52,31 @@ function initWelcomeJs(){
         .to(button, { scale: 0.9 })
         .to(button, { scale: 1.1 })
         .to(button, { scale: 1.0 })
+    
+    const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    button.addEventListener('mouseenter', () => {
-        pulseTl.play();
-    });
-
-    button.addEventListener('mouseleave', () => {
-        gsap.to(pulseTl, {
-            timeScale: 0,
-            duration: 0.5,
-            onComplete: () => {
-                pulseTl.pause();
-                pulseTl.timeScale(1); 
-                // TODO GSAP clearProps
-                // gsap.to(button, {
-                //     scale: 1,
-                //     duration: 0.5,
-                //     ease: "sine.inOut"
-                // });
-            }
+    if (hasHover) {
+        button.addEventListener('mouseenter', () => {
+            pulseTl.play();
         });
-    });
+
+        button.addEventListener('mouseleave', () => {
+            gsap.to(pulseTl, {
+                timeScale: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    pulseTl.pause();
+                    pulseTl.timeScale(1); 
+                    // TODO GSAP clearProps
+                    // gsap.to(button, {
+                    //     scale: 1,
+                    //     duration: 0.5,
+                    //     ease: "sine.inOut"
+                    // });
+                }
+            });
+        });
+    }
 
 
     const aboutTheatreSwiper = new Swiper('.about-theatre__swiper', {

@@ -52,9 +52,7 @@ const db = new sqlite3.Database("database/theatre.db");
 await app.register(cors);
 
 await app.register(view, {
-    engine: {
-        ejs
-    },
+    engine: { ejs},
     root: path.join(process.cwd(), "ejs")
 });
 
