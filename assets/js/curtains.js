@@ -75,7 +75,7 @@ document.querySelectorAll('a').forEach(link => {
 
 window.addEventListener('pageshow', () => {
     const currentPath = window.location.pathname;
-    document.querySelectorAll(".under-line-link").forEach(link =>{
+    document.querySelectorAll("a.under-line-link").forEach(link =>{
         const linkPath = new URL(link.href).pathname;
         if (linkPath === currentPath && !link.hash) {
             link.classList.add('active-link');

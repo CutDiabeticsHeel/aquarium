@@ -43,6 +43,7 @@
     height: 83vh;
     display: flex;
     align-items: flex-end;
+    background-color: #000000;
 }
 .actor__swiper {
     width: 100%;

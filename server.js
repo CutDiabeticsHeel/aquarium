@@ -1,4 +1,4 @@
-import Fastify, { fastify } from "fastify";
+import Fastify from "fastify";
 import sqlite3 from "sqlite3";
 import cors from "@fastify/cors";
 import view from "@fastify/view";
@@ -15,8 +15,6 @@ import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
 import { pipeline } from "stream/promises";
-import { rejects } from "assert";
-import { request } from "http";
 import { Temporal } from '@js-temporal/polyfill';
 
 import {getPlaybill, getPerformanceData, getTroupe, 
@@ -40,7 +38,15 @@ const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля'
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
 const app = Fastify({
-    logger: true,
+    logger: {
+        transport: {
+            target: 'pino-pretty',
+            options: {
+                translateTime: 'SYS:standard'
+            }
+        }
+    },
+    trustProxy: true,
     https: {
         key: fs.readFileSync('./server.key'),
         cert: fs.readFileSync('./server.crt')
@@ -66,7 +72,9 @@ await app.register(fastifyStatic, {
 });
 
 await app.register(formbody)
+
 await app.register(cookie);
+
 await app.register(multipart, {
     limits: {
         fileSize: 20 * 1024 * 1024,
@@ -99,7 +107,7 @@ await app.register(rateLimit, {
 
 await app.register(recaptcha, {
     recaptcha_secret_key: CAPTCHA_KEY,
-    reply: true
+    reply: true 
 })
 
 await app.register(session, {
@@ -110,10 +118,10 @@ await app.register(session, {
     }
 })
 
-
 app.get("/welcome", async (request, reply) => {
 
     return reply.view("welcome.ejs", {
+        headerClass: "unique-header",
     });
 
 });
@@ -193,13 +201,11 @@ app.get("/reviews", async (request, reply) => {
 
 app.get("/tnt", async (request, reply) => {
 
-    return reply.view("tnt.ejs", {
-    });
+    return reply.view("tnt.ejs", {});
 
 });
 
 app.get("/troupe", async (request, reply) => {
-    
     const troupeData = await getTroupe();
 
     return reply.view("troupe.ejs", {
@@ -271,10 +277,16 @@ app.get("/update-playbill/:id", async (request, reply) => {
     });
 })
 
+app.get("/accessible-environment", async (request, reply) => {
+
+    return reply.view("accessible-environment.ejs", {
+    });
+
+});
 
 app.post("/reviews", (request, reply) =>{
     const {name, review, topicData, star} = request.body;
-    const [topicTitle, topicText] = topicData.split(":")
+    const [topicTitle, topicText] = topicData.split(":");
 
     let date = Temporal.Now.plainDateISO();
     let month = monthMap[date.month - 1];
@@ -532,6 +544,13 @@ app.post("/approve-review", async (request, reply) =>{
         reply.code(500).send({ error: err.message });
     }
 })
+
+app.setNotFoundHandler((request, reply) => {
+    return reply.status(404).view("/partials/error-page.ejs", {
+        errorCode: "404",
+        errorText: "Not Found: Не найдено"
+    });
+});
 
 app.setErrorHandler((error, request, reply) =>{
     const code = error.statusCode || 500

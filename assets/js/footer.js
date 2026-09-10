@@ -24,7 +24,7 @@ const openMapModal = function () {
     gsap.set(map, { opacity: 0 });
     document.body.classList.add("disable-scroll");
 
-    let heigth = 57;
+    let heigth = 55;
     let top = 24
 
     if (window.innerWidth <= 621) heigth = 53, top = 27;
@@ -36,7 +36,7 @@ const openMapModal = function () {
             left: "10%",
             width: "80%",
             height: `${heigth}%`,
-            duration: 0.4,
+            duration: 0.3,
             ease: "power2.out"
         })
         .to(map, {
@@ -46,10 +46,10 @@ const openMapModal = function () {
         }, ">")
         .to(mapPicture, {
             opacity: 0,
-            duration: 0.3,
+            duration: 0.2,
             ease: "power2.out",
             zIndex: -1,
-        }, ">")
+        }, "<")
 };
 
 const closeMapModal = function () {
@@ -72,14 +72,15 @@ const closeMapModal = function () {
     document.body.classList.remove("disable-scroll");
 
     const tl = gsap.timeline();
-    tl.to(map, {
+    tl
+        .to(map, {
             opacity: 0,
             duration: 0.3,
             ease: "power2.out"
         })
         .to(mapPicture, {
             opacity: 1,
-            duration: 0.2,
+            duration: 0.1,
             ease: "power2.out"
         }, "<")
         .to(mapPicture, {
@@ -90,9 +91,9 @@ const closeMapModal = function () {
             width: startRect.width,
             height: startRect.height,
             opacity: 0.8,
-            duration: 0.5,
+            duration: 0.4,
             ease: "power2.out"
-        })
+        }, "<")
         .call(() => {
             mapButton.append(mapPicture);
             gsap.set(mapPicture, { clearProps: "all" });

@@ -12,6 +12,8 @@ function initReviewJs(){
     const modalReviewContent = document.querySelector(".review-js");
     const modalLike = document.querySelector("#review-modal__like");
     const modalLikeContent = document.querySelector(".like-js");
+    const modalError = document.querySelector("#review-modal__error");
+    const modalErrorContent = document.querySelector(".error-js");
     const closeBtn = document.querySelectorAll("#close-modal");
     const topicList = document.querySelectorAll(".topic-list__item")
 
@@ -98,7 +100,6 @@ function initReviewJs(){
     }
 
     likes.forEach(like => {
-
         like.addEventListener("click", async () => {
 
             const reviewId =  like.dataset.reviewid;
@@ -140,15 +141,11 @@ function initReviewJs(){
         resistanceRatio: 0.85,
     });
 
-
-
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const formData = new FormData(form);
-        console.log(formData)
         const token = await grecaptcha.execute('6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY', { action: 'submit' });
-
         const response = await fetch("/reviews", {
             method: "POST",
             body: new URLSearchParams({
@@ -161,7 +158,15 @@ function initReviewJs(){
             openModal(modalReviewContent);
             modalReview.classList.add("active");
             document.body.classList.add("disable-scroll");
+            localStorage.removeItem('name');
+            localStorage.removeItem('review');
+            localStorage.removeItem('star');
+            localStorage.removeItem('topicData');
             form.reset();
+        } else {
+            openModal(modalErrorContent);
+            modalError.classList.add("active");
+            document.body.classList.add("disable-scroll");
         }
     });
 
@@ -174,6 +179,7 @@ function initReviewJs(){
             onComplete: () => {
                 modalReview.classList.remove("active");
                 modalLike.classList.remove("active");
+                modalError.classList.remove("active");
                 gsap.set(modal, { clearProps: "all" });
             }
         })
@@ -183,6 +189,7 @@ function initReviewJs(){
             button.addEventListener("click", () => {
             closeModal(modalLikeContent);
             closeModal(modalReviewContent);
+            closeModal(modalErrorContent);
             document.body.classList.remove("disable-scroll");
         });
     }
@@ -192,9 +199,31 @@ function initReviewJs(){
             if (event.target === this) {
                 closeModal(modalLikeContent);
                 closeModal(modalReviewContent);
+                closeModal(modalErrorContent);
                 document.body.classList.remove("disable-scroll");
             }
         });
     });
+
+    const savedFormToLocalStorage = function() {
+        document.addEventListener("DOMContentLoaded", () =>{
+            if (!form) return
+
+            form.querySelectorAll("input, textarea, select").forEach((field) => {
+                const savedValue = window.localStorage.getItem(`${field.name}`);
+                if (savedValue !== null) {
+                    field.value = savedValue;
+                }
+            })
+
+            form.querySelectorAll("input, textarea, select").forEach((field) => {
+                field.addEventListener(field.tagName === "SELECT" ? "change" : "input", () => {
+                    window.localStorage.setItem(`${field.name}`, field.value)
+                })
+            })
+
+        })
+    };
+    savedFormToLocalStorage();
 };
 initReviewJs();

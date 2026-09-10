@@ -44,6 +44,7 @@
     display: grid;
     grid-template-columns: 3fr 1fr;
     align-items: flex-start;
+    box-sizing: border-box;
     row-gap: 20px;
     column-gap: 20px;
     padding: 20px 20px;
@@ -63,6 +64,7 @@
     align-items: center;
     grid-template-rows: auto auto 1fr auto;
     grid-auto-rows: min-content;
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     background-color: var(--background-opacity);
     padding: 10px;
@@ -126,16 +128,21 @@
 .write-review {
     display: flex;
     flex-direction: column;
+    background-color: var(--background-opacity);
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
 }
 *::placeholder {
-    color: #ffffff;
+    color: #000000;
 }
 #name {
     margin: 10px 0px;
     padding: 5px 0px;
     border: none;
     background-color: var(--main-background);
-    color: #ffffff;
+    color: #000000;
     border-bottom: 2px solid var(--border-color);
     font-size: var(--medium-text);
 }
@@ -177,7 +184,7 @@
     font-size: var(--medium-text);
     border: 1px solid var(--border-color);
     border-radius: 20px;
-    color: #ffffff;
+    color: #000000;
     min-width: 0;
 }
 #review {
@@ -187,12 +194,16 @@
     font-size: var(--medium-text);
     border: 1px solid var(--border-color);
     border-radius: 20px;
-    color: #ffffff;
+    color: #000000;
     resize: none;
     width: calc(100% - 20px);
 }
 #review:focus {
     background-color: var(--background-opacity);
+}
+.buy-ticket.write-review__button {
+    min-height: 60px;
+    height: auto;
 }
 .modal {
     position: fixed;
@@ -211,7 +222,7 @@
 
 .modal__content {
     background-color: var(--main-background);
-    color: #ffffff;
+    color: #000000;
     padding: 30px;
     border-radius: 15px;
     max-width: 450px;
@@ -231,6 +242,7 @@
 @media (max-width: 1023px) {
     .review-wrapper {
         grid-template-columns: 1fr;
+        column-gap: 0px;
     }
     #topicData {
         width: 100%;

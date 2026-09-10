@@ -24,7 +24,9 @@
 }
 .ticket-office-contact__item,
 .info-list__item,
-.info-list__item a {
+.info-list__item a,
+.accessible-environment a,
+.google-policies__item a {
     transition: color 0.3s ease;
 }
 .contact-description:hover {
@@ -51,6 +53,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid var(--border-color);
     border-radius: 20px;
     padding: 5px;
     cursor: pointer;
@@ -67,11 +70,12 @@
 .map:hover .map-button{
     transform: scale(1.1);
     color: var(--additionaly-background);
-    border: 3px solid var(--additionaly-background);
+    border: 3px solid var(--border-color);
 }
 .map-picture {
     display: block;
     position: absolute;
+    border: 1px solid var(--border-color);
     inset: 0;
     z-index: -1;
     width: 100%;
@@ -100,7 +104,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  color: rgba(255,255,255, 0.07);
+  color: rgba(207, 176, 147, 0.4);
   font-size: clamp(60px, 18.6vw, 190px);
   z-index: 0;
   pointer-events: none;
@@ -127,24 +131,25 @@
     gap: 10px;
     padding: 5px 0px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 .ticket-office-contact__item:first-child:hover {
     color: inherit; 
     cursor: default;
 }
-.ticket-office-contact__item:hover {
+.ticket-office-contact__item:hover,
+.google-policies__item:hover a  {
     color: var(--additionaly-background)
 }
 .gold-text {
-    color: var(--button-background);
+    color: var(--additionaly-background);
 }
 .google-policies {
     grid-column: 1/3;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0;
     gap: 10px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     font-size: var(--small-text);
 }
 .google-policies__item:first-child{
@@ -173,10 +178,8 @@
         grid-template-columns: 1fr;
     }
     .watermark {
-        top: 40%;
         height: auto;
     }
-
     .info-list {
         display: flex;
         flex-direction: column;
@@ -184,14 +187,12 @@
         justify-content: center;
         text-align: center;
     }
-
     .info-list__item {
         justify-self: unset;
         justify-content: center;
         text-align: center;
         width: 100%;
     }
-
     .label-phone  { order: 1; }
     .value-phone  { order: 2; }
     .label-office { order: 3; }
@@ -200,4 +201,7 @@
     .value-mail   { order: 6; }
     .label-vk     { order: 7; }
     .value-vk     { order: 8; }
+    .google-policies {
+        grid-column: 1;
+    }
 }

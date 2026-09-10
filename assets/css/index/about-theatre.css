@@ -41,13 +41,12 @@
     font-size: var(--large-text);
     font-style: italic;
     padding: 10px;
-    margin-top: 5px;
+    margin-top: 10px;
     position: relative;
     background: none;
     border: none;
-    color: #ffffff;
     background: var(--main-background);
-    border: 3px solid var(--additionaly-background);
+    border: 3px solid var(--button-background);
     border-radius: 25px;
 }
 .about-theatre__learn-more:active {

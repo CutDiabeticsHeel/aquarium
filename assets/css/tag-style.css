@@ -1,13 +1,18 @@
 a{
     text-decoration: none;
+    color: #000000;
+}
+.a11y-scheme-dark a{
     color: #ffffff;
 }
 h1 {
     box-sizing: border-box;
     font-size: var(--h1);
+    margin: 10px 0px;
 }
 h2 {
     font-size: var(--h2);
+    margin: 10px 0px;
 }
 h3 {
     margin: 0;
@@ -28,7 +33,8 @@ p {
 }
 body {
     background-color: var(--main-background);
-    color: #ffffff;
+    color: #000;
+    font-family: 'PT-Sans', sans-serif;
     font-size: var(--medium-text);
     margin: 0;
     padding: 0;

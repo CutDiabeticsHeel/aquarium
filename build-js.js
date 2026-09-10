@@ -9,7 +9,7 @@ const JS_DIR = path.join(__dirname, 'assets', 'js');
 const OUTPUT_FILE = path.join(__dirname, 'assets', 'js', 'bundle.js');
 const EXCLUDE_FILES = ['bundle.js'];
 const VENDOR_JS = [
-  ['@fancyapps/ui/dist/fancybox/fancybox.umd.js', 'fancybox.umd.js'],
+  ['@fancyapps/ui/dist/fancybox/fancybox.umd.js',  'fancybox.umd.js'],
   ['swiper/swiper-bundle.min.js',                  'swiper-bundle.min.js'],
   ['gsap/dist/gsap.min.js',                        'gsap.min.js'],
   ['gsap/dist/ScrollTrigger.min.js',               'ScrollTrigger.min.js'],

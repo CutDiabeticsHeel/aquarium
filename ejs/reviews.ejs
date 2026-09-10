@@ -14,18 +14,18 @@
 
         <section class="reviews">
             <div class="greetings">
-                <h1 class="greetings__title wave">Отзывы</h1>
+                <h1 class="greetings__title">Отзывы</h1>
                 <p class="greetings__text">Мы ценим мнение каждого зрителя. Ваши отзывы помогают нам становиться лучше и создавать ещё больше ярких впечатлений.</p>
                 <img class="greetings__image" src="/img/main-section.webp" width="500" height="500" alt="Фото театра">
             </div>
             <div class="review-wrapper">
                 <div class="swiper topic-list-swiper">
                     <ul class="swiper-wrapper topic-list">
-                        <li class="swiper-slide topic-list__item all-reviews">Все отзывы</li>
-                        <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka">Театральная студия</li>
-                        <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt">Театр народного творчества</li>
-                        <li class="swiper-slide topic-list__item performances" data-topic="performance">Спектакли</li>
-                        <li class="swiper-slide topic-list__item service" data-topic="service">Обслуживание</li>
+                        <li class="swiper-slide topic-list__item all-reviews" tabindex="0">Все отзывы</li>
+                        <li class="swiper-slide topic-list__item teatralka" data-topic="teatralka" tabindex="0">Театральная студия</li>
+                        <li class="swiper-slide topic-list__item folk-art-theater" data-topic="tnt" tabindex="0">Театр народного творчества</li>
+                        <li class="swiper-slide topic-list__item performances" data-topic="performance" tabindex="0">Спектакли</li>
+                        <li class="swiper-slide topic-list__item service" data-topic="service" tabindex="0">Обслуживание</li>
                     </ul>
                 </div>
                 <ul class="review-list">
@@ -41,7 +41,7 @@
                         </div>
                         <p class="text"><%= item.text %></p>
                         <div class="feedback">
-                            <svg class="feedback__like" data-reviewId="<%= item.review_id %>" height="25" width="25">
+                            <svg class="feedback__like" data-reviewId="<%= item.review_id %>" height="25" width="25" tabindex="0">
                                 <use href="/svg/sprite.svg#like"></use> 
                             </svg>
                             <span class="feedback__counter"><%= item.likes %></span>
@@ -72,7 +72,7 @@
                             <option value="teatralka:Театральная студия">Театральная студия</option>
                             <option value="tnt:Театр народного творчества">Театр народного творчества</option>
                             <% performances.forEach(item => { %>
-                            <option value="performance:<%= item.title %>">Спектакль: <%= item.title %></option>
+                                <option value="performance:<%= item.title %>">Спектакль: <%= item.title %></option>
                             <% }); %>
                             <option value="service:Обслуживание">Обслуживание</option>
                             <option value="other:Другое">Другое</option>
@@ -103,11 +103,20 @@
                 </button>
             </div>
         </div>
-
         <div id="review-modal__like" class="modal">
             <div class="modal__content like-js success-modal">
 
                 <h2>Вы уже оценили этот отзыв</h2>
+
+                <button class="buy-ticket" id="close-modal">
+                    Понятно
+                </button>
+            </div>
+        </div>
+        <div id="review-modal__error" class="modal">
+            <div class="modal__content error-js success-modal">
+
+                <h2>Что-то пошло не так попробуйте еще раз</h2>
 
                 <button class="buy-ticket" id="close-modal">
                     Понятно

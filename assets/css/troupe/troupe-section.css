@@ -27,7 +27,7 @@
     margin-top: 15px;
 }
 .actors-list__link:hover {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--additionaly-background);
 }
 .actors-list__link:hover .actors__image {
     transform: scale(1.08)

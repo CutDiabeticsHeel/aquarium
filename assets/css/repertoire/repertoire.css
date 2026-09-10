@@ -6,8 +6,8 @@
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 20px;
     row-gap: 20px;
-    margin: 50px 20px;
-    padding: 0;
+    padding: 20px 20px 50px;
+    margin: 0;
 }
 .performance-list__item {
     border: 1px solid var(--border-color);
@@ -52,7 +52,7 @@
     opacity: 0;
 }
 .performance-list__item:hover .performance__info{
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--additionaly-background);
 }
 .performance__info {
     display: flex;
@@ -67,6 +67,7 @@
 }
 .performance__figcaption {
     background: rgba(0,0,0,0.6);
+    color: #ffffff;
     border-radius: 20px;
     padding: 0 12px;
     gap: 5px;
@@ -81,6 +82,6 @@
 }
 @media (max-width: 800px) {
     .performance-list {
-        grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 }

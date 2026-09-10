@@ -21,6 +21,7 @@
     left: 15%;
     z-index: 10;
     text-align: center;
+    color: #ffffff;
     font-size: var(--large-text);
     padding: 10px;
     backdrop-filter: blur(20px);
@@ -43,6 +44,7 @@
 .tnt__swiper {
     width: 100%;
     overflow: hidden;
+    background-color: #000000;
 }
 .tnt__wrapper h3 {
     text-align: center;

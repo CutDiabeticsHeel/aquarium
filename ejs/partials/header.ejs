@@ -1,18 +1,28 @@
-<header class="main-header">
+<header class="<%= typeof headerClass !== 'undefined' ? headerClass : '' %> main-header">
         <a class="title-wrapper" href="/welcome">
-            <svg height="50" width="50" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"  fill="#ffffff" viewBox="0 0 965.25 965.25">
+            <svg height="50" width="50" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"  fill="#54A9A4" viewBox="0 0 965.25 965.25">
                 <path d="M0 238.932h965.25L482.625 2.332zM93.559 389.189h78.428v390.143H93.559zM326.793 389.189h78.428v390.143h-78.428zM560.028 389.189h78.428v390.143h-78.428zM793.262 389.189h78.428v390.143h-78.428zM913.49 354.189v-79.075H51.759v79.075H871.69zM897.614 869.371H871.69v-55.039H93.559v55.039H67.636c-24.346 0-44.082 19.736-44.082 44.082v49.465h918.142v-49.465c-.001-24.346-19.737-44.082-44.082-44.082"/>
             </svg>
-            <p class="title">Детский театр<br> АКВАРИУМ</p>
+            <p class="title">Детский театр<br> <b><i>АКВАРИУМ</i></b></p>
         </a>
         <nav class="main-navigation close">
             <ul class="navigation-list ">
-                <li class="navigation-list__item"><a class="under-line-link" href="/playbill">Афиша</a></li>
-                <li class="navigation-list__item"><a class="under-line-link" href="/welcome#services">Услуги</a></li>
-                <li class="navigation-list__item"><a class="under-line-link" href="/troupe">Труппа театра</a></li>
-                <li class="navigation-list__item"><a class="under-line-link" href="/repertoire">Наши спектакли</a></li>                
-                <li class="navigation-list__item"><a class="under-line-link" href="/welcome#about-theatre">О театре</a></li>
-                <li class="navigation-list__item"><a class="under-line-link" href="/reviews">Отзывы</a></li>
+                <li>
+                    <ul class="links-container">
+                        <li class="navigation-list__item"><a class="under-line-link" href="/playbill">Афиша</a></li>
+                        <li class="navigation-list__item"><a class="under-line-link" href="/welcome#services">Услуги</a></li>
+                        <li class="navigation-list__item"><a class="under-line-link" href="/troupe">Труппа театра</a></li>
+                        <li class="navigation-list__item"><a class="under-line-link" href="/repertoire">Наши спектакли</a></li>                
+                        <li class="navigation-list__item"><a class="under-line-link" href="/welcome#about-theatre">О театре</a></li>
+                        <li class="navigation-list__item"><a class="under-line-link" href="/reviews">Отзывы</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <ul class="links-container">
+                        <li class="navigation-list__item"><a class="under-line-link" href="/accessible-environment">Доступная среда</a></li>
+                        <li class="navigation-list__item"><button class="under-line-link visually-impaired a11y-open">Версия для слабовидящих</button></li>
+                    </ul>
+                </li>
             </ul>
             <button class="buy-ticket">Купить билет</button>
         </nav>
@@ -21,5 +31,30 @@
                 <use href="/svg/sprite.svg#burger"></use> 
             </svg>
         </button>
-        
 </header>
+<div class="a11y-panel" id="a11yPanel">
+  <div class="a11y-panel__row">
+    <span class="a11y-panel__label">Размер шрифта:</span>
+    <button type="button" class="a11y-btn" data-font="normal">A</button>
+    <button type="button" class="a11y-btn" data-font="large">A+</button>
+    <button type="button" class="a11y-btn" data-font="larger">A++</button>
+  </div>
+
+  <div class="a11y-panel__row">
+    <span class="a11y-panel__label">Изображения:</span>
+    <button type="button" class="a11y-btn" data-images="on">Вкл</button>
+    <button type="button" class="a11y-btn" data-images="off">Выкл</button>
+  </div>
+
+  <div class="a11y-panel__row">
+    <span class="a11y-panel__label">Цветовая схема:</span>
+    <button type="button" class="a11y-btn a11y-scheme" data-scheme="normal">Обычная</button>
+    <button type="button" class="a11y-btn a11y-scheme" data-scheme="dark">Тёмная</button>
+    <button type="button" class="a11y-btn a11y-scheme" data-scheme="light">Светлая</button>
+  </div>
+
+  <div class="a11y-panel__row a11y-panel__actions">
+    <button type="button" class="a11y-btn a11y-reset">Сбросить</button>
+    <button type="button" class="a11y-btn a11y-close">Закрыть</button>
+  </div>
+</div>

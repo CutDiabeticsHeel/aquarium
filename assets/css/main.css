@@ -1,16 +1,49 @@
 :root {
-    --main-background: #001d3d;
-    --additionaly-background: #114d94;
-    --button-background: #ffcc00;
-    --border-color: #dde8ed;
-    --background-opacity: rgba(117, 152, 206, 0.2);
+    --main-background: #E8F6F9;
+    --additionaly-background: #CFB093;
+    --button-background:  #54A9A4;
+    --border-color: #C5D9DC;
+    --background-opacity: #F3FCFD;
+    --dark-bg: #101820;
+    --dark-card: #17242B;
+    --dark-text: #F1F7F8;
+    --dark-border: #33464D;
+}
+body.a11y-scheme-dark {
+    --main-background: #101820;
+    --additionaly-background: #B08A5E;
+    --button-background: #54A9A4;
+    --border-color: #33464D;
+    --background-opacity: #17242B;
+    --dark-bg: #101820;
+    --dark-card: #B08A5E;
+    --dark-text: #F1F7F8;
+    --dark-border: #33464D;
+    color: #ffffff;
+}
+body.a11y-scheme-dark .unique-header a.under-line-link,
+body.a11y-scheme-dark .unique-header .visually-impaired,
+body.a11y-scheme-dark .unique-header p {
+    color: #ffffff ;
+}
+
+body.a11y-scheme-light {
+    --main-background: #FFFFFF;
+    --additionaly-background: #E8D5BE;
+    --button-background: #54A9A4;
+    --border-color: #E0E0E0;
+    --background-opacity: #FAFAFA;
+    --dark-bg: #FFFFFF;
+    --dark-card: #E8D5BE;
+    --dark-text: #1A1A1A;
+    --dark-border: #E0E0E0;
 }
 ::-webkit-scrollbar {
     background-color: var(--main-background);
     width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: var(--additionaly-background);
+    background-color: var(--button-background);
     border-radius: 400px;
     background-clip: padding-box;
 }
@@ -37,18 +70,19 @@ body.disable-scroll {
     background-color: var(--button-background);
     height: 60px;
     width: 180px;
+    padding: 5px 10px;
     font-size: var(--buy-ticket-text);
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    box-sizing: border-box;
 }
 .buy-ticket:hover {
-    background-color: #ffd700;
-    box-shadow: 0px 0px 10px rgba(255, 215, 0, 1.4);  
+    background-color: var(--additionaly-background);
 }
 [class*="__arrow-back"] .hover-circle,
 [class*="__arrow-next"] .hover-circle {
-    stroke: var(--additionaly-background);
+    stroke: var(--button-background);
 
     stroke-dasharray: 63; 
 
@@ -66,5 +100,20 @@ body.disable-scroll {
 }
 [class*="__arrow-back"]:active path,
 [class*="__arrow-next"]:active path{
-    stroke: var(--additionaly-background);
+    stroke: var(--button-background);
+}
+@font-face {
+    font-family: 'PT-Sans';
+    src: url('../font/pt-sans-cyrillic-400-normal.woff2') format('woff2');
+}
+.wave {
+    background-image: url("../svg/wave.svg");
+    background-size: contain;
+    
+    min-width: 0;
+}
+@media (max-width: 375px) {
+    .wave {
+        background-repeat: no-repeat;
+    }
 }

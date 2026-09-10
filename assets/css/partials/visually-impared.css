@@ -1,0 +1,73 @@
+.a11y-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #1f1f1f;
+  color: #fff;
+  padding: 12px 20px;
+  display: none;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.a11y-panel.a11y-panel--open {
+  display: flex;
+}
+
+.a11y-panel__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.a11y-panel__label {
+  font-size: 14px;
+  opacity: .85;
+}
+
+.a11y-btn {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background .15s ease;
+}
+
+.a11y-btn:hover {
+  background: #4a4a4a;
+}
+
+.a11y-btn.active {
+  background: #e0b23d;
+  color: #1f1f1f;
+  border-color: #e0b23d;
+  font-weight: 600;
+}
+
+.a11y-panel__actions {
+  margin-left: auto;
+}
+
+.a11y-reset {
+  background: #555;
+}
+
+.a11y-close {
+  background: #a33;
+}
+.a11y-close:hover {
+  background: #c44;
+}
+
+body.a11y-images-off img {
+  visibility: hidden !important;
+}

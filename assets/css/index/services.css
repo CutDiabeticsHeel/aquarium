@@ -1,6 +1,11 @@
-.services .wave {
-    padding-left: 20px;
-    width: calc(100% - 20px);
+.services {
+    background-color: var(--dark-bg);
+    padding: 30px 0px;
+    color: var(--dark-text);
+}
+.services h2 {
+    text-align: center;
+    color: #D4AF37;
 }
 .services__wrapper {
     display: grid;
@@ -12,15 +17,16 @@
 .drama-school,
 .tnt {
     text-align: center;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--dark-border);
     border-radius: 20px;
-    background-color: var(--background-opacity);
+    background-color: var(--dark-card);
     position: relative;
     overflow: hidden;
     padding: 20px;
 }
 .services_link {
     display: block;
+    color: var(--dark-text);
 }
 
 .services_link::before {
@@ -41,6 +47,9 @@
 .services_link:hover::before {
     top: 100%;   
     left: 100%;       
+}
+.services_link:hover {
+    color: #D4AF37;
 }
 .services_link:active {
     filter: brightness(30%);

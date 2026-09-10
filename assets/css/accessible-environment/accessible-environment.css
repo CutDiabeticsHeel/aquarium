@@ -1,0 +1,82 @@
+.accessible-environment__section {
+    display: flex;
+    flex-direction: column;
+}
+.accessible-environment__section h1,
+.accessible-environment__section h3 {
+    padding-left: 20px;
+    margin: 10px 0px;
+}
+.accessible-environment__section span {
+    padding: 0px 20px;
+}
+.space-span {
+    margin: 10px 0px;
+}
+.zone,
+.subzone {
+    padding: 0px 20px;
+}
+.zone summary,
+.subzone summary {
+    background-color: var(--background-opacity);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+tbody tr {
+    border-bottom: 2px solid var(--border-color);
+}
+th {
+    width: 80%;
+    text-align: left;
+    font-size: var(--second-medium-text);
+    font-weight: normal;
+    overflow-wrap: anywhere;
+    padding: 5px 0px;
+}
+td {
+    width: 20%;
+    padding: 5px 0px;
+}
+.accessible {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.accessible div {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.environment {
+    padding: 0px 20px;
+    margin: 15px 0px;
+}
+.environment h3 {
+    font-weight: bold;
+    margin: 15px 0px;
+    padding: 0;
+}
+.environment p {
+    margin: 10px 0px;
+}
+.environment img {
+    display: block;
+    object-fit: contain;
+    width: 100%;
+    max-height: 500px;
+    margin: 10px auto 10px auto;
+}
+a {
+    transition: color 0.3s ease;
+}
+a:hover{
+    color: var(--additionaly-background);
+}

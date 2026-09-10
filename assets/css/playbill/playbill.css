@@ -35,6 +35,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     margin: 0;
     padding: 0px 20px;
+    margin: 20px 0px;
     gap: 20px;
 }
 .performances-list__item {
@@ -46,6 +47,7 @@ body {
     align-items: center;
     font-size: var(--second-medium-text);
     background-color: var(--background-opacity);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     padding-bottom: 7px;
     position: relative;
@@ -61,11 +63,7 @@ body {
     top: 0;
 }
 .performances-list__item:hover {
-    color: rgba(255, 255, 255, 0.5);
-}
-.buy-ticket:hover {
-    background-color: #ffd700;
-    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+    color: var(--additionaly-background);
 }
 .playbill__title {
     grid-column: 1;
@@ -129,8 +127,8 @@ body {
     width: 80%;
     height: 200px;
     background-color: var(--background-opacity);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
-    color: #ffffff;
     font-size: var(--large-text);
     margin-left: auto;
     margin-right: auto;
