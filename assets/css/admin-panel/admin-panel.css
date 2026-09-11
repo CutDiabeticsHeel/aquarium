@@ -45,8 +45,9 @@ input[type="text"] {
     margin: 10px 0;
     padding: 5px 0;
     border: none;
+    border-bottom: 3px solid var(--additionaly-background);
     background-color: var(--background-opacity);
-    color: #ffffff;
+    color: #000000;
     font-size: var(--second-medium-text);
 }
 #input:focus {

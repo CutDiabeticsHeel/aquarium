@@ -116,6 +116,7 @@ function initPlaybillJs(){
     });
 
     const PlaybillSwiper = new Swiper('.dates-list-swiper', {
+        a11y: false,
         freeMode: true,
         spaceBetween: 15,
         mousewheel: true,

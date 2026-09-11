@@ -141,9 +141,6 @@
 .google-policies__item:hover a  {
     color: var(--additionaly-background)
 }
-.gold-text {
-    color: var(--additionaly-background);
-}
 .google-policies {
     grid-column: 1/3;
     display: grid;

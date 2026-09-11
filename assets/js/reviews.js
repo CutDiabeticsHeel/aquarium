@@ -130,6 +130,7 @@ function initReviewJs(){
     });
 
     const Reviewswiper = new Swiper('.topic-list-swiper', {
+        a11y: false,
         freeMode: true,
         spaceBetween: 15,
         mousewheel: true,
