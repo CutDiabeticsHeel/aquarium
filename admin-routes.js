@@ -1,6 +1,25 @@
 import {getPlaybill, addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
     updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
     deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews} from './database-function.js';
+import path from "node:path";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import { pipeline } from "stream/promises";
+
+const ALLOWED_TYPES = {
+    ".jpg": ["image/jpeg"],
+    ".jpeg": ["image/jpeg"],
+    ".png": ["image/png"],
+    ".webp": ["image/webp"],
+};
+
+function safeExtFromMime(filename, mimetype) {
+    const ext = path.extname(filename).toLowerCase();
+    if (!ALLOWED_TYPES[ext]) return null;
+    if (!ALLOWED_TYPES[ext].includes(mimetype)) return null;
+    return ext;
+}
+
 
 async function adminRoutes(app, opts) {
     app.addHook('onRequest', async (request, reply) => {
@@ -46,23 +65,32 @@ async function adminRoutes(app, opts) {
             playbillData: playbillItemResult,
             id
         });
-    })
-    
+    })  
     
     app.post("/add-actor", async (request, reply) => {
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;
+        const writtenFiles = [];
+
         try {
             for await (const part of request.parts()) {
                 if (part.type === 'file') {
                     if (!part.filename) continue;
+                    const validFile = safeExtFromMime(part.filename, part.mimetype);
+                    if (!validFile) {
+                        part.file.resume();
+                        continue;
+                    }
     
-                    const filename = part.filename;
-                    await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
+                    const fileName = crypto.randomUUID() + validFile;
+                    const destPath = path.resolve('./assets/img/', fileName);
+
+                    await pipeline(part.file, fs.createWriteStream(destPath));
+                    writtenFiles.push(destPath);
     
-                    if (part.fieldname === 'imgs') actorImages.push(filename);
-                    else actorPortrait = filename;
+                    if (part.fieldname === 'imgs') actorImages.push(fileName);
+                    else actorPortrait = fileName;
                 } else {
                     actorData[part.fieldname] = part.value;
                 }
@@ -70,6 +98,9 @@ async function adminRoutes(app, opts) {
             await addActorToDatabase(actorData, actorImages, actorPortrait);
             reply.redirect("/admin-panel");
         } catch (err) {
+            for (const f of writtenFiles) {
+                fs.promises.unlink(f).catch(() => {});
+            }
             reply.code(500).send({ error: err.message });
         }
     })
@@ -77,7 +108,6 @@ async function adminRoutes(app, opts) {
     app.post("/delete-actor", async(request, reply) =>{
         try {
             const {firstName, lastName, patronymic} = request.body;
-            console.log(firstName, lastName, patronymic)
             await deleteActorFromDatabase(firstName, lastName, patronymic)
             reply.redirect("/admin-panel");
         } catch (err){
@@ -90,16 +120,26 @@ async function adminRoutes(app, opts) {
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;
+        const writtenFiles = [];
+
         try {
             for await (const part of request.parts()) {
                 if (part.type === 'file') {
                     if (!part.filename) continue;
+                    const validFile = safeExtFromMime(part.filename, part.mimetype);
+                    if (!validFile) {
+                        part.file.resume();
+                        continue;
+                    }
     
-                    const filename = part.filename;
-                    await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
+                    const fileName = crypto.randomUUID() + validFile;
+                    const destPath = path.resolve('./assets/img/', fileName);
+
+                    await pipeline(part.file, fs.createWriteStream(destPath));
+                    writtenFiles.push(destPath);
     
-                    if (part.fieldname === 'imgs') actorImages.push(filename);
-                    else actorPortrait = filename;
+                    if (part.fieldname === 'imgs') actorImages.push(fileName);
+                    else actorPortrait = fileName;
                 } else {
                     actorData[part.fieldname] = part.value;
                 }
@@ -107,6 +147,9 @@ async function adminRoutes(app, opts) {
             await updateActorData(id, actorData, actorImages, actorPortrait);
             reply.redirect("/admin-panel");
         } catch (err) {
+            for (const f of writtenFiles) {
+                fs.promises.unlink(f).catch(() => {});
+            }
             reply.code(500).send({ error: err.message });
         }
     })
@@ -135,24 +178,37 @@ async function adminRoutes(app, opts) {
         const performanceData = {};
         const performanceImages = [];
         let titleImage = null;
+        const writtenFiles = [];
+
         try {
             for await (const part of request.parts()) {
                 if (part.type === 'file') {
                     if (!part.filename) continue;
+
+                    const validFile = safeExtFromMime(part.filename, part.mimetype);
+                    if (!validFile) {
+                        part.file.resume();
+                        continue;
+                    }
+
+                    const fileName = crypto.randomUUID() + validFile;
+                    const destPath = path.resolve('./assets/img/', fileName);
+
+                    await pipeline(part.file, fs.createWriteStream(destPath));
+                    writtenFiles.push(destPath);
     
-                    const filename = part.filename;
-                    await pipeline(part.file, fs.createWriteStream('./assets/img/' + filename));
-    
-                    if (part.fieldname === 'imgs') performanceImages.push(filename);
-                    else titleImage = filename;
+                    if (part.fieldname === 'imgs') performanceImages.push(fileName);
+                    else titleImage = fileName;
                 } else {
                     performanceData[part.fieldname] = part.value;
                 }
             }
-            console.log(performanceData, performanceImages, titleImage)
             await addOrUpdatePerformance(performanceData, performanceImages, titleImage);
             reply.redirect("/admin-panel");
         } catch (err) {
+            for (const f of writtenFiles) {
+                fs.promises.unlink(f).catch(() => {});
+            }
             reply.code(500).send({ error: err.message });
         }
     })
@@ -160,7 +216,6 @@ async function adminRoutes(app, opts) {
     app.post("/add-playbill", async(request, reply) =>{
         try {
             const {title, date, time} = request.body
-            console.log(title, date, time)
             await addPerformanceToPlaybill(title, date, time)
             reply.redirect("/admin-panel")
         } catch (error) {
@@ -182,9 +237,7 @@ async function adminRoutes(app, opts) {
     app.post("/update-playbill", async (request, reply) =>{
         const { id } = request.query;
         const {title, date, time} = request.body;
-        console.log(id, title, date, time)
         try {
-            console.log(id, title, date, time)
             await updatePlaybillItem(Number(id), title, date, time);
             reply.redirect("/admin-panel");
         } catch (err) {

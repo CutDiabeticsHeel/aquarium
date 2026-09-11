@@ -133,7 +133,6 @@ function initPlaybillJs(){
     for(let buyButton of buyButtons){
         buyButton.addEventListener("click", (event) =>{
             event.preventDefault();
-            console.log('click')
         })
     }
 };

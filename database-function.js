@@ -419,40 +419,53 @@ async function deletePerformanceFromDatabase(title){
 }
 
 async function updatePerformance(performanceData, performanceImages, titleImage) {
-    const imagesPath = performanceImages.map(item => `/img/${item}`).join(",");
+    const newImagesPath = performanceImages.map(item => `/img/${item}`).join(",");
     const titleImagePath = titleImage ? `/img/${titleImage}` : "";
 
     return new Promise((resolve, reject) => {
-        db.run(
-            `UPDATE performances
-            SET
-                duration = COALESCE(NULLIF(?, ''), duration),
-                age_limit = COALESCE(NULLIF(?, ''), age_limit),
-                description = COALESCE(NULLIF(?, ''), description),
-                origin = COALESCE(NULLIF(?, ''), origin),
-                audience = COALESCE(NULLIF(?, ''), audience),
-                info = COALESCE(NULLIF(?, ''), info),
-                imgs = COALESCE(NULLIF(?, ''), imgs),
-                title_image = COALESCE(NULLIF(?, ''), title_image)
-            WHERE title = ?`,
-            [
-                performanceData.duration,
-                performanceData.ageLimit,
-                performanceData.description,
-                performanceData.origin,
-                performanceData.audience,
-                performanceData.info,
-                imagesPath,
-                titleImagePath,
-                performanceData.title,
-            ],
-            function (err) {
+        db.get(
+            `SELECT imgs FROM performances WHERE title = ?`,
+            [performanceData.title],
+            (err, row) => {
                 if (err) return reject(err);
 
-                resolve({
-                    updated: true,
-                    changes: this.changes
-                });
+                const oldImages = row?.imgs || "";
+                const newImages = performanceImages?.map(item => `/img/${item}`).join(",") || "";
+
+                const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
+
+                db.run(
+                    `UPDATE performances
+                    SET
+                        duration = COALESCE(NULLIF(?, ''), duration),
+                        age_limit = COALESCE(NULLIF(?, ''), age_limit),
+                        description = COALESCE(NULLIF(?, ''), description),
+                        origin = COALESCE(NULLIF(?, ''), origin),
+                        audience = COALESCE(NULLIF(?, ''), audience),
+                        info = COALESCE(NULLIF(?, ''), info),
+                        imgs = COALESCE(NULLIF(?, ''), imgs),
+                        title_image = COALESCE(NULLIF(?, ''), title_image)
+                    WHERE title = ?`,
+                    [
+                        performanceData.duration,
+                        performanceData.ageLimit,
+                        performanceData.description,
+                        performanceData.origin,
+                        performanceData.audience,
+                        performanceData.info,
+                        imagesPath,
+                        titleImagePath,
+                        performanceData.title,
+                    ],
+                    function (err) {
+                        if (err) return reject(err);
+
+                        resolve({
+                            updated: true,
+                            changes: this.changes
+                        });
+                    }
+                );
             }
         );
     });
