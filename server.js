@@ -113,8 +113,13 @@ await app.register(session, {
     }
 })
 
+function wantsJson(request) {
+    const accept = request.headers.accept || "";
+    return accept.includes("application/json") && !accept.includes("text/html");
+}
+
 function shutdownAndExit() {
-  server.close(() => {
+  app.close(() => {
     process.exit(1);
   });
   setTimeout(() => process.exit(1), 5000);
@@ -360,6 +365,13 @@ app.post("/admin", (request, reply) => {
 await app.register(adminRoutes);
 
 app.setNotFoundHandler((request, reply) => {
+    if (wantsJson(request)) {
+        return reply.status(404).send({
+            errorCode: 404,
+            errorText: error.message ?? "Internal Server Error"
+        })
+    }
+
     return reply.status(404).view("/partials/error-page.ejs", {
         errorCode: "404",
         errorText: "Not Found: Не найдено"
@@ -367,32 +379,20 @@ app.setNotFoundHandler((request, reply) => {
 });
 
 app.setErrorHandler((error, request, reply) =>{
-    const code = error.statusCode || 500
+    const code = error.statusCode >= 400 && error.statusCode < 500 ? error.statusCode : 500;
+    request.log.error({ err: error }, "request failed");
 
-    if (code === 400) {
-        return reply.status(400).view("/partials/error-page.ejs", {
-            errorCode: "400",
-            errorText: "Bad Request: Неверный запрос"
+    if (wantsJson(request)) {
+        return reply.status(code).send({
+            errorCode: String(code),
+            errorText: error.message ?? "Internal Server Error"
         })
     }
-    if (code === 403) {
-        return reply.status(403).view("/partials/error-page.ejs", {
-            errorCode: "403",
-            errorText: "Forbidden: Доступ запрещен"
-        })
-    }
-    if (code === 404) {
-        return reply.status(404).view("/partials/error-page.ejs", {
-            errorCode: "404",
-            errorText: "Not Found: Не найдено"
-        })
-    }
-    if (code === 408) {
-        return reply.status(408).view("/partials/error-page.ejs", {
-            errorCode: "408",
-            errorText: "Request Timeout: Время ожидания истекло"
-        })
-    }
+
+    return reply.status(code).view("/partials/error-page.ejs", {
+        errorCode: String(code),
+        errorText: error ?? "Internal Server Error"
+    })
 })
 
 try {
