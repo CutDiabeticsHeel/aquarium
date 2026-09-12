@@ -113,6 +113,23 @@ await app.register(session, {
     }
 })
 
+function shutdownAndExit() {
+  server.close(() => {
+    process.exit(1);
+  });
+  setTimeout(() => process.exit(1), 5000);
+}
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  shutdownAndExit();
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+  throw reason;
+});
+
 app.get("/welcome", async (request, reply) => {
 
     return reply.view("welcome.ejs", {
@@ -267,53 +284,65 @@ app.post("/reviews", (request, reply) =>{
 })
 
 app.post("/reviews/:id/like", (request, reply) => {
-        const reviewId = request.params.id;
-        const ip = request.ip;
-    
-        db.run(
-            `
-            INSERT INTO likes(review_id, user_ip)
-            VALUES(?, ?)
-            `,
-            [reviewId, ip],
-            function(err) {
-    
-                if (err) {
-                    return reply.send({
-                        success: false,
-                        message: "Лайк уже поставлен"
-                    });
-                }
-    
-                db.run(
-                    `
-                    UPDATE reviews
-                    SET likes = likes + 1
-                    WHERE review_id = ?
-                    `,
-                    [reviewId],
-                    () => {
-    
-                        db.get(
-                            `
-                            SELECT likes
-                            FROM reviews
-                            WHERE review_id = ?
-                            `,
-                            [reviewId],
-                            (err, row) => {
-    
-                                reply.send({
-                                    success: true,
-                                    likes: row.likes
-                                });
-                            }
-                        );
-                    }
-                );
+    const reviewId = request.params.id;
+    const ip = request.ip;
+
+    db.get(
+        `SELECT review_id FROM reviews WHERE review_id = ?`,
+        [reviewId],
+        (err, review) => {
+            if (err) {
+                request.log.error(err);
+                return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
             }
-        );
-    });
+            if (!review) {
+                return reply.code(404).send({ success: false, message: "Отзыв не найден" });
+            }
+            db.run(
+                `INSERT INTO likes(review_id, user_ip) VALUES(?, ?)`,
+                [reviewId, ip],
+                function (err) {
+                    if (err) {
+                        if (err.code === 'SQLITE_CONSTRAINT') {
+                            return reply.send({
+                                success: false,
+                                message: "Лайк уже поставлен"
+                            });
+                        }
+                        return reply.code(500).send({
+                            success: false,
+                            message: "Внутренняя ошибка"
+                        });
+                    }
+                    db.run(
+                        `UPDATE reviews SET likes = likes + 1 WHERE review_id = ?`,
+                        [reviewId],
+                        function (err) {
+                            if (err) {
+                                request.log.error(err);
+                                return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
+                            }
+                            if (this.changes === 0) {
+                                return reply.code(404).send({ success: false, message: "Отзыв не найден" });
+                            }
+                            db.get(
+                                `SELECT likes FROM reviews WHERE review_id = ?`,
+                                [reviewId],
+                                (err, row) => {
+                                    if (err || !row) {
+                                        request.log.error(err);
+                                        return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
+                                    }
+                                    reply.send({ success: true, likes: row.likes });
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+        }
+    );
+});
 
 app.post("/admin", (request, reply) => {
     const {username, password} = request.body;
