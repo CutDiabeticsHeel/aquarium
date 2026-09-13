@@ -54,7 +54,7 @@ const app = Fastify({
             }
         }
     },
-    trustProxy: true,
+    trustProxy: "127.0.0.1",
     https: {
         key: fs.readFileSync('./server.key'),
         cert: fs.readFileSync('./server.crt')
