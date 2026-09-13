@@ -14,6 +14,7 @@ import recaptcha from "fastify-recaptcha";
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
+import  argon2  from "argon2";
 import { Temporal } from '@js-temporal/polyfill';
 
 import {getPlaybill, getPerformanceData, getTroupe, 
@@ -21,14 +22,24 @@ import {getPlaybill, getPerformanceData, getTroupe,
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews} from './database-function.js';
 import adminRoutes from './admin-routes.js';
 
+let captchaConfig, secretConfig;
 
-const captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
-const secretConfig = JSON.parse(fs.readFileSync("./admin-panel.json", "utf-8"));
+try {
+    captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
+    
+} catch (err) {
+    console.error(err.message)
+}
+try {
+    secretConfig = JSON.parse(fs.readFileSync("./admin-panel.json", "utf-8"));
+} catch (err) {
+    console.error(err.message)
+}
 
 const CAPTCHA_KEY = captchaConfig.captchaKey
 const SECRET_KEY = secretConfig.secret
 const USER_NAME = secretConfig.username
-const PASSWORD = secretConfig.password
+const PASSWORD = await argon2.hash(secretConfig.password)
 const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
@@ -349,16 +360,23 @@ app.post("/reviews/:id/like", (request, reply) => {
     );
 });
 
-app.post("/admin", (request, reply) => {
+app.post("/admin", {
+    config: {
+        rateLimit: { max: 5, timeWindow: "15 minutes" }
+    }
+    }, async (request, reply) => {
     const {username, password} = request.body;
-    if (username === USER_NAME && password === PASSWORD) {
-        request.session.user = {
-            username: username,
-            password: password
-        };
+    const isValidPassword = await argon2.verify(PASSWORD, password)
+
+    try {
+        if (username === USER_NAME && isValidPassword) {
+            request.session.user = {
+                username: username
+            };
+        }
         return reply.redirect("/admin-panel")
-    } else {
-        return reply.code(401).send({ error: "Неверный логин или пароль" });
+    } catch (err) {
+        return reply.code(401).send({ error: err });
     }
 })
 
