@@ -169,7 +169,7 @@ async function adminRoutes(app, opts) {
             const {title} = request.body;
             await deletePerformanceFromDatabase(title)
             reply.redirect("/admin-panel")
-        } catch {
+        } catch (err) {
             reply.code(500).send({ error: err.message });
         }
     })
@@ -218,7 +218,7 @@ async function adminRoutes(app, opts) {
             const {title, date, time} = request.body
             await addPerformanceToPlaybill(title, date, time)
             reply.redirect("/admin-panel")
-        } catch (error) {
+        } catch (err) {
             reply.code(500).send({ error: err.message });
         }
         
@@ -229,7 +229,7 @@ async function adminRoutes(app, opts) {
             const {id} = request.body
             await deletePlaybillItem(id)
             reply.redirect("/admin-panel")
-        } catch (error) {
+        } catch (err) {
             reply.code(500).send({ error: err.message });
         }
     })
