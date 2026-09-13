@@ -21,7 +21,7 @@
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    width: calc(100%-20px);
+    width: calc(100% - 20px);
 }
 .main-navigation .buy-ticket {
     grid-column: 3;

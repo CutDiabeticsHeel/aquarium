@@ -5,6 +5,5 @@ node_modules
 /server.key
 /server.csr
 /server.crt
-/package-lock.json
 /captcha.json
 /admin-panel.json
