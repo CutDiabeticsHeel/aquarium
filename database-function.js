@@ -627,9 +627,53 @@ async function processReviews(reviews) {
     });
 }
 
+class SQLiteSessionStore {
+    set(sessionId, session, callback) {
+        const data = JSON.stringify(session);
+        db.run(
+            `
+            INSERT INTO sessions (session_id, data)
+            VALUES (?, ?)
+            ON CONFLICT(session_id)
+            DO UPDATE SET data = excluded.data
+            `,
+            [sessionId, data],
+            callback
+        );
+    }
+    get(sessionId, callback) {
+        db.get(
+            "SELECT data FROM sessions WHERE session_id = ?",
+            [sessionId],
+            (err, row) => {
+                if (err) return callback(err);
+
+                if (!row) {
+                    return callback(null, null);
+                }
+
+                try {
+                    callback(null, JSON.parse(row.data));
+                } catch (error) {
+                    callback(error);
+                }
+            }
+        );
+    }
+    destroy(sessionId, callback) {
+        db.run(
+            "DELETE FROM sessions WHERE session_id = ?",
+            [sessionId],
+            callback
+        );
+    }
+}
+
+
 export {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
     deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
-    deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews}
+    deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews,
+    SQLiteSessionStore}

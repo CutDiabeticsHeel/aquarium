@@ -144,30 +144,41 @@ function initReviewJs(){
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const submitBtn = form.querySelector('[type="submit"]');
+        if (submitBtn.disabled) return; // уже отправляется
+        submitBtn.disabled = true;
+        
+        try {
+            const formData = new FormData(form);
+            console.log('BEFORE execute', Date.now());
+            const token = await grecaptcha.execute('6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY', { action: 'submit' });
+            console.log('AFTER execute, token start:', token, Date.now());
+            const response = await fetch("/reviews", {
+                method: "POST",
+                body: new URLSearchParams({
+                    ...Object.fromEntries(formData),
+                    'g-recaptcha-response': token
+                })
+            });
 
-        const formData = new FormData(form);
-        const token = await grecaptcha.execute('6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY', { action: 'submit' });
-        const response = await fetch("/reviews", {
-            method: "POST",
-            body: new URLSearchParams({
-                ...Object.fromEntries(formData),
-                'g-recaptcha-response': token
-            })
-        });
-
-        if (response.ok) {
-            openModal(modalReviewContent);
-            modalReview.classList.add("active");
-            document.body.classList.add("disable-scroll");
-            localStorage.removeItem('name');
-            localStorage.removeItem('review');
-            localStorage.removeItem('star');
-            localStorage.removeItem('topicData');
-            form.reset();
-        } else {
-            openModal(modalErrorContent);
-            modalError.classList.add("active");
-            document.body.classList.add("disable-scroll");
+            if (response.ok) {
+                openModal(modalReviewContent);
+                modalReview.classList.add("active");
+                document.body.classList.add("disable-scroll");
+                localStorage.removeItem('name');
+                localStorage.removeItem('review');
+                localStorage.removeItem('star');
+                localStorage.removeItem('topicData');
+                form.reset();
+            } else {
+                openModal(modalErrorContent);
+                modalError.classList.add("active");
+                document.body.classList.add("disable-scroll");
+            }
+        } catch (err) {
+            console.err("Ошибка при отпрафке формы", err)
+        } finally {
+            submitBtn.disabled = false;
         }
     });
 

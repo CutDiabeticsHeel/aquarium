@@ -4,6 +4,7 @@ import {getPlaybill, addActorToDatabase, deleteActorFromDatabase, findActors, up
 import path from "node:path";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import csrfProtection from '@fastify/csrf-protection'
 import { pipeline } from "stream/promises";
 
 const ALLOWED_TYPES = {
@@ -20,23 +21,27 @@ function safeExtFromMime(filename, mimetype) {
     return ext;
 }
 
-
 async function adminRoutes(app, opts) {
+    app.register(csrfProtection, {
+        sessionPlugin: '@fastify/cookie'
+    })
+
     app.addHook('onRequest', async (request, reply) => {
         if (!request.session.user) {
             return reply.redirect('/admin');
         }
     });
 
-    app.get("/admin-panel", async (request, reply) => {
+    app.get("/admin-panel",async (request, reply) => {
+        const token = reply.generateCsrf();
         const unpublishedReviews = await getUnpublishedReviews()
         const playbillData = await getPlaybill();
         
         return reply.view("admin-panel.ejs", {
+            token,
             playbillData: playbillData,
             unpublishedReviews: unpublishedReviews
         });
-    
     });
     
     app.get("/find-actor", async (request, reply) => {
@@ -67,7 +72,10 @@ async function adminRoutes(app, opts) {
         });
     })  
     
-    app.post("/add-actor", async (request, reply) => {
+    app.post("/add-actor", {
+            onRequest: app.csrfProtection
+        }, async (request, reply) => {
+        console.log('CSRF passed, we are inside handler');
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;

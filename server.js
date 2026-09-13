@@ -19,7 +19,7 @@ import { Temporal } from '@js-temporal/polyfill';
 
 import {getPlaybill, getPerformanceData, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
-    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews} from './database-function.js';
+    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews, SQLiteSessionStore} from './database-function.js';
 import adminRoutes from './admin-routes.js';
 
 let captchaConfig, secretConfig;
@@ -42,6 +42,8 @@ const USER_NAME = secretConfig.username
 const PASSWORD = await argon2.hash(secretConfig.password)
 const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+const sessionStore = new SQLiteSessionStore();
+
 
 const app = Fastify({
     logger: {
@@ -92,6 +94,7 @@ await app.register(helmet, {
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
+            formAction: ["'self'"],
             frameSrc: ["'self'", "https://yandex.ru" ,"https://www.google.com", "https://recaptcha.google.com"],
             scriptSrc: ["'self'", "https://www.google.com", "https://www.gstatic.com"],
             connectSrc: [
@@ -118,7 +121,10 @@ await app.register(recaptcha, {
 
 await app.register(session, {
     secret: SECRET_KEY,
+    store: sessionStore,
     cookie: {
+        httpOnly: true,
+        sameSite: "lax",
         secure: true,
         maxAge: 24 * 60 * 60 * 1000
     }
@@ -145,6 +151,10 @@ process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Rejection:', reason);
   throw reason;
 });
+
+app.get("/", async(request, reply) => {
+    return reply.redirect("/welcome")
+})
 
 app.get("/welcome", async (request, reply) => {
 
@@ -253,50 +263,81 @@ app.get("/admin", async (request, reply) => {
     return reply.view("admin.ejs", {});    
 });
 
-app.post("/reviews", (request, reply) =>{
-    const {name, review, topicData, star} = request.body;
-    const [topicTitle, topicText] = topicData.split(":");
-
-    let date = Temporal.Now.plainDateISO();
-    let month = monthMap[date.month - 1];
-    let day = date.day;
-    date = day + " " +  month
-
-    db.run(
-        `
-        INSERT INTO reviews(
-            name,
-            date,
-            text,
-            likes,
-            topic,
-            data,
-            approve,
-            star
-        )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-        `,
-        [
-            name,
-            date,
-            review,
-            0,
-            topicText,
-            topicTitle,
-            'false',
-            star
-        ],
-        (err) => {
-
-            if (err) {
-                return reply.code(500).send(err);
-            }
-
-            reply.send({
-                success: true
-            });
+app.post("/reviews", {
+    schema: {
+        body: {
+        type: 'object',
+        properties: {
+            'g-recaptcha-response': { type: 'string' }
+        },
+        required: ['g-recaptcha-response']
         }
-    );
+    },
+    preHandler: async (req, reply) => {
+        console.log(`preHandler START`, Date.now());
+        const token = req.body['g-recaptcha-response'];
+        console.log(`token:`, token.slice(0, 20));
+
+        const params = new URLSearchParams({
+            secret: CAPTCHA_KEY,
+            response: token
+        });
+
+        const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            body: params
+        });
+        const data = await res.json();
+        console.log(`siteverify result:`, JSON.stringify(data));
+
+        if (!data.success || (data.score !== undefined && data.score < 0.5)) {
+            return reply.code(403).send({ error: 'Captcha verification failed' });
+        }
+    }
+    }, (request, reply) =>{
+        const {name, review, topicData, star} = request.body;
+        const [topicTitle, topicText] = topicData.split(":");
+
+        let date = Temporal.Now.plainDateISO();
+        let month = monthMap[date.month - 1];
+        let day = date.day;
+        date = day + " " +  month
+
+        db.run(
+            `
+            INSERT INTO reviews(
+                name,
+                date,
+                text,
+                likes,
+                topic,
+                data,
+                approve,
+                star
+            )
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+            `,
+            [
+                name,
+                date,
+                review,
+                0,
+                topicText,
+                topicTitle,
+                'false',
+                star
+            ],
+            (err) => {
+
+                if (err) {
+                    return reply.code(500).send(err);
+                }
+
+                reply.send({
+                    success: true
+                });
+            }
+        );
 })
 
 app.post("/reviews/:id/like", (request, reply) => {
