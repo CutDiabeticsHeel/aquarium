@@ -2,6 +2,12 @@ import sqlite3 from "sqlite3";
 
 const db = new sqlite3.Database("database/theatre.db");
 
+db.serialize(() => {
+    db.run(`PRAGMA journal_mode = WAL`);
+    db.run(`PRAGMA busy_timeout = 4000`);
+    db.run(`PRAGMA foreign_keys = ON`);
+});
+
 async function getPlaybill() {
     return new Promise((resolve, reject) => {
 
@@ -627,6 +633,71 @@ async function processReviews(reviews) {
     });
 }
 
+async function createReview({ name, date, text, likes, topic, data, approve, star }) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `
+            INSERT INTO reviews(
+                name,
+                date,
+                text,
+                likes,
+                topic,
+                data,
+                approve,
+                star
+            )
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+            `,
+            [name, date, text, likes, topic, data, approve, star],
+            function (err) {
+                if (err) return reject(err);
+                resolve({ id: this.lastID });
+            }
+        );
+    });
+}
+
+async function getReviewById(reviewId) {
+    return new Promise((resolve, reject) => {
+        db.get(
+            `SELECT review_id, likes FROM reviews WHERE review_id = ?`,
+            [reviewId],
+            (err, row) => {
+                if (err) return reject(err);
+                resolve(row);
+            }
+        );
+    });
+}
+
+async function addLike(reviewId, ip) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `INSERT INTO likes(review_id, user_ip) VALUES(?, ?)`,
+            [reviewId, ip],
+            function (err) {
+                if (err) return reject(err);
+                resolve();
+            }
+        );
+    });
+}
+
+async function incrementReviewLikes(reviewId) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE reviews SET likes = likes + 1 WHERE review_id = ?`,
+            [reviewId],
+            function (err) {
+                if (err) return reject(err);
+                if (this.changes === 0) return reject(new Error('Not found'));
+                resolve();
+            }
+        );
+    });
+}
+
 class SQLiteSessionStore {
     set(sessionId, session, callback) {
         const data = JSON.stringify(session);
@@ -676,4 +747,4 @@ export {getPlaybill, getPerformanceData, getTroupe,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
     deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
     deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews,
-    SQLiteSessionStore}
+    createReview, getReviewById, addLike, incrementReviewLikes, SQLiteSessionStore}

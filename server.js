@@ -1,5 +1,4 @@
 import Fastify from "fastify";
-import sqlite3 from "sqlite3";
 import cors from "@fastify/cors";
 import view from "@fastify/view";
 import formbody from "@fastify/formbody";
@@ -17,9 +16,10 @@ import fs from "fs";
 import  argon2  from "argon2";
 import { Temporal } from '@js-temporal/polyfill';
 
-import {getPlaybill, getPerformanceData, getTroupe, 
-    getActorData, getPerformances, getPerformancePageData, 
-    getHrefPerformanceForActor, getStarringListFromPerformance, getReviews, SQLiteSessionStore} from './database-function.js';
+import {getPlaybill, getPerformanceData, getTroupe, getActorData, getPerformances, 
+    getPerformancePageData, getHrefPerformanceForActor, getStarringListFromPerformance, 
+    getReviews, SQLiteSessionStore, createReview, getReviewById, addLike, 
+    incrementReviewLikes} from './database-function.js';
 import adminRoutes from './admin-routes.js';
 
 let captchaConfig, secretConfig;
@@ -60,8 +60,6 @@ const app = Fastify({
         cert: fs.readFileSync('./server.crt')
     }
 });
-
-const db = new sqlite3.Database("database/theatre.db");
 
 await app.register(cors);
 
@@ -283,109 +281,61 @@ app.post("/reviews", {
         },
         }
     },
-    }, (request, reply) =>{
-        const {name, review, topicData, star} = request.body;
-        const [topicTitle, topicText] = topicData.split(":");
+    }, async (request, reply) =>{
+        try {
+            const { name, review, topicData, star } = request.body;
+            const [topicTitle, topicText] = topicData.split(":");
 
-        let date = Temporal.Now.plainDateISO();
-        let month = monthMap[date.month - 1];
-        let day = date.day;
-        date = day + " " +  month
+            let date = Temporal.Now.plainDateISO();
+            const month = monthMap[date.month - 1];
+            const day = date.day;
+            date = `${day} ${month}`;
 
-        db.run(
-            `
-            INSERT INTO reviews(
+            await createReview({
                 name,
                 date,
-                text,
-                likes,
-                topic,
-                data,
-                approve,
+                text: review,
+                likes: 0,
+                topic: topicText,
+                data: topicTitle,
+                approve: 'false',
                 star
-            )
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-            `,
-            [
-                name,
-                date,
-                review,
-                0,
-                topicText,
-                topicTitle,
-                'false',
-                star
-            ],
-            (err) => {
-                if (err) {
-                    return reply.code(500).send(err);
-                }
-                reply.send({
-                    success: true
-                });
-            }
-        );
+            });
+
+            return reply.send({ success: true });
+        } catch (err) {
+            return reply.code(500).send(err);
+        }
 })
 
-app.post("/reviews/:id/like", (request, reply) => {
+app.post("/reviews/:id/like", async (request, reply) => {
     const reviewId = request.params.id;
     const ip = request.ip;
 
-    db.get(
-        `SELECT review_id FROM reviews WHERE review_id = ?`,
-        [reviewId],
-        (err, review) => {
-            if (err) {
-                request.log.error(err);
-                return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
-            }
-            if (!review) {
-                return reply.code(404).send({ success: false, message: "Отзыв не найден" });
-            }
-            db.run(
-                `INSERT INTO likes(review_id, user_ip) VALUES(?, ?)`,
-                [reviewId, ip],
-                function (err) {
-                    if (err) {
-                        if (err.code === 'SQLITE_CONSTRAINT') {
-                            return reply.send({
-                                success: false,
-                                message: "Лайк уже поставлен"
-                            });
-                        }
-                        return reply.code(500).send({
-                            success: false,
-                            message: "Внутренняя ошибка"
-                        });
-                    }
-                    db.run(
-                        `UPDATE reviews SET likes = likes + 1 WHERE review_id = ?`,
-                        [reviewId],
-                        function (err) {
-                            if (err) {
-                                request.log.error(err);
-                                return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
-                            }
-                            if (this.changes === 0) {
-                                return reply.code(404).send({ success: false, message: "Отзыв не найден" });
-                            }
-                            db.get(
-                                `SELECT likes FROM reviews WHERE review_id = ?`,
-                                [reviewId],
-                                (err, row) => {
-                                    if (err || !row) {
-                                        request.log.error(err);
-                                        return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
-                                    }
-                                    reply.send({ success: true, likes: row.likes });
-                                }
-                            );
-                        }
-                    );
-                }
-            );
+    try {
+        const review = await getReviewById(reviewId);
+        if (!review) {
+            return reply.code(404).send({ success: false, message: "Отзыв не найден" });
         }
-    );
+
+        try {
+            await addLike(reviewId, ip);
+        } catch (err) {
+            if (err.code === 'SQLITE_CONSTRAINT') {
+                return reply.send({ success: false, message: "Лайк уже поставлен" });
+            }
+            throw err;
+        }
+
+        await incrementReviewLikes(reviewId);
+
+        const updated = await getReviewById(reviewId);
+        return reply.send({ success: true, likes: updated.likes });
+
+    } catch (err) {
+        request.log.error(err);
+        return reply.code(500).send({ success: false, message: "Внутренняя ошибка" });
+    }
 });
 
 app.post("/admin", {
