@@ -102,7 +102,13 @@ await app.register(helmet, {
                 "https://www.google.com",
                 "https://*.google.com",
                 "https://www.gstatic.com"
-            ]
+            ],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "https://www.gstatic.com"],
+            fontSrc: ["'self'", "https://www.gstatic.com"],
+            objectSrc: ["'none'"],
+            baseUri: ["'self'"],
+            formAction: ["'self'"]
         }
     }
 })

@@ -75,7 +75,6 @@ async function adminRoutes(app, opts) {
     app.post("/add-actor", {
             onRequest: app.csrfProtection
         }, async (request, reply) => {
-        console.log('CSRF passed, we are inside handler');
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;
