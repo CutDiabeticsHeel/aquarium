@@ -267,33 +267,16 @@ app.post("/reviews", {
     schema: {
         body: {
         type: 'object',
+        required: ['name', "star", 'topicData', "review", 'g-recaptcha-response'],
         properties: {
+            name: {type: "string", minLength: 5},
+            topicData: {type: "string", minLength: 1},
+            star: { type: 'integer', minimum: 1, maximum: 5 },
+            review: {type: "string", minLength: 15},
             'g-recaptcha-response': { type: 'string' }
         },
-        required: ['g-recaptcha-response']
         }
     },
-    preHandler: async (req, reply) => {
-        console.log(`preHandler START`, Date.now());
-        const token = req.body['g-recaptcha-response'];
-        console.log(`token:`, token.slice(0, 20));
-
-        const params = new URLSearchParams({
-            secret: CAPTCHA_KEY,
-            response: token
-        });
-
-        const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-            method: 'POST',
-            body: params
-        });
-        const data = await res.json();
-        console.log(`siteverify result:`, JSON.stringify(data));
-
-        if (!data.success || (data.score !== undefined && data.score < 0.5)) {
-            return reply.code(403).send({ error: 'Captcha verification failed' });
-        }
-    }
     }, (request, reply) =>{
         const {name, review, topicData, star} = request.body;
         const [topicTitle, topicText] = topicData.split(":");
@@ -328,11 +311,9 @@ app.post("/reviews", {
                 star
             ],
             (err) => {
-
                 if (err) {
                     return reply.code(500).send(err);
                 }
-
                 reply.send({
                     success: true
                 });

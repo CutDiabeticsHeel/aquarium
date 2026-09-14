@@ -144,9 +144,6 @@ function initReviewJs(){
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const submitBtn = form.querySelector('[type="submit"]');
-        if (submitBtn.disabled) return; // уже отправляется
-        submitBtn.disabled = true;
         
         try {
             const formData = new FormData(form);
@@ -177,8 +174,6 @@ function initReviewJs(){
             }
         } catch (err) {
             console.err("Ошибка при отпрафке формы", err)
-        } finally {
-            submitBtn.disabled = false;
         }
     });
 
