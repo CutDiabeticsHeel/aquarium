@@ -109,7 +109,8 @@ async function adminRoutes(app, opts) {
             for (const f of writtenFiles) {
                 fs.promises.unlink(f).catch(() => {});
             }
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при добавлении актера" });
         }
     })
     
@@ -119,7 +120,8 @@ async function adminRoutes(app, opts) {
             await deleteActorFromDatabase(firstName, lastName, patronymic)
             reply.redirect("/admin-panel");
         } catch (err){
-            reply.code(500).send({ error: err.message });
+            onsole.error(err)
+            reply.code(500).send({ message: "Ошибка при удалении актера" });
         }
     })
     
@@ -158,7 +160,8 @@ async function adminRoutes(app, opts) {
             for (const f of writtenFiles) {
                 fs.promises.unlink(f).catch(() => {});
             }
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при обновлении актера" });
         }
     })
     
@@ -168,7 +171,8 @@ async function adminRoutes(app, opts) {
             await updateCastInfo(performanceTitle, role, firstName, lastName, patronymic)
             reply.redirect("/admin-panel");
         } catch (err){
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при обновлении каста спектакля" });
         }
     })
     
@@ -178,7 +182,8 @@ async function adminRoutes(app, opts) {
             await deletePerformanceFromDatabase(title)
             reply.redirect("/admin-panel")
         } catch (err) {
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при удалении спектакля" });
         }
     })
     
@@ -217,7 +222,8 @@ async function adminRoutes(app, opts) {
             for (const f of writtenFiles) {
                 fs.promises.unlink(f).catch(() => {});
             }
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при изменении спектакля" });
         }
     })
     
@@ -227,7 +233,8 @@ async function adminRoutes(app, opts) {
             await addPerformanceToPlaybill(title, date, time)
             reply.redirect("/admin-panel")
         } catch (err) {
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при добавлении спектакля в афишу" });
         }
         
     })
@@ -238,7 +245,8 @@ async function adminRoutes(app, opts) {
             await deletePlaybillItem(id)
             reply.redirect("/admin-panel")
         } catch (err) {
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при удалении спектакля из афишы" });
         }
     })
     
@@ -249,7 +257,8 @@ async function adminRoutes(app, opts) {
             await updatePlaybillItem(Number(id), title, date, time);
             reply.redirect("/admin-panel");
         } catch (err) {
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при изменении спектакля из афишы" });
         }
     })
     
@@ -259,7 +268,8 @@ async function adminRoutes(app, opts) {
             await processReviews(reviewData)
             reply.redirect("/admin-panel")
         } catch(err) {
-            reply.code(500).send({ error: err.message });
+            console.error(err)
+            reply.code(500).send({ message: "Ошибка при оборении отзыва"});
         }
     })
 }
