@@ -10,63 +10,16 @@ db.serialize(() => {
 
 async function getPlaybill() {
     return new Promise((resolve, reject) => {
-
         db.all(
-            "SELECT * FROM playbill",
+            `SELECT pb.id, pb.date, pb.time, p.performance_id, p.title, p.title_image, p.age_limit
+             FROM playbill pb
+             JOIN performances p ON p.performance_id = pb.performance_id`,
             [],
             (err, rows) => {
-
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
+                if (err) return reject(err);
                 resolve(rows);
             }
         );
-
-    });
-}
-
-async function getPerformanceData(playbillData) {
-
-    const titles = playbillData.map(item => item.performance);
-
-    return new Promise((resolve, reject) => {
-
-        db.all(
-            `SELECT * FROM performances WHERE title IN (${titles.map(() => "?").join(",")})`,
-            titles,
-
-            (err, rows) => {
-
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
-                const result = playbillData.map(item => {
-
-                    const found = rows.find(
-                        r => r.title === item.performance
-                    );
-
-                    return {
-                        id: item.id,
-                        performance: item.performance,
-                        performance_id: found?.performance_id,
-                        date: item.date,
-                        time: item.time,
-                        age_limit: found?.age_limit,
-                        title_image: found?.title_image
-                    };
-
-                });
-
-                resolve(result);
-            }
-        );
-
     });
 }
 
@@ -425,7 +378,6 @@ async function deletePerformanceFromDatabase(title){
 }
 
 async function updatePerformance(performanceData, performanceImages, titleImage) {
-    const newImagesPath = performanceImages.map(item => `/img/${item}`).join(",");
     const titleImagePath = titleImage ? `/img/${titleImage}` : "";
 
     return new Promise((resolve, reject) => {
@@ -542,10 +494,12 @@ async function addOrUpdatePerformance(performanceData, performanceImages, titleI
 }
 
 async function addPerformanceToPlaybill(title, date, time) {
+    const performanceId = await getPerformanceId(title);
+
     return new Promise((resolve, reject) => {
         db.run(
-            `INSERT INTO playbill (performance, date, time) VALUES (?, ?, ?)`,
-            [title, date, time],
+            `INSERT INTO playbill (performance_id, date, time) VALUES (?, ?, ?)`,
+            [performanceId, date, time],
             function(err) {
                 if (err) {
                     reject(err);
@@ -741,7 +695,7 @@ class SQLiteSessionStore {
 }
 
 
-export {getPlaybill, getPerformanceData, getTroupe, 
+export {getPlaybill, getTroupe, 
     getActorData, getPerformances, getPerformancePageData, 
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,

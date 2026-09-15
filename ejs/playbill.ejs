@@ -26,7 +26,7 @@
                     <% performances.forEach((performance, index) => { %>
                         <li class="performances-list__item-wrapper" data-date="<%=performance.date%>">
                             <a class="performances-list__item" href="/performance/<%= performance.performance_id %>">
-                                <h3 class="playbill__title"><%= performance.performance %></h3>
+                                <h3 class="playbill__title"><%= performance.title %></h3>
                                 <span class="playbill__date"><%= performance.date %></span>
                                 <span class="playbill__time"><%= performance.time %></span>
                                 <span class="playbill__age-limit"><%= performance.age_limit %></span>

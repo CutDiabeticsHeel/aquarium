@@ -16,7 +16,7 @@ import fs from "fs";
 import  argon2  from "argon2";
 import { Temporal } from '@js-temporal/polyfill';
 
-import {getPlaybill, getPerformanceData, getTroupe, getActorData, getPerformances, 
+import {getPlaybill, getTroupe, getActorData, getPerformances, 
     getPerformancePageData, getHrefPerformanceForActor, getStarringListFromPerformance, 
     getReviews, SQLiteSessionStore, createReview, getReviewById, addLike, 
     incrementReviewLikes} from './database-function.js';
@@ -212,10 +212,10 @@ app.get("/performance/:id", async (request, reply) => {
 
 app.get("/playbill", async (request, reply) => {
     const playbillData = await getPlaybill();
-    const playbillPerformanceData = await getPerformanceData(playbillData);
+    console.log(playbillData)
 
     return reply.view("playbill.ejs", {
-        performances: playbillPerformanceData
+        performances: playbillData
     });
 
 });
