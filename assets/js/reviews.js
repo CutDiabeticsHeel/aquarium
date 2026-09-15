@@ -144,36 +144,46 @@ function initReviewJs(){
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
         try {
-            const formData = new FormData(form);
+            const token = await grecaptcha.execute(
+                "6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY",
+                { action: "submit" }
+            );
 
-            const token = await grecaptcha.execute('6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY', { action: 'submit' });
+            const formData = new FormData(form);
 
             const response = await fetch("/reviews", {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
                 body: new URLSearchParams({
                     ...Object.fromEntries(formData),
-                    'g-recaptcha-response': token
+                    "g-recaptcha-response": token
                 })
             });
 
-            if (response.ok) {
-                openModal(modalReviewContent);
-                modalReview.classList.add("active");
-                document.body.classList.add("disable-scroll");
-                localStorage.removeItem('name');
-                localStorage.removeItem('review');
-                localStorage.removeItem('star');
-                localStorage.removeItem('topicData');
-                form.reset();
-            } else {
-                openModal(modalErrorContent);
-                modalError.classList.add("active");
-                document.body.classList.add("disable-scroll");
+            if (!response.ok) {
+                throw new Error("Ошибка отправки отзыва");
             }
+
+            openModal(modalReviewContent);
+            modalReview.classList.add("active");
+            document.body.classList.add("disable-scroll");
+
+            localStorage.removeItem("name");
+            localStorage.removeItem("review");
+            localStorage.removeItem("star");
+            localStorage.removeItem("topicData");
+
+            form.reset();
+
         } catch (err) {
-            console.err("Ошибка при отпрафке формы", err)
+            console.error("Ошибка при отправке формы:", err);
+
+            openModal(modalErrorContent);
+            modalError.classList.add("active");
+            document.body.classList.add("disable-scroll");
         }
     });
 

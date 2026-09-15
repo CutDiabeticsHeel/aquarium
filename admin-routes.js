@@ -130,7 +130,6 @@ async function adminRoutes(app, opts) {
     
     app.post("/update-actor", async (request, reply) => {
         const { id } = request.query;
-        console.log(id)
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;

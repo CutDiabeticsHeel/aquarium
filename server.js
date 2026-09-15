@@ -9,7 +9,6 @@ import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import session from '@fastify/session';
 import multipart from "@fastify/multipart";
-import recaptcha from "fastify-recaptcha";
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
@@ -37,6 +36,7 @@ try {
 }
 
 const CAPTCHA_KEY = captchaConfig.captchaKey
+const CAPTCHA_SITE_KEY = captchaConfig.captchaSiteKey
 const SECRET_KEY = secretConfig.secret
 const USER_NAME = secretConfig.username
 const PASSWORD = await argon2.hash(secretConfig.password)
@@ -116,11 +116,6 @@ await app.register(rateLimit, {
     timeWindow: 5000,
     ban: 5,
     continueExceeding: true,
-})
-
-await app.register(recaptcha, {
-    recaptcha_secret_key: CAPTCHA_KEY,
-    reply: true 
 })
 
 await app.register(session, {
@@ -212,7 +207,6 @@ app.get("/performance/:id", async (request, reply) => {
 
 app.get("/playbill", async (request, reply) => {
     const playbillData = await getPlaybill();
-    console.log(playbillData)
 
     return reply.view("playbill.ejs", {
         performances: playbillData
@@ -236,7 +230,8 @@ app.get("/reviews", async (request, reply) => {
 
     return reply.view("reviews.ejs", {
         reviews: reviewsData,
-        performances: performances
+        performances: performances,
+        key: CAPTCHA_SITE_KEY
     });
 
 });
@@ -283,7 +278,33 @@ app.post("/reviews", {
     },
     }, async (request, reply) =>{
         try {
-            const { name, review, topicData, star } = request.body;
+            const { name, review, topicData, star, "g-recaptcha-response": captchaToken} = request.body;
+            const captchaResponse = await fetch(
+                "https://www.google.com/recaptcha/api/siteverify",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({
+                        secret: CAPTCHA_KEY,
+                        response: captchaToken
+                    })
+                }
+            );
+            const captchaResult = await captchaResponse.json();
+
+            if (
+                !captchaResult.success ||
+                captchaResult.action !== "submit" ||
+                captchaResult.score < 0.5
+            ) {
+                return reply.code(400).send({
+                    success: false,
+                    message: "Капча не пройдена"
+                });
+            }
+            
             const [topicTitle, topicText] = topicData.split(":");
 
             let date = Temporal.Now.plainDateISO();
