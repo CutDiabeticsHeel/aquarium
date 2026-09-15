@@ -1,164 +1,66 @@
-import sqlite3 from "sqlite3";
+import { DatabaseSync } from "node:sqlite";
 
-const db = new sqlite3.Database("database/theatre.db");
+const db = new DatabaseSync("database/theatre.db");
 
-db.serialize(() => {
-    db.run(`PRAGMA journal_mode = WAL`);
-    db.run(`PRAGMA busy_timeout = 4000`);
-    db.run(`PRAGMA foreign_keys = ON`);
-});
-
-function runAsync(sql, params = []) {
-    return new Promise((resolve, reject) => {
-        db.run(sql, params, function (err) {
-            if (err) return reject(err);
-            resolve(this);
-        });
-    });
-}
-
-function getAsync(sql, params = []) {
-    return new Promise((resolve, reject) => {
-        db.get(sql, params, (err, row) => {
-            if (err) return reject(err);
-            resolve(row);
-        });
-    });
-}
+db.exec(`PRAGMA journal_mode = WAL`);
+db.exec(`PRAGMA busy_timeout = 4000`);
+db.exec(`PRAGMA foreign_keys = ON`);
 
 async function getPlaybill() {
-    return new Promise((resolve, reject) => {
-        db.all(
-            `SELECT pb.id, pb.date, pb.time, p.performance_id, p.title, p.title_image, p.age_limit
-             FROM playbill pb
-             JOIN performances p ON p.performance_id = pb.performance_id`,
-            [],
-            (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
-            }
-        );
-    });
+    return db.prepare(
+        `SELECT pb.id, pb.date, pb.time, p.performance_id, p.title, p.title_image, p.age_limit
+         FROM playbill pb
+         JOIN performances p ON p.performance_id = pb.performance_id`
+    ).all();
 }
 
 async function getTroupe() {
-    return new Promise((resolve, reject) => {
-        db.all(
-            "SELECT actor_id, first_name, last_name, role_name, portrait FROM troupe",
-            [],
-            (err, rows) => {
-                if (err) reject(err);
-                
-                resolve(rows);
-            }
-        );
-    });
+    return db.prepare(
+        "SELECT actor_id, first_name, last_name, role_name, portrait FROM troupe"
+    ).all();
 }
 
 async function getActorData(id) {
-    return new Promise((resolve, reject) => {
-        db.get(
-            "SELECT * FROM troupe WHERE actor_id=?",
-            [id],
-            (err, rows) => {
-                if (err) reject(err);
-                
-                resolve(rows);
-            }
-        );
-    });
+    return db.prepare("SELECT * FROM troupe WHERE actor_id=?").get(id);
 }
 
 async function getPerformances() {
-    return new Promise((resolve, reject) => {
-        db.all(
-            "SELECT performance_id, title, duration, age_limit, description, imgs, title_image FROM performances",
-            [],
-            (err, rows) => {
-                if (err) reject(err);
-                
-                resolve(rows);
-            }
-        );
-    });
+    return db.prepare(
+        "SELECT performance_id, title, duration, age_limit, description, imgs, title_image FROM performances"
+    ).all();
 }
 
-async function getPerformancePageData(id){
-    return new Promise((resolve, reject) =>{
-        db.get(
-            "SELECT title, origin, audience, info, imgs, title_image FROM performances WHERE performance_id=?",
-            [id],
-            (err, rows) =>{
-                if (err) reject(err)
-
-                resolve(rows)
-            }
-        )
-    })
+async function getPerformancePageData(id) {
+    return db.prepare(
+        "SELECT title, origin, audience, info, imgs, title_image FROM performances WHERE performance_id=?"
+    ).get(id);
 }
 
-async function getHrefPerformanceForActor(id){
-    return new Promise((resolve, reject) =>{
-        db.all(
-            "SELECT p.performance_id, p.title FROM performance_cast pc JOIN performances p ON p.performance_id = pc.performance_id WHERE pc.actor_id = ?",
-            [id],
-            (err,rows) => {
-                if (err) reject(err)
-                
-                resolve(rows)
-            }
-        )
-    })
+async function getHrefPerformanceForActor(id) {
+    return db.prepare(
+        "SELECT p.performance_id, p.title FROM performance_cast pc JOIN performances p ON p.performance_id = pc.performance_id WHERE pc.actor_id = ?"
+    ).all(id);
 }
 
-async function getStarringListFromPerformance(id){
-    return new Promise((resolve, reject) =>{
-        db.all(
-            "SELECT t.actor_id, t.first_name, t.last_name, t.portrait, role FROM performance_cast pc JOIN troupe t ON t.actor_id = pc.actor_id WHERE pc.performance_id = ?",
-            [id],
-            (err, rows) =>{
-                if (err) reject(err)
-
-                resolve(rows)
-            }
-        )
-    })
+async function getStarringListFromPerformance(id) {
+    return db.prepare(
+        "SELECT t.actor_id, t.first_name, t.last_name, t.portrait, role FROM performance_cast pc JOIN troupe t ON t.actor_id = pc.actor_id WHERE pc.performance_id = ?"
+    ).all(id);
 }
 
-async function getReviews(){
-    return new Promise((resolve, reject) =>{
-        db.all(
-            "SELECT * FROM reviews WHERE approve ='true'",
-            [],
-            (err, rows) =>{
-                if (err) reject(err)
-
-                resolve(rows)
-            }
-        )
-    })
+async function getReviews() {
+    return db.prepare("SELECT * FROM reviews WHERE approve = 'true'").all();
 }
 
-async function getUnpublishedReviews(){
-    return new Promise((resolve, reject) =>{
-        db.all(
-            "SELECT * FROM reviews WHERE approve ='false'",
-            [],
-            (err, rows) =>{
-                if (err) reject(err)
-
-                resolve(rows)
-            }
-        )
-    })
+async function getUnpublishedReviews() {
+    return db.prepare("SELECT * FROM reviews WHERE approve = 'false'").all();
 }
 
-async function addActorToDatabase(actorData, actorImages, actorPortrait){
-    const actorImagesPath = actorImages.map(item => `/img/${item}`).join(',')
+async function addActorToDatabase(actorData, actorImages, actorPortrait) {
+    const actorImagesPath = actorImages.map(item => `/img/${item}`).join(',');
     const portraitPath = `/img/${actorPortrait}`;
-    
-    return new Promise((resolve, reject) => {
-        db.run(
+
+    db.prepare(
         `
         INSERT INTO troupe(
             first_name,
@@ -171,190 +73,125 @@ async function addActorToDatabase(actorData, actorImages, actorPortrait){
             portrait
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-        `,
-        [
-            actorData.first_name,
-            actorData.last_name,
-            actorData.role_name,
-            actorData.patronymic,
-            actorData.biografy,
-            actorData.achievements,
-            actorImagesPath,
-            portraitPath
-        ],
-        (err) => {
-            if (err) return reject(err);
-            resolve();
-        }
+        `
+    ).run(
+        actorData.first_name,
+        actorData.last_name,
+        actorData.role_name,
+        actorData.patronymic,
+        actorData.biografy,
+        actorData.achievements,
+        actorImagesPath,
+        portraitPath
     );
-    })
 }
 
-async function deleteActorFromDatabase(firstName, lastName, patronymic){
-    return new Promise((resolve, reject) =>{
-        db.run(
-            `DELETE FROM troupe WHERE first_name = ? AND last_name = ? AND patronymic = ?`,
-            [firstName, lastName, patronymic],
-            (err) => {
-                    if (err) return reject(err);
-                    resolve();
-            }
-        )
-    })
+async function deleteActorFromDatabase(firstName, lastName, patronymic) {
+    db.prepare(
+        `DELETE FROM troupe WHERE first_name = ? AND last_name = ? AND patronymic = ?`
+    ).run(firstName, lastName, patronymic);
 }
 
-async function findActors(lastName){
-    return new Promise((resolve, reject) =>{
-        db.all(
-            `SELECT * FROM troupe WHERE last_name LIKE ?`,
-            [`%${lastName}%`],
-            (err, rows) =>{
-                if (err) reject(err)
-
-                resolve(rows)
-            }
-        )
-    })
+async function findActors(lastName) {
+    return db.prepare(
+        `SELECT * FROM troupe WHERE last_name LIKE ?`
+    ).all(`%${lastName}%`);
 }
 
 async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
     const portraitPath = actorPortrait ? `/img/${actorPortrait}` : "";
 
-    return new Promise((resolve, reject) => {
-        db.get(
-            "SELECT imgs FROM troupe WHERE actor_id = ?",
-            [actorId],
-            (err, row) => {
-                if (err) return reject(err);
+    const row = db.prepare("SELECT imgs FROM troupe WHERE actor_id = ?").get(actorId);
 
-                const oldImages = row?.imgs || "";
-                const newImages = actorImages?.map(item => `/img/${item}`).join(",") || "";
+    const oldImages = row?.imgs || "";
+    const newImages = actorImages?.map(item => `/img/${item}`).join(",") || "";
 
-                const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
+    const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
 
-                db.run(
-                    `UPDATE troupe
-                     SET
-                        first_name = COALESCE(NULLIF(?, ''), first_name),
-                        last_name = COALESCE(NULLIF(?, ''), last_name),
-                        role_name = COALESCE(NULLIF(?, ''), role_name),
-                        patronymic = COALESCE(NULLIF(?, ''), patronymic),
-                        biografy = COALESCE(NULLIF(?, ''), biografy),
-                        achievements = COALESCE(NULLIF(?, ''), achievements),
-                        imgs = ?,
-                        portrait = COALESCE(NULLIF(?, ''), portrait)
-                     WHERE actor_id = ?`,
-                    [
-                        actorData.first_name,
-                        actorData.last_name,
-                        actorData.role_name,
-                        actorData.patronymic,
-                        actorData.biografy,
-                        actorData.achievements,
-                        imagesPath,
-                        portraitPath,
-                        actorId
-                    ],
-                    function (err) {
-                        if (err) return reject(err);
+    const result = db.prepare(
+        `UPDATE troupe
+         SET
+            first_name = COALESCE(NULLIF(?, ''), first_name),
+            last_name = COALESCE(NULLIF(?, ''), last_name),
+            role_name = COALESCE(NULLIF(?, ''), role_name),
+            patronymic = COALESCE(NULLIF(?, ''), patronymic),
+            biografy = COALESCE(NULLIF(?, ''), biografy),
+            achievements = COALESCE(NULLIF(?, ''), achievements),
+            imgs = ?,
+            portrait = COALESCE(NULLIF(?, ''), portrait)
+         WHERE actor_id = ?`
+    ).run(
+        actorData.first_name,
+        actorData.last_name,
+        actorData.role_name,
+        actorData.patronymic,
+        actorData.biografy,
+        actorData.achievements,
+        imagesPath,
+        portraitPath,
+        actorId
+    );
 
-                        resolve({
-                            updated: this.changes > 0,
-                            changes: this.changes
-                        });
-                    }
-                );
-            }
-        );
-    });
+    return {
+        updated: result.changes > 0,
+        changes: result.changes
+    };
 }
 
 async function getActorId(firstName, lastName, patronymic) {
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT actor_id
-             FROM troupe
-             WHERE first_name = ?
-               AND last_name = ?
-               AND patronymic = ?`,
-            [firstName, lastName, patronymic],
-            (err, actor) => {
-                if (err) return reject(err);
-                if (!actor) return reject(new Error("Актер не найден"));
+    const actor = db.prepare(
+        `SELECT actor_id
+         FROM troupe
+         WHERE first_name = ?
+           AND last_name = ?
+           AND patronymic = ?`
+    ).get(firstName, lastName, patronymic);
 
-                resolve(actor.actor_id);
-            }
-        );
-    });
+    if (!actor) throw new Error("Актер не найден");
+
+    return actor.actor_id;
 }
 
 async function getPerformanceId(title) {
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT performance_id
-             FROM performances
-             WHERE title = ?`,
-            [title],
-            (err, performance) => {
-                if (err) return reject(err);
-                if (!performance) return reject(new Error("Спектакль не найден"));
+    const performance = db.prepare(
+        `SELECT performance_id
+         FROM performances
+         WHERE title = ?`
+    ).get(title);
 
-                resolve(performance.performance_id);
-            }
-        );
-    });
+    if (!performance) throw new Error("Спектакль не найден");
+
+    return performance.performance_id;
 }
 
 async function getCastRecord(performanceId, actorId) {
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT cast_id
-             FROM performance_cast
-             WHERE performance_id = ?
-               AND actor_id = ?`,
-            [performanceId, actorId],
-            (err, row) => {
-                if (err) return reject(err);
-
-                resolve(row);
-            }
-        );
-    });
+    return db.prepare(
+        `SELECT cast_id
+         FROM performance_cast
+         WHERE performance_id = ?
+           AND actor_id = ?`
+    ).get(performanceId, actorId);
 }
 
 async function updateCastRole(castId, role) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `UPDATE performance_cast
-             SET role = ?
-             WHERE cast_id = ?`,
-            [role, castId],
-            function (err) {
-                if (err) return reject(err);
-
-                resolve();
-            }
-        );
-    });
+    db.prepare(
+        `UPDATE performance_cast
+         SET role = ?
+         WHERE cast_id = ?`
+    ).run(role, castId);
 }
 
 async function insertCast(performanceId, actorId, role) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `INSERT INTO performance_cast (performance_id, actor_id, role)
-             VALUES (?, ?, ?)`,
-            [performanceId, actorId, role],
-            function (err) {
-                if (err) return reject(err);
+    const result = db.prepare(
+        `INSERT INTO performance_cast (performance_id, actor_id, role)
+         VALUES (?, ?, ?)`
+    ).run(performanceId, actorId, role);
 
-                resolve(this.lastID);
-            }
-        );
-    });
+    return result.lastInsertRowid;
 }
 
 async function updateCastInfo(performanceTitle, role, firstName, lastName, patronymic) {
-    await runAsync('BEGIN IMMEDIATE TRANSACTION');
+    db.exec('BEGIN IMMEDIATE TRANSACTION');
 
     try {
         const actorId = await getActorId(firstName, lastName, patronymic);
@@ -381,125 +218,97 @@ async function updateCastInfo(performanceTitle, role, firstName, lastName, patro
                 role
             };
         }
-        await runAsync('COMMIT');
+        db.exec('COMMIT');
         return result;
     } catch (err) {
-        await runAsync('ROLLBACK');
+        db.exec('ROLLBACK');
         throw err;
     }
 }
 
-async function deletePerformanceFromDatabase(title){
-    return new Promise((resolve, reject) =>{
-        db.run(
-            `DELETE FROM performances WHERE title = ? `,
-            [title],
-            (err) => {
-                    if (err) return reject(err);
-                    resolve();
-            }
-        )
-    })
+async function deletePerformanceFromDatabase(title) {
+    db.prepare(`DELETE FROM performances WHERE title = ?`).run(title);
 }
 
 async function updatePerformance(performanceData, performanceImages, titleImage) {
     const titleImagePath = titleImage ? `/img/${titleImage}` : "";
 
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT imgs FROM performances WHERE title = ?`,
-            [performanceData.title],
-            (err, row) => {
-                if (err) return reject(err);
+    const row = db.prepare(`SELECT imgs FROM performances WHERE title = ?`).get(performanceData.title);
 
-                const oldImages = row?.imgs || "";
-                const newImages = performanceImages?.map(item => `/img/${item}`).join(",") || "";
+    const oldImages = row?.imgs || "";
+    const newImages = performanceImages?.map(item => `/img/${item}`).join(",") || "";
 
-                const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
+    const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
 
-                db.run(
-                    `UPDATE performances
-                    SET
-                        duration = COALESCE(NULLIF(?, ''), duration),
-                        age_limit = COALESCE(NULLIF(?, ''), age_limit),
-                        description = COALESCE(NULLIF(?, ''), description),
-                        origin = COALESCE(NULLIF(?, ''), origin),
-                        audience = COALESCE(NULLIF(?, ''), audience),
-                        info = COALESCE(NULLIF(?, ''), info),
-                        imgs = COALESCE(NULLIF(?, ''), imgs),
-                        title_image = COALESCE(NULLIF(?, ''), title_image)
-                    WHERE title = ?`,
-                    [
-                        performanceData.duration,
-                        performanceData.ageLimit,
-                        performanceData.description,
-                        performanceData.origin,
-                        performanceData.audience,
-                        performanceData.info,
-                        imagesPath,
-                        titleImagePath,
-                        performanceData.title,
-                    ],
-                    function (err) {
-                        if (err) return reject(err);
+    const result = db.prepare(
+        `UPDATE performances
+        SET
+            duration = COALESCE(NULLIF(?, ''), duration),
+            age_limit = COALESCE(NULLIF(?, ''), age_limit),
+            description = COALESCE(NULLIF(?, ''), description),
+            origin = COALESCE(NULLIF(?, ''), origin),
+            audience = COALESCE(NULLIF(?, ''), audience),
+            info = COALESCE(NULLIF(?, ''), info),
+            imgs = COALESCE(NULLIF(?, ''), imgs),
+            title_image = COALESCE(NULLIF(?, ''), title_image)
+        WHERE title = ?`
+    ).run(
+        performanceData.duration,
+        performanceData.ageLimit,
+        performanceData.description,
+        performanceData.origin,
+        performanceData.audience,
+        performanceData.info,
+        imagesPath,
+        titleImagePath,
+        performanceData.title
+    );
 
-                        resolve({
-                            updated: true,
-                            changes: this.changes
-                        });
-                    }
-                );
-            }
-        );
-    });
+    return {
+        updated: true,
+        changes: result.changes
+    };
 }
 
 async function addPerformance(performanceData, performanceImages, titleImage) {
     const imagesPath = performanceImages.map(item => `/img/${item}`).join(",");
     const titleImagePath = titleImage ? `/img/${titleImage}` : "";
 
-    return new Promise((resolve, reject) => {
-        db.run(
-            `INSERT INTO performances(
-                title,
-                duration,
-                age_limit,
-                description,
-                origin,
-                audience,
-                info,
-                imgs,
-                title_image
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [
-                performanceData.title,
-                performanceData.duration,
-                performanceData.ageLimit,
-                performanceData.description,
-                performanceData.origin,
-                performanceData.audience,
-                performanceData.info,
-                imagesPath,
-                titleImagePath
-            ],
-            function (err) {
-                if (err) return reject(err);
+    const result = db.prepare(
+        `INSERT INTO performances(
+            title,
+            duration,
+            age_limit,
+            description,
+            origin,
+            audience,
+            info,
+            imgs,
+            title_image
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).run(
+        performanceData.title,
+        performanceData.duration,
+        performanceData.ageLimit,
+        performanceData.description,
+        performanceData.origin,
+        performanceData.audience,
+        performanceData.info,
+        imagesPath,
+        titleImagePath
+    );
 
-                resolve(this.lastID);
-            }
-        );
-    });
+    return result.lastInsertRowid;
 }
 
 async function addOrUpdatePerformance(performanceData, performanceImages, titleImage) {
-    await runAsync('BEGIN IMMEDIATE TRANSACTION');
+    db.exec('BEGIN IMMEDIATE TRANSACTION');
 
     try {
-        const row = await getAsync(
-            `SELECT 1 FROM performances WHERE title = ?`,
-            [performanceData.title]
-        );
+        const row = db.prepare(
+            `SELECT 1 FROM performances WHERE title = ?`
+        ).get(performanceData.title);
 
         if (row) {
             await updatePerformance(performanceData, performanceImages, titleImage);
@@ -507,9 +316,9 @@ async function addOrUpdatePerformance(performanceData, performanceImages, titleI
             await addPerformance(performanceData, performanceImages, titleImage);
         }
 
-        await runAsync('COMMIT');
+        db.exec('COMMIT');
     } catch (err) {
-        await runAsync('ROLLBACK');
+        db.exec('ROLLBACK');
         throw err;
     }
 }
@@ -517,208 +326,158 @@ async function addOrUpdatePerformance(performanceData, performanceImages, titleI
 async function addPerformanceToPlaybill(title, date, time) {
     const performanceId = await getPerformanceId(title);
 
-    return new Promise((resolve, reject) => {
-        db.run(
-            `INSERT INTO playbill (performance_id, date, time) VALUES (?, ?, ?)`,
-            [performanceId, date, time],
-            function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve({
-                        id: this.lastID,
-                        title: title,
-                        date: date,
-                        time: time,
-                        message: 'Спектакль успешно добавлен'
-                    });
-                }
-            }
-        );
-    });
+    const result = db.prepare(
+        `INSERT INTO playbill (performance_id, date, time) VALUES (?, ?, ?)`
+    ).run(performanceId, date, time);
+
+    return {
+        id: result.lastInsertRowid,
+        title: title,
+        date: date,
+        time: time,
+        message: 'Спектакль успешно добавлен'
+    };
 }
 
 async function deletePlaybillItem(id) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `DELETE FROM playbill WHERE id = ?`,
-            [id],
-            function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve({
-                        success: true,
-                        deletedId: id,
-                        changes: this.changes
-                    });
-                }
-            }
-        );
-    });
+    const result = db.prepare(`DELETE FROM playbill WHERE id = ?`).run(id);
+
+    return {
+        success: true,
+        deletedId: id,
+        changes: result.changes
+    };
 }
 
 async function updatePlaybillItem(id, title, date, time) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `UPDATE playbill
-            SET 
-                performance = COALESCE(NULLIF(?, ''), performance),
-                date = COALESCE(NULLIF(?, ''), date),
-                time = COALESCE(NULLIF(?, ''), time)
-            WHERE id = ?`,
-            [title, date, time, id],
-            function (err) {
-                if (err) return reject(err);
-                if (this.changes === 0) return reject(new Error('Not found'));
-                resolve({ updated: true });
-            }
-        );
-    });
+    const result = db.prepare(
+        `UPDATE playbill
+        SET 
+            performance = COALESCE(NULLIF(?, ''), performance),
+            date = COALESCE(NULLIF(?, ''), date),
+            time = COALESCE(NULLIF(?, ''), time)
+        WHERE id = ?`
+    ).run(title, date, time, id);
+
+    if (result.changes === 0) throw new Error('Not found');
+
+    return { updated: true };
 }
 
 async function processReviews(reviews) {
     if (!reviews || typeof reviews !== "object") {
-        throw new Error("Ошибка при валидации отзывов")
+        throw new Error("Ошибка при валидации отзывов");
     }
 
-    return new Promise((resolve, reject) => {
-        const approveStmt = db.prepare(`UPDATE reviews SET approve = 'true' WHERE review_id = ?`);
-        const deleteStmt = db.prepare(`DELETE FROM reviews WHERE review_id = ?`);
-        
-        db.serialize(() => {
-            for (const [id, decision] of bjOect.entries(reviews)) {
-                if (decision === "yes") {
-                    approveStmt.run(id, function(err) {
-                        if (err) console.error(err)
-                    });
-                } else if (decision === "no") {
-                    deleteStmt.run(id, function(err) {
-                        if (err) console.error(err)
-                    });
-                }
+    const approveStmt = db.prepare(`UPDATE reviews SET approve = 'true' WHERE review_id = ?`);
+    const deleteStmt = db.prepare(`DELETE FROM reviews WHERE review_id = ?`);
+
+    db.exec('BEGIN');
+    try {
+        for (const [id, decision] of Object.entries(reviews)) {
+            if (decision === "yes") {
+                approveStmt.run(id);
+            } else if (decision === "no") {
+                deleteStmt.run(id);
             }
-            approveStmt.finalize();
-            deleteStmt.finalize(err => {
-                if (err) return reject(err);
-                resolve();
-            });
-        });
-    });
+        }
+        db.exec('COMMIT');
+    } catch (err) {
+        db.exec('ROLLBACK');
+        throw err;
+    }
 }
 
 async function createReview({ name, date, text, likes, topic, data, approve, star }) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `
-            INSERT INTO reviews(
-                name,
-                date,
-                text,
-                likes,
-                topic,
-                data,
-                approve,
-                star
-            )
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-            `,
-            [name, date, text, likes, topic, data, approve, star],
-            function (err) {
-                if (err) return reject(err);
-                resolve({ id: this.lastID });
-            }
-        );
-    });
+    const result = db.prepare(
+        `
+        INSERT INTO reviews(
+            name,
+            date,
+            text,
+            likes,
+            topic,
+            data,
+            approve,
+            star
+        )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+        `
+    ).run(name, date, text, likes, topic, data, approve, star);
+
+    return { id: result.lastInsertRowid };
 }
 
 async function getReviewById(reviewId) {
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT review_id, likes FROM reviews WHERE review_id = ?`,
-            [reviewId],
-            (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            }
-        );
-    });
+    return db.prepare(
+        `SELECT review_id, likes FROM reviews WHERE review_id = ?`
+    ).get(reviewId);
 }
 
 async function addLike(reviewId, ip) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `INSERT INTO likes(review_id, user_ip) VALUES(?, ?)`,
-            [reviewId, ip],
-            function (err) {
-                if (err) return reject(err);
-                resolve();
-            }
-        );
-    });
+    db.prepare(
+        `INSERT INTO likes(review_id, user_ip) VALUES(?, ?)`
+    ).run(reviewId, ip);
 }
 
 async function incrementReviewLikes(reviewId) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `UPDATE reviews SET likes = likes + 1 WHERE review_id = ?`,
-            [reviewId],
-            function (err) {
-                if (err) return reject(err);
-                if (this.changes === 0) return reject(new Error('Not found'));
-                resolve();
-            }
-        );
-    });
+    const result = db.prepare(
+        `UPDATE reviews SET likes = likes + 1 WHERE review_id = ?`
+    ).run(reviewId);
+
+    if (result.changes === 0) throw new Error('Not found');
 }
 
 class SQLiteSessionStore {
     set(sessionId, session, callback) {
         const data = JSON.stringify(session);
-        db.run(
-            `
-            INSERT INTO sessions (session_id, data)
-            VALUES (?, ?)
-            ON CONFLICT(session_id)
-            DO UPDATE SET data = excluded.data
-            `,
-            [sessionId, data],
-            callback
-        );
+        try {
+            db.prepare(
+                `
+                INSERT INTO sessions (session_id, data)
+                VALUES (?, ?)
+                ON CONFLICT(session_id)
+                DO UPDATE SET data = excluded.data
+                `
+            ).run(sessionId, data);
+            callback(null);
+        } catch (err) {
+            callback(err);
+        }
     }
+
     get(sessionId, callback) {
-        db.get(
-            "SELECT data FROM sessions WHERE session_id = ?",
-            [sessionId],
-            (err, row) => {
-                if (err) return callback(err);
+        try {
+            const row = db.prepare(
+                "SELECT data FROM sessions WHERE session_id = ?"
+            ).get(sessionId);
 
-                if (!row) {
-                    return callback(null, null);
-                }
-
-                try {
-                    callback(null, JSON.parse(row.data));
-                } catch (error) {
-                    callback(error);
-                }
+            if (!row) {
+                return callback(null, null);
             }
-        );
+
+            callback(null, JSON.parse(row.data));
+        } catch (err) {
+            callback(err);
+        }
     }
+
     destroy(sessionId, callback) {
-        db.run(
-            "DELETE FROM sessions WHERE session_id = ?",
-            [sessionId],
-            callback
-        );
+        try {
+            db.prepare("DELETE FROM sessions WHERE session_id = ?").run(sessionId);
+            callback(null);
+        } catch (err) {
+            callback(err);
+        }
     }
 }
 
-
-export {getPlaybill, getTroupe, 
-    getActorData, getPerformances, getPerformancePageData, 
+export {
+    getPlaybill, getTroupe,
+    getActorData, getPerformances, getPerformancePageData,
     getHrefPerformanceForActor, getStarringListFromPerformance, getReviews,
     addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData, updateCastInfo,
     deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
     deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews,
-    createReview, getReviewById, addLike, incrementReviewLikes, SQLiteSessionStore}
+    createReview, getReviewById, addLike, incrementReviewLikes, SQLiteSessionStore
+};

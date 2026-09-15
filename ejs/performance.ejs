@@ -47,6 +47,9 @@
                 </div> 
                 <h2 class="roles wave">В ролях</h2>
                 <div class="starring">
+                    <% if (starringList.length === 0) {%>
+                        <span class="zero-starring">Похоже в этом спектакле никто не участвует</span>
+                    <%}%>
                     <ul class="actors-list">
                         <% starringList.forEach(item => { %>
                         <li class="actors-list__item">

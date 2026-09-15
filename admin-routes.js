@@ -83,7 +83,11 @@ async function adminRoutes(app, opts) {
         try {
             for await (const part of request.parts()) {
                 if (part.type === 'file') {
-                    if (!part.filename) continue;
+                    if (!part.filename) {
+                        part.file.resume();
+                        continue;
+                    }
+
                     const validFile = safeExtFromMime(part.filename, part.mimetype);
                     if (!validFile) {
                         part.file.resume();
@@ -126,6 +130,7 @@ async function adminRoutes(app, opts) {
     
     app.post("/update-actor", async (request, reply) => {
         const { id } = request.query;
+        console.log(id)
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;
@@ -195,7 +200,10 @@ async function adminRoutes(app, opts) {
         try {
             for await (const part of request.parts()) {
                 if (part.type === 'file') {
-                    if (!part.filename) continue;
+                    if (!part.filename) {
+                        part.file.resume();
+                        continue;
+                    }
 
                     const validFile = safeExtFromMime(part.filename, part.mimetype);
                     if (!validFile) {
