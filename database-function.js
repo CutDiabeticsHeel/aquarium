@@ -8,6 +8,24 @@ db.serialize(() => {
     db.run(`PRAGMA foreign_keys = ON`);
 });
 
+function runAsync(sql, params = []) {
+    return new Promise((resolve, reject) => {
+        db.run(sql, params, function (err) {
+            if (err) return reject(err);
+            resolve(this);
+        });
+    });
+}
+
+function getAsync(sql, params = []) {
+    return new Promise((resolve, reject) => {
+        db.get(sql, params, (err, row) => {
+            if (err) return reject(err);
+            resolve(row);
+        });
+    });
+}
+
 async function getPlaybill() {
     return new Promise((resolve, reject) => {
         db.all(
@@ -336,32 +354,39 @@ async function insertCast(performanceId, actorId, role) {
 }
 
 async function updateCastInfo(performanceTitle, role, firstName, lastName, patronymic) {
-    const actorId = await getActorId(firstName, lastName, patronymic);
-    const performanceId = await getPerformanceId(performanceTitle);
+    await runAsync('BEGIN IMMEDIATE TRANSACTION');
 
-    const cast = await getCastRecord(performanceId, actorId);
+    try {
+        const actorId = await getActorId(firstName, lastName, patronymic);
+        const performanceId = await getPerformanceId(performanceTitle);
+        const cast = await getCastRecord(performanceId, actorId);
+        let result;
 
-    if (cast) {
-        await updateCastRole(cast.cast_id, role);
-
-        return {
-            updated: true,
-            castId: cast.cast_id,
-            performanceId,
-            actorId,
-            role
-        };
+        if (cast) {
+            await updateCastRole(cast.cast_id, role);
+            result = {
+                updated: true,
+                castId: cast.cast_id,
+                performanceId,
+                actorId,
+                role
+            };
+        } else {
+            const castId = await insertCast(performanceId, actorId, role);
+            result = {
+                updated: false,
+                castId,
+                performanceId,
+                actorId,
+                role
+            };
+        }
+        await runAsync('COMMIT');
+        return result;
+    } catch (err) {
+        await runAsync('ROLLBACK');
+        throw err;
     }
-
-    const castId = await insertCast(performanceId, actorId, role);
-
-    return {
-        updated: false,
-        castId,
-        performanceId,
-        actorId,
-        role
-    };
 }
 
 async function deletePerformanceFromDatabase(title){
@@ -468,29 +493,25 @@ async function addPerformance(performanceData, performanceImages, titleImage) {
 }
 
 async function addOrUpdatePerformance(performanceData, performanceImages, titleImage) {
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT 1
-             FROM performances
-             WHERE title = ?`,
-            [performanceData.title],
-            async (err, row) => {
-                if (err) return reject(err);
+    await runAsync('BEGIN IMMEDIATE TRANSACTION');
 
-                try {
-                    if (row) {
-                        await updatePerformance(performanceData, performanceImages, titleImage);
-                    } else {
-                        await addPerformance(performanceData, performanceImages, titleImage);
-                    }
-
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            }
+    try {
+        const row = await getAsync(
+            `SELECT 1 FROM performances WHERE title = ?`,
+            [performanceData.title]
         );
-    });
+
+        if (row) {
+            await updatePerformance(performanceData, performanceImages, titleImage);
+        } else {
+            await addPerformance(performanceData, performanceImages, titleImage);
+        }
+
+        await runAsync('COMMIT');
+    } catch (err) {
+        await runAsync('ROLLBACK');
+        throw err;
+    }
 }
 
 async function addPerformanceToPlaybill(title, date, time) {
@@ -557,27 +578,26 @@ async function updatePlaybillItem(id, title, date, time) {
 }
 
 async function processReviews(reviews) {
+    if (!reviews || typeof reviews !== "object") {
+        throw new Error("Ошибка при валидации отзывов")
+    }
+
     return new Promise((resolve, reject) => {
+        const approveStmt = db.prepare(`UPDATE reviews SET approve = 'true' WHERE review_id = ?`);
+        const deleteStmt = db.prepare(`DELETE FROM reviews WHERE review_id = ?`);
+        
         db.serialize(() => {
-            const approveStmt = db.prepare(`
-                UPDATE reviews
-                SET approve = 'true'
-                WHERE review_id = ?
-            `);
-
-            const deleteStmt = db.prepare(`
-                DELETE FROM reviews
-                WHERE review_id = ?
-            `);
-
-            for (const [id, decision] of Object.entries(reviews)) {
+            for (const [id, decision] of bjOect.entries(reviews)) {
                 if (decision === "yes") {
-                    approveStmt.run(id);
+                    approveStmt.run(id, function(err) {
+                        if (err) console.error(err)
+                    });
                 } else if (decision === "no") {
-                    deleteStmt.run(id);
+                    deleteStmt.run(id, function(err) {
+                        if (err) console.error(err)
+                    });
                 }
             }
-
             approveStmt.finalize();
             deleteStmt.finalize(err => {
                 if (err) return reject(err);
