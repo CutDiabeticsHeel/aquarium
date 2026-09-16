@@ -12,7 +12,7 @@ import multipart from "@fastify/multipart";
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
-import  argon2  from "argon2";
+import argon2  from "argon2";
 import { Temporal } from '@js-temporal/polyfill';
 
 import {getPlaybill, getTroupe, getActorData, getPerformances, 
@@ -20,6 +20,7 @@ import {getPlaybill, getTroupe, getActorData, getPerformances,
     getReviews, SQLiteSessionStore, createReview, getReviewById, addLike, 
     incrementReviewLikes} from './database-function.js';
 import adminRoutes from './admin-routes.js';
+import { PAGES_META, performanceMeta, actorMeta} from "./og-content.js"
 
 let captchaConfig, secretConfig;
 
@@ -156,9 +157,9 @@ app.get("/", async(request, reply) => {
 })
 
 app.get("/welcome", async (request, reply) => {
-
     return reply.view("welcome.ejs", {
         headerClass: "unique-header",
+        meta: PAGES_META.welcome
     });
 
 });
@@ -173,7 +174,8 @@ app.get("/actor/:id", async (request, reply) => {
     return reply.view("actor.ejs", {
         actor: actorData,
         performancesList: performancesList,
-        performances: performancesData
+        performances: performancesData,
+        meta: actorMeta(actorData)
     });
 
 });
@@ -181,6 +183,7 @@ app.get("/actor/:id", async (request, reply) => {
 app.get("/collective-visit", async (request, reply) => {
 
     return reply.view("collective-visit.ejs", {
+        meta: PAGES_META.collectiveVisit
     });
 
 });
@@ -188,6 +191,7 @@ app.get("/collective-visit", async (request, reply) => {
 app.get("/drama-school", async (request, reply) => {
 
     return reply.view("drama-school.ejs", {
+        meta: PAGES_META.daramaSchool
     });
 
 });
@@ -200,7 +204,8 @@ app.get("/performance/:id", async (request, reply) => {
 
     return reply.view("performance.ejs", {
         performanceData: performanceData,
-        starringList: starringList
+        starringList: starringList,
+        meta: performanceMeta(performanceData, id)
     });
 
 });
@@ -209,7 +214,8 @@ app.get("/playbill", async (request, reply) => {
     const playbillData = await getPlaybill();
 
     return reply.view("playbill.ejs", {
-        performances: playbillData
+        performances: playbillData,
+        meta: PAGES_META.playbill
     });
 
 });
@@ -218,7 +224,8 @@ app.get("/repertoire", async (request, reply) => {
     const performancesData = await getPerformances();
 
     return reply.view("repertoire.ejs", {
-        performances: performancesData
+        performances: performancesData,
+        meta: PAGES_META.repertoire
     });
 
 });
@@ -231,14 +238,17 @@ app.get("/reviews", async (request, reply) => {
     return reply.view("reviews.ejs", {
         reviews: reviewsData,
         performances: performances,
-        key: CAPTCHA_SITE_KEY
+        key: CAPTCHA_SITE_KEY,
+        meta: PAGES_META.reviews
     });
 
 });
 
 app.get("/tnt", async (request, reply) => {
 
-    return reply.view("tnt.ejs", {});
+    return reply.view("tnt.ejs", {
+        meta: PAGES_META.tnt
+    });
 
 });
 
@@ -246,7 +256,8 @@ app.get("/troupe", async (request, reply) => {
     const troupeData = await getTroupe();
 
     return reply.view("troupe.ejs", {
-        troupe: troupeData
+        troupe: troupeData, 
+        meta: PAGES_META.troupe
     });
 
 });
@@ -254,6 +265,7 @@ app.get("/troupe", async (request, reply) => {
 app.get("/accessible-environment", async (request, reply) => {
 
     return reply.view("accessible-environment.ejs", {
+        meta: PAGES_META.accessibility
     });
 
 });

@@ -1,17 +1,17 @@
-    <title>Театр Аквариум</title>
+<title><%= meta.title %></title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Детский музыкально-драматический театр «Аквариум». Яркие музыкально-драматические и кукольные спектакли для детей от 2х лет в Санкт-Петербурге.">
-    <meta name="keywords" content="спектакли для детей, музыкальные спектакли для детей, кукольные спектакли для детей, детский театр Аквариум, купить билеты в детский театр">
-    <meta property="og:title" content="Детский театр Аквариум - Санкт-Петербург">
-    <meta property="og:description" content="Детский музыкально-драматический театр «Аквариум». Яркие музыкально-драматические и кукольные спектакли для детей от 2х лет в Санкт-Петербурге.">
-    <meta property="og:image" content="img/logo.png">
-    <meta property="og:url" content="http://localhost:3000/welcome">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="спектакли для детей, музыкальные спектакли для детей, кукольные спектакли для детей, детский театр Аквариум, купить билеты в детский театр">
+<meta property="og:title" content="<%= meta.title %>">
+<meta property="og:description" content="<%= meta.description %>">
+<meta property="og:image" content="http://localhost:3000<%= meta.image %>">
+<meta property="og:url" content="http://localhost:3000/<%= meta.url %>">
+<meta property="og:type" content="<%= meta.type %>">
 
-    <link rel="shortcut icon" href="/img/icon.png" type="image/png">
-    <link rel="canonical" href="http://localhost:3000/welcome">
+<link rel="shortcut icon" href="/img/icon.png" type="image/png">
+<link rel="canonical" href="http://localhost:3000/<%= meta.url %>">
 
-    <link rel="stylesheet" href="/css/bundle.css">
-    <script src="/vendor/gsap.min.js" defer></script>
-    <script type="module" src="/js/bundle.js"></script>
+<link rel="stylesheet" href="/css/bundle.css">
+<script src="/vendor/gsap.min.js" defer></script>
+<script type="module" src="/js/bundle.js"></script>

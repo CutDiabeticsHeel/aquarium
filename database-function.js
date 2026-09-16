@@ -67,7 +67,7 @@ async function addActorToDatabase(actorData, actorImages, actorPortrait) {
             last_name,
             role_name,
             patronymic,
-            biografy,
+            biography,
             achievements,
             imgs,
             portrait
@@ -79,7 +79,7 @@ async function addActorToDatabase(actorData, actorImages, actorPortrait) {
         actorData.last_name,
         actorData.role_name,
         actorData.patronymic,
-        actorData.biografy,
+        actorData.biography,
         actorData.achievements,
         actorImagesPath,
         portraitPath
@@ -115,7 +115,7 @@ async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
             last_name = COALESCE(NULLIF(?, ''), last_name),
             role_name = COALESCE(NULLIF(?, ''), role_name),
             patronymic = COALESCE(NULLIF(?, ''), patronymic),
-            biografy = COALESCE(NULLIF(?, ''), biografy),
+            biography = COALESCE(NULLIF(?, ''), biography),
             achievements = COALESCE(NULLIF(?, ''), achievements),
             imgs = ?,
             portrait = COALESCE(NULLIF(?, ''), portrait)
@@ -125,7 +125,7 @@ async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
         actorData.last_name,
         actorData.role_name,
         actorData.patronymic,
-        actorData.biografy,
+        actorData.biography,
         actorData.achievements,
         imagesPath,
         portraitPath,
