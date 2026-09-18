@@ -9,6 +9,7 @@ import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import session from '@fastify/session';
 import multipart from "@fastify/multipart";
+import csrfProtection from '@fastify/csrf-protection'
 import ejs from 'ejs';
 import path from "path";
 import fs from "fs";
@@ -128,6 +129,10 @@ await app.register(session, {
         secure: true,
         maxAge: 24 * 60 * 60 * 1000
     }
+})
+
+app.register(csrfProtection, {
+    sessionPlugin: '@fastify/cookie'
 })
 
 function wantsJson(request) {

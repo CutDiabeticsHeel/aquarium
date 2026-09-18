@@ -40,23 +40,26 @@
                     </svg>
                 </div>
                 <ul class="actor__achievements achievement-list">
-                    <li class="achievement-list__item actor__biografy"> <%= actor.biografy  %> </li>
+                    <li class="achievement-list__item actor__biography"> <%= actor.biography  %> </li>
                     <% const achievementsList = actor.achievements.split(',').map(item => item.trim()) %>
                     <% achievementsList.forEach(item => { %>
                     <li class="achievement-list__item"> <%= item %> </li>
                     <% }); %>
                 </ul>        
                 <h2 class="starring-title">Участвует в спектаклях:</h2>
+                <%
+                    const filteredPerformances = performances.filter(performance =>
+                            performancesList.some(item =>
+                            item.performance_id === performance.performance_id
+                        )
+                    );
+                %>
+                <% if (filteredPerformances.length === 0) {%>
+                    <span class="zero-performance">Похоже актер не играет ни в одном спектакле</span>
+                <% } %>
                 <ul class="actor__starring starring-list">
                     <li>
                         <ul class="performance-list">
-                            <%
-                            const filteredPerformances = performances.filter(performance =>
-                                performancesList.some(item =>
-                                    item.performance_id === performance.performance_id
-                                )
-                            );
-                            %>
                             <% filteredPerformances.forEach(performance => { %>
                                 <li class="performance-list__item">
                                     <a href="/performance/<%= performance.performance_id %>">

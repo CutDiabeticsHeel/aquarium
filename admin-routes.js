@@ -4,8 +4,8 @@ import {getPlaybill, addActorToDatabase, deleteActorFromDatabase, findActors, up
 import path from "node:path";
 import crypto from "node:crypto";
 import fs from "node:fs";
-import csrfProtection from '@fastify/csrf-protection'
 import { pipeline } from "stream/promises";
+import {PAGES_META} from "./og-content.js"
 
 const ALLOWED_TYPES = {
     ".jpg": ["image/jpeg"],
@@ -21,10 +21,24 @@ function safeExtFromMime(filename, mimetype) {
     return ext;
 }
 
+// Формы без файлов всё равно приходят как multipart/form-data (потому что
+// фронтенд шлёт их через FormData), а @fastify/multipart не заполняет
+// request.body без attachFieldsToBody. Эта функция вручную читает
+// текстовые поля из multipart-запроса и возвращает обычный объект.
+async function parseMultipartFields(request) {
+    const data = {};
+    for await (const part of request.parts()) {
+        if (part.type === 'field') {
+            data[part.fieldname] = part.value;
+        } else {
+            // на случай, если в форму без файлов случайно попал file-инпут
+            part.file.resume();
+        }
+    }
+    return data;
+}
+
 async function adminRoutes(app, opts) {
-    app.register(csrfProtection, {
-        sessionPlugin: '@fastify/cookie'
-    })
 
     app.addHook('onRequest', async (request, reply) => {
         if (!request.session.user) {
@@ -33,48 +47,59 @@ async function adminRoutes(app, opts) {
     });
 
     app.get("/admin-panel",async (request, reply) => {
-        const token = reply.generateCsrf();
+        const token = await reply.generateCsrf();
         const unpublishedReviews = await getUnpublishedReviews()
         const playbillData = await getPlaybill();
         
         return reply.view("admin-panel.ejs", {
-            token,
+            csrfToken: token,
             playbillData: playbillData,
-            unpublishedReviews: unpublishedReviews
+            unpublishedReviews: unpublishedReviews,
+            meta: PAGES_META
         });
     });
     
     app.get("/find-actor", async (request, reply) => {
+        const token = await reply.generateCsrf();
         const { lastName  } = request.query;
         const actors = await findActors(lastName)
     
         return reply.view("search-result.ejs", {
-            actors: actors
+            csrfToken: token,
+            actors: actors,
+            meta: PAGES_META
         });
     });
     
     app.get("/edit-actor/:id", async (request, reply) => {
+        const token = await reply.generateCsrf();
         const {id} = request.params;
     
         return reply.view("update-actor.ejs", {
-            id
+            csrfToken: token,
+            id,
+            meta: PAGES_META
         });
     });
     
     app.get("/update-playbill/:id", async (request, reply) => {
+        const token = await reply.generateCsrf();
         const {id} = request.params;
         const playbillData = await getPlaybill();
         const playbillItemResult = playbillData.find(item => item.id === Number(id))
     
         return reply.view("update-playbill.ejs", {
+            csrfToken: token,
             playbillData: playbillItemResult,
-            id
+            id,
+            meta: PAGES_META
         });
     })  
     
-    app.post("/add-actor", {
-            onRequest: app.csrfProtection
-        }, async (request, reply) => {
+    app.post("/add-actor",{
+        onRequest: app.csrfProtection
+    }, async (request, reply) => {
+        console.log("ДОШЕЛ ДО /add-actor");
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;
@@ -117,18 +142,22 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/delete-actor", async(request, reply) =>{
+    app.post("/delete-actor",{
+        onRequest: app.csrfProtection
+    },  async(request, reply) =>{
         try {
-            const {firstName, lastName, patronymic} = request.body;
+            const {firstName, lastName, patronymic} = await parseMultipartFields(request);
             await deleteActorFromDatabase(firstName, lastName, patronymic)
             reply.redirect("/admin-panel");
         } catch (err){
-            onsole.error(err)
+            console.error(err)
             reply.code(500).send({ message: "Ошибка при удалении актера" });
         }
     })
     
-    app.post("/update-actor", async (request, reply) => {
+    app.post("/update-actor", {
+        onRequest: app.csrfProtection
+    }, async (request, reply) => {
         const { id } = request.query;
         const actorData = {};
         const actorImages = [];
@@ -138,7 +167,10 @@ async function adminRoutes(app, opts) {
         try {
             for await (const part of request.parts()) {
                 if (part.type === 'file') {
-                    if (!part.filename) continue;
+                    if (!part.filename) {
+                        part.file.resume();
+                        continue;
+                    }
                     const validFile = safeExtFromMime(part.filename, part.mimetype);
                     if (!validFile) {
                         part.file.resume();
@@ -168,9 +200,11 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/update-cast", async (request, reply) => {
+    app.post("/update-cast", {
+        onRequest: app.csrfProtection
+    }, async (request, reply) => {
         try {
-            const {performanceTitle, role, firstName, lastName, patronymic} = request.body;
+            const {performanceTitle, role, firstName, lastName, patronymic} = await parseMultipartFields(request);
             await updateCastInfo(performanceTitle, role, firstName, lastName, patronymic)
             reply.redirect("/admin-panel");
         } catch (err){
@@ -179,9 +213,11 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/delete-performance", async (request, reply) => {
+    app.post("/delete-performance", {
+        onRequest: app.csrfProtection
+    }, async (request, reply) => {
         try {
-            const {title} = request.body;
+            const {title} = await parseMultipartFields(request);
             await deletePerformanceFromDatabase(title)
             reply.redirect("/admin-panel")
         } catch (err) {
@@ -190,7 +226,9 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/redact-performance", async (request, reply) => {
+    app.post("/redact-performance", {
+        onRequest: app.csrfProtection
+    }, async (request, reply) => {
         const performanceData = {};
         const performanceImages = [];
         let titleImage = null;
@@ -233,9 +271,11 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/add-playbill", async(request, reply) =>{
+    app.post("/add-playbill", {
+        onRequest: app.csrfProtection
+    }, async(request, reply) =>{
         try {
-            const {title, date, time} = request.body
+            const {title, date, time} = await parseMultipartFields(request);
             await addPerformanceToPlaybill(title, date, time)
             reply.redirect("/admin-panel")
         } catch (err) {
@@ -245,9 +285,11 @@ async function adminRoutes(app, opts) {
         
     })
     
-    app.post("/delete-playbill", async(request, reply) =>{
+    app.post("/delete-playbill", {
+        onRequest: app.csrfProtection
+    }, async(request, reply) =>{
         try {
-            const {id} = request.body
+            const {id} = await parseMultipartFields(request);
             await deletePlaybillItem(id)
             reply.redirect("/admin-panel")
         } catch (err) {
@@ -256,10 +298,12 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/update-playbill", async (request, reply) =>{
+    app.post("/update-playbill", {
+        onRequest: app.csrfProtection
+    }, async (request, reply) =>{
         const { id } = request.query;
-        const {title, date, time} = request.body;
         try {
+            const {title, date, time} = await parseMultipartFields(request);
             await updatePlaybillItem(Number(id), title, date, time);
             reply.redirect("/admin-panel");
         } catch (err) {
@@ -268,9 +312,11 @@ async function adminRoutes(app, opts) {
         }
     })
     
-    app.post("/approve-review", async (request, reply) =>{
-        const reviewData = { ...request.body}
+    app.post("/approve-review", {
+        onRequest: app.csrfProtection
+    }, async (request, reply) =>{
         try {
+            const reviewData = await parseMultipartFields(request);
             await processReviews(reviewData)
             reply.redirect("/admin-panel")
         } catch(err) {

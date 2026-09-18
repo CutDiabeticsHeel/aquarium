@@ -1,4 +1,4 @@
-    <form class="add-actor" action="/add-actor" method="POST" enctype="multipart/form-data" autocomplete="new-password">
+    <form class="add-actor" action="/add-actor" method="POST" enctype="multipart/form-data" data-csrf="<%= csrfToken %>" autocomplete="new-password">
         <label>
             Введите Имя
             <input type="text" name="first_name" autocomplete="new-password"/>
@@ -17,7 +17,7 @@
         </label>
         <label>
             Введите информацию когда родился актер 
-            <input type="text" name="biografy" autocomplete="new-password"/>
+            <input type="text" name="biography" autocomplete="new-password"/>
         </label>
         <label>
             Введите информацию об актере, которую хотите вывести на страницу. 

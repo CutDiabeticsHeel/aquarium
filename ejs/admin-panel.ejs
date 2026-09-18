@@ -8,13 +8,15 @@
         <h1>Панель администратора</h1>
         <details class="reform__details" name="reform">
             <summary>Администрирование информации об актерах</summary>
+
             <details class="reform__details add__actor" name="reform__item">
                 <summary>Добавить актера</summary>
                 <%- include("partials/add-actor")%>
             </details>
+
             <details class="reform__details delete__actor" name="reform__item">
                 <summary>Удалить Актера</summary>
-                <form class="delete-actor" action="/delete-actor" method="POST" autocomplete="off">
+                <form class="form__delete-actor" action="/delete-actor" method="POST" autocomplete="off" data-csrf="<%= csrfToken %>">
                     <label>
                         Введите Имя
                         <input type="text" name="firstName" autocomplete="off"/>
@@ -30,10 +32,11 @@
                     <button class="confirm-button" type="submit">Удалить</button>
                 </form>
             </details>
+
             <details class="reform__details change__actor" name="reform__item">
                 <summary>Изменить информацию об актере</summary>
                 <h3>Введите Фамилию актера, информацию которого хотите обновить</h3>
-                <form class="find-actor" action="/find-actor" method="get" autocomplete="off">
+                <form class="form__find-actor" action="/find-actor" method="get" autocomplete="off" data-csrf="<%= csrfToken %>">
                     <label>
                         Введите Фамилию
                         <input type="text" name="lastName" autocomplete="off"/>
@@ -41,9 +44,10 @@
                     <button class="confirm-button" type="submit">Поиск</button>
                 </form>
             </details>
+
             <details class="reform__details" name="reform__item">
                 <summary>Изменить/Добавить актерский состав спектакля</summary>
-                <form class="update-cast" action="/update-cast" method="post" autocomplete="off">
+                <form class="form__update-cast" action="/update-cast" method="post" autocomplete="off" data-csrf="<%= csrfToken %>">
                     <label>
                         Введите название спектакля
                         <input type="text" name="performanceTitle" autocomplete="off"/>
@@ -68,11 +72,13 @@
                 </form>
             </details>
         </details>
+
         <details class="reform__details" name="reform">
             <summary>Администрирование спектаклей</summary>
+
             <details class="reform__details delete__actor" name="reform__item">
                 <summary>Изменить информацию об спектакле / добавить спектакль</summary>
-                <form class="redact-performance" action="/redact-performance" method="POST" enctype="multipart/form-data" autocomplete="off">
+                <form class="form__redact-performance" action="/redact-performance" method="POST" enctype="multipart/form-data" autocomplete="off" data-csrf="<%= csrfToken %>">
                     <label>
                         Введите название спектакля
                         <input type="text" name="title" autocomplete="off"/>
@@ -110,9 +116,10 @@
                     <button class="confirm-button" type="submit">Внести изменения</button>
                 </form>
             </details>
+
             <details class="reform__details delete__actor" name="reform__item">
                 <summary>Удалить спектакль</summary>
-                <form class="delete-actor" action="/delete-performance" method="POST" autocomplete="off">
+                <form class="form__delete-performance" action="/delete-performance" method="POST" autocomplete="off" data-csrf="<%= csrfToken %>">
                     <label>
                         Введите Название спектакля
                         <input type="text" name="title" autocomplete="off"/>
@@ -121,8 +128,10 @@
                 </form>
             </details>
         </details>
+
         <details class="reform__details" name="reform">
             <summary>Изменить афишу</summary>
+
             <details class="reform__details" name="reform__item">
                 <summary>Изменить запись в афише</summary>
                 <% playbillData.forEach(performance => {%>
@@ -133,16 +142,18 @@
                         <span class="playbill__data-item"><%= performance.time %></span>
                         <br>
                         <a class="confirm-button redact-playbill-item" href="/update-playbill/<%= performance.id %>">Изменить запись</a>
-                        <form action="/delete-playbill" method="POST" style="display: inline;">
+
+                        <form class="form__delete-playbill" action="/delete-playbill" method="POST" style="display: inline;" data-csrf="<%= csrfToken %>">
                             <input type="hidden" name="id" value="<%= performance.id %>" />
                             <button class="confirm-button delete-playbill-item">Удалить запись</button>
                         </form>
                     </div>
                 <%})%>
             </details>
+
             <details class="reform__details" name="reform__item">
                 <summary>Добавить запись в афишу</summary>
-                <form class="delete-actor" action="/add-playbill" method="POST" autocomplete="off">
+                <form class="form__add-playbill" action="/add-playbill" method="POST" autocomplete="off" data-csrf="<%= csrfToken %>">
                     <label>
                         Введите название спектакля
                         <input type="text" name="title" autocomplete="off"/>
@@ -159,10 +170,12 @@
                 </form>
             </details>
         </details>
+
         <details class="reform__details" name="reform">
             <summary>Одобрить отзывы</summary>
             <h3>Неопубликованные отзывы</h3>
-            <form action="/approve-review" method="POST">
+
+            <form class="form__approve-review" action="/approve-review" method="POST" data-csrf="<%= csrfToken %>">
                 <% unpublishedReviews.forEach(review => {%>
                     <div class="review-item">
                         <span class="review-item__name">Имя: <%= review.name %></span>
@@ -170,6 +183,7 @@
                         <span class="review-item__topic">Тема:<%= review.topic %></span>
                         <span class="review-item__star">Рейтинг по звездам:<%= review.star %></span>
                         <span class="review-item__text"><%= review.text %></span>
+
                         <div class="approve-review">
                             Одобрить отзыв?
                             <label class="radio-button">

@@ -13,10 +13,11 @@ details {
     padding: 10px;
     border-radius: 10px;
 }
-.delete-actor,
-.update-cast,
-.redact-performance,
-.update-actor,
+.form__delete-actor,
+.form__update-cast,
+.form__redact-performance,
+.form__update-actor,
+.form__add-playbill,
 .add-actor {
     display: flex;
     flex-direction: column;
@@ -26,7 +27,7 @@ details {
     border-radius: 10px;
     padding: 10px;
 }
-.find-actor {
+.form__find-actor {
     margin: 10px 0px;
     background-color: var(--background-opacity);
     border-radius: 10px;

@@ -6,12 +6,15 @@
     padding-left: 20px;
     word-break: break-all;
 }
-.actor__biografy {
+.actor__biography {
     padding-bottom: 15px;
 }
 .starring-title {
     padding-left: 20px;
     margin: 0;
+}
+.zero-performance {
+    padding: 20px;
 }
 .starring-list .performance-list {
     grid-template-columns: repeat(4, 1fr);
