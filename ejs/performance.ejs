@@ -29,7 +29,7 @@
                                         <img
                                             class="performance-swiper__image"
                                             width="50" height="50"
-                                            src="<%= withWidth(image, 375) %>"
+                                            src="<%= withWidth(image, 1024) %>"
                                             srcset="<%= SIZES.map(w => `${withWidth(image, w)} ${w}w`).join(', ') %>"
                                             sizes="50px"
                                             alt="Фото спектакля <%= performanceData.title %>"
