@@ -6,6 +6,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import { pipeline } from "stream/promises";
 import {PAGES_META} from "./og-content.js"
+import { generateResponsiveImages } from './min-images.js';
 
 const ALLOWED_TYPES = {
     ".jpg": ["image/jpeg"],
@@ -114,10 +115,11 @@ async function adminRoutes(app, opts) {
                     }
     
                     const fileName = crypto.randomBytes(6).toString('base64url') + validFile;
-                    const destPath = path.resolve('./assets/img/', fileName);
+                    const destPath = path.resolve('./assets/img/origin/', fileName);
 
                     await pipeline(part.file, fs.createWriteStream(destPath));
                     writtenFiles.push(destPath);
+                    await generateResponsiveImages(destPath);
     
                     if (part.fieldname === 'imgs') actorImages.push(fileName);
                     else actorPortrait = fileName;
@@ -172,10 +174,11 @@ async function adminRoutes(app, opts) {
                     }
     
                     const fileName = crypto.randomBytes(6).toString('base64url') + validFile;
-                    const destPath = path.resolve('./assets/img/', fileName);
+                    const destPath = path.resolve('./assets/img/origin/', fileName);
 
                     await pipeline(part.file, fs.createWriteStream(destPath));
                     writtenFiles.push(destPath);
+                    await generateResponsiveImages(destPath);
     
                     if (part.fieldname === 'imgs') actorImages.push(fileName);
                     else actorPortrait = fileName;
@@ -243,10 +246,11 @@ async function adminRoutes(app, opts) {
                     }
 
                     const fileName = crypto.randomBytes(6).toString('base64url') + validFile;
-                    const destPath = path.resolve('./assets/img/', fileName);
+                    const destPath = path.resolve('./assets/img/origin/', fileName);
 
                     await pipeline(part.file, fs.createWriteStream(destPath));
                     writtenFiles.push(destPath);
+                    await generateResponsiveImages(destPath);
     
                     if (part.fieldname === 'imgs') performanceImages.push(fileName);
                     else titleImage = fileName;

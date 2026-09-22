@@ -105,7 +105,7 @@ async function addActorToDatabase(actorData, actorImages, actorPortrait) {
     db.exec("BEGIN IMMEDIATE");
     
     try {
-        db.prepare(
+        const result = db.prepare(
             `
             INSERT INTO troupe(
                 first_name,

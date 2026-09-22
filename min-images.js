@@ -31,3 +31,18 @@ for (const file of files) {
       .toFile(outPath);
   }
 }
+
+export async function generateResponsiveImages(sourcePath) {
+    const fileName = path.basename(sourcePath);
+    const name = path.parse(fileName).name;
+ 
+    for (const width of WIDTHS) {
+        const outPath = path.join(OUTPUT_DIR, `${name}-${width}.${FORMAT}`);
+ 
+        await sharp(sourcePath)
+            .rotate()
+            .resize({ width, withoutEnlargement: true })
+            .webp({ quality: 90 })
+            .toFile(outPath);
+    }
+}

@@ -21,7 +21,7 @@ import {getPlaybill, getTroupe, getActorData, getPerformances,
     getReviews, SQLiteSessionStore, createReview, getReviewById, addLike, 
     incrementReviewLikes} from './database-function.js';
 import adminRoutes from './admin-routes.js';
-import { PAGES_META, performanceMeta, actorMeta} from "./og-content.js"
+import { DEFAULT_META, PAGES_META, performanceMeta, actorMeta} from "./og-content.js"
 import {withWidth, SIZES} from "./image-utils.js"
 
 let captchaConfig, secretConfig;
@@ -282,7 +282,9 @@ app.get("/accessible-environment", async (request, reply) => {
 });
 
 app.get("/admin", async (request, reply) => {
-    return reply.view("admin.ejs", {});    
+    return reply.view("admin.ejs", {
+        meta: DEFAULT_META
+    });    
 });
 
 app.post("/reviews", {
