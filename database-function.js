@@ -6,6 +6,11 @@ db.exec(`PRAGMA journal_mode = WAL`);
 db.exec(`PRAGMA busy_timeout = 4000`);
 db.exec(`PRAGMA foreign_keys = ON`);
 
+const IMAGE_TABLES = {
+    actor:       { table: "actor_images",       fk: "actor_id" },
+    performance: { table: "performance_images", fk: "performance_id" }
+};
+
 async function getPlaybill() {
     return db.prepare(
         `SELECT pb.id, pb.date, pb.time, p.performance_id, p.title, p.title_image, p.age_limit
@@ -21,19 +26,30 @@ async function getTroupe() {
 }
 
 async function getActorData(id) {
-    return db.prepare("SELECT * FROM troupe WHERE actor_id=?").get(id);
+    const row = db.prepare("SELECT * FROM troupe WHERE actor_id=?").get(id);
+    if (!row) return row;
+
+    return { ...row, imgs: getImages("actor", row.actor_id) };
 }
 
 async function getPerformances() {
-    return db.prepare(
-        "SELECT performance_id, title, duration, age_limit, description, imgs, title_image FROM performances"
+    const rows = db.prepare(
+        "SELECT performance_id, title, duration, age_limit, description, title_image FROM performances"
     ).all();
+ 
+    return rows.map(row => ({
+        ...row,
+        imgs: getImages("performance", row.performance_id)
+    }));
 }
 
 async function getPerformancePageData(id) {
-    return db.prepare(
-        "SELECT title, origin, audience, info, imgs, title_image FROM performances WHERE performance_id=?"
+    const row = db.prepare(
+        "SELECT title, origin, audience, info, title_image FROM performances WHERE performance_id=?"
     ).get(id);
+    if (!row) return row;
+ 
+    return { ...row, imgs: getImages("performance", id) };
 }
 
 async function getHrefPerformanceForActor(id) {
@@ -56,34 +72,70 @@ async function getUnpublishedReviews() {
     return db.prepare("SELECT * FROM reviews WHERE approve = 'false'").all();
 }
 
-async function addActorToDatabase(actorData, actorImages, actorPortrait) {
-    const actorImagesPath = actorImages.map(item => `/img/${item}`).join(',');
-    const portraitPath = `/img/${actorPortrait}`;
-
-    db.prepare(
-        `
-        INSERT INTO troupe(
-            first_name,
-            last_name,
-            role_name,
-            patronymic,
-            biography,
-            achievements,
-            imgs,
-            portrait
-        )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
-        `
-    ).run(
-        actorData.first_name,
-        actorData.last_name,
-        actorData.role_name,
-        actorData.patronymic,
-        actorData.biography,
-        actorData.achievements,
-        actorImagesPath,
-        portraitPath
+function appendImages(kind, ownerId, fileNames) {
+    if (!fileNames || fileNames.length === 0) return;
+ 
+    const { table, fk } = IMAGE_TABLES[kind];
+ 
+    const { maxOrder } = db.prepare(
+        `SELECT COALESCE(MAX(sort_order), 0) AS maxOrder FROM ${table} WHERE ${fk} = ?`
+    ).get(ownerId);
+ 
+    const insert = db.prepare(
+        `INSERT OR IGNORE INTO ${table} (${fk}, url, sort_order) VALUES (?, ?, ?)`
     );
+ 
+    let order = maxOrder;
+    for (const name of fileNames) {
+        order += 10;
+        insert.run(ownerId, `/img/${name}`, order);
+    }
+}
+
+function getImages(kind, ownerId) {
+    const { table, fk } = IMAGE_TABLES[kind];
+ 
+    return db.prepare(
+        `SELECT url FROM ${table} WHERE ${fk} = ? ORDER BY sort_order, id`
+    ).all(ownerId).map(row => row.url);
+}
+
+async function addActorToDatabase(actorData, actorImages, actorPortrait) {
+    const portraitPath = `/img/${actorPortrait}`;
+    db.exec("BEGIN IMMEDIATE");
+    
+    try {
+        db.prepare(
+            `
+            INSERT INTO troupe(
+                first_name,
+                last_name,
+                role_name,
+                patronymic,
+                biography,
+                achievements,
+                portrait
+            )
+            VALUES(?, ?, ?, ?, ?, ?, ?)
+            `
+        ).run(
+            actorData.first_name,
+            actorData.last_name,
+            actorData.role_name,
+            actorData.patronymic,
+            actorData.biography,
+            actorData.achievements,
+            portraitPath
+        );
+
+        appendImages("actor", result.lastInsertRowid, actorImages);
+
+        db.exec("COMMIT");
+    } catch (err) {
+        db.exec("ROLLBACK");
+        throw err;
+    }
+
 }
 
 async function deleteActorFromDatabase(firstName, lastName, patronymic) {
@@ -99,43 +151,47 @@ async function findActors(lastName) {
 }
 
 async function updateActorData(actorId, actorData, actorImages, actorPortrait) {
+    const id = Number(actorId);
     const portraitPath = actorPortrait ? `/img/${actorPortrait}` : "";
+ 
+    db.exec("BEGIN IMMEDIATE");
+    try {
+        const result = db.prepare(
+            `UPDATE troupe
+             SET
+                first_name = COALESCE(NULLIF(?, ''), first_name),
+                last_name = COALESCE(NULLIF(?, ''), last_name),
+                role_name = COALESCE(NULLIF(?, ''), role_name),
+                patronymic = COALESCE(NULLIF(?, ''), patronymic),
+                biography = COALESCE(NULLIF(?, ''), biography),
+                achievements = COALESCE(NULLIF(?, ''), achievements),
+                portrait = COALESCE(NULLIF(?, ''), portrait)
+             WHERE actor_id = ?`
+        ).run(
+            actorData.first_name,
+            actorData.last_name,
+            actorData.role_name,
+            actorData.patronymic,
+            actorData.biography,
+            actorData.achievements,
+            portraitPath,
+            id
+        );
 
-    const row = db.prepare("SELECT imgs FROM troupe WHERE actor_id = ?").get(actorId);
-
-    const oldImages = row?.imgs || "";
-    const newImages = actorImages?.map(item => `/img/${item}`).join(",") || "";
-
-    const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
-
-    const result = db.prepare(
-        `UPDATE troupe
-         SET
-            first_name = COALESCE(NULLIF(?, ''), first_name),
-            last_name = COALESCE(NULLIF(?, ''), last_name),
-            role_name = COALESCE(NULLIF(?, ''), role_name),
-            patronymic = COALESCE(NULLIF(?, ''), patronymic),
-            biography = COALESCE(NULLIF(?, ''), biography),
-            achievements = COALESCE(NULLIF(?, ''), achievements),
-            imgs = ?,
-            portrait = COALESCE(NULLIF(?, ''), portrait)
-         WHERE actor_id = ?`
-    ).run(
-        actorData.first_name,
-        actorData.last_name,
-        actorData.role_name,
-        actorData.patronymic,
-        actorData.biography,
-        actorData.achievements,
-        imagesPath,
-        portraitPath,
-        actorId
-    );
-
-    return {
-        updated: result.changes > 0,
-        changes: result.changes
-    };
+        if (result.changes > 0) {
+            appendImages("actor", id, actorImages);
+        }
+ 
+        db.exec("COMMIT");
+ 
+        return {
+            updated: result.changes > 0,
+            changes: result.changes
+        };
+    } catch (err) {
+        db.exec("ROLLBACK");
+        throw err;
+    }
 }
 
 async function getActorId(firstName, lastName, patronymic) {
@@ -232,14 +288,8 @@ async function deletePerformanceFromDatabase(title) {
 
 async function updatePerformance(performanceData, performanceImages, titleImage) {
     const titleImagePath = titleImage ? `/img/${titleImage}` : "";
-
-    const row = db.prepare(`SELECT imgs FROM performances WHERE title = ?`).get(performanceData.title);
-
-    const oldImages = row?.imgs || "";
-    const newImages = performanceImages?.map(item => `/img/${item}`).join(",") || "";
-
-    const imagesPath = oldImages && newImages ? `${oldImages},${newImages}` : oldImages || newImages;
-
+    const performanceId = await getPerformanceId(performanceData.title);
+ 
     const result = db.prepare(
         `UPDATE performances
         SET
@@ -249,9 +299,8 @@ async function updatePerformance(performanceData, performanceImages, titleImage)
             origin = COALESCE(NULLIF(?, ''), origin),
             audience = COALESCE(NULLIF(?, ''), audience),
             info = COALESCE(NULLIF(?, ''), info),
-            imgs = COALESCE(NULLIF(?, ''), imgs),
             title_image = COALESCE(NULLIF(?, ''), title_image)
-        WHERE title = ?`
+        WHERE performance_id = ?`
     ).run(
         performanceData.duration,
         performanceData.ageLimit,
@@ -259,11 +308,12 @@ async function updatePerformance(performanceData, performanceImages, titleImage)
         performanceData.origin,
         performanceData.audience,
         performanceData.info,
-        imagesPath,
         titleImagePath,
-        performanceData.title
+        performanceId
     );
-
+ 
+    appendImages("performance", performanceId, performanceImages);
+ 
     return {
         updated: true,
         changes: result.changes
@@ -271,9 +321,8 @@ async function updatePerformance(performanceData, performanceImages, titleImage)
 }
 
 async function addPerformance(performanceData, performanceImages, titleImage) {
-    const imagesPath = performanceImages.map(item => `/img/${item}`).join(",");
     const titleImagePath = titleImage ? `/img/${titleImage}` : "";
-
+ 
     const result = db.prepare(
         `INSERT INTO performances(
             title,
@@ -283,10 +332,9 @@ async function addPerformance(performanceData, performanceImages, titleImage) {
             origin,
             audience,
             info,
-            imgs,
             title_image
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     ).run(
         performanceData.title,
         performanceData.duration,
@@ -295,10 +343,11 @@ async function addPerformance(performanceData, performanceImages, titleImage) {
         performanceData.origin,
         performanceData.audience,
         performanceData.info,
-        imagesPath,
         titleImagePath
     );
-
+ 
+    appendImages("performance", result.lastInsertRowid, performanceImages);
+ 
     return result.lastInsertRowid;
 }
 

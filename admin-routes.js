@@ -21,17 +21,12 @@ function safeExtFromMime(filename, mimetype) {
     return ext;
 }
 
-// Формы без файлов всё равно приходят как multipart/form-data (потому что
-// фронтенд шлёт их через FormData), а @fastify/multipart не заполняет
-// request.body без attachFieldsToBody. Эта функция вручную читает
-// текстовые поля из multipart-запроса и возвращает обычный объект.
 async function parseMultipartFields(request) {
     const data = {};
     for await (const part of request.parts()) {
         if (part.type === 'field') {
             data[part.fieldname] = part.value;
         } else {
-            // на случай, если в форму без файлов случайно попал file-инпут
             part.file.resume();
         }
     }
@@ -99,7 +94,6 @@ async function adminRoutes(app, opts) {
     app.post("/add-actor",{
         onRequest: app.csrfProtection
     }, async (request, reply) => {
-        console.log("ДОШЕЛ ДО /add-actor");
         const actorData = {};
         const actorImages = [];
         let actorPortrait = null;
@@ -119,7 +113,7 @@ async function adminRoutes(app, opts) {
                         continue;
                     }
     
-                    const fileName = crypto.randomUUID() + validFile;
+                    const fileName = crypto.randomBytes(6).toString('base64url') + validFile;
                     const destPath = path.resolve('./assets/img/', fileName);
 
                     await pipeline(part.file, fs.createWriteStream(destPath));
@@ -177,7 +171,7 @@ async function adminRoutes(app, opts) {
                         continue;
                     }
     
-                    const fileName = crypto.randomUUID() + validFile;
+                    const fileName = crypto.randomBytes(6).toString('base64url') + validFile;
                     const destPath = path.resolve('./assets/img/', fileName);
 
                     await pipeline(part.file, fs.createWriteStream(destPath));
@@ -248,7 +242,7 @@ async function adminRoutes(app, opts) {
                         continue;
                     }
 
-                    const fileName = crypto.randomUUID() + validFile;
+                    const fileName = crypto.randomBytes(6).toString('base64url') + validFile;
                     const destPath = path.resolve('./assets/img/', fileName);
 
                     await pipeline(part.file, fs.createWriteStream(destPath));

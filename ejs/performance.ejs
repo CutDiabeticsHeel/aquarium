@@ -23,11 +23,17 @@
                 <div class="performance__swiper-container">
                     <div class="swiper performance__swiper" tabindex="0">
                         <div class="swiper-wrapper performance__swiper-wrapper">
-                            <% const performanceImages = performanceData.imgs.split(',').map(image => image.trim())  %>
-                            <% performanceImages.forEach(image => { %>
+                            <% performanceData.imgs.forEach(image => { %>
                                 <div class="swiper-slide">
-                                    <a href="<%= image %>" data-fancybox="performance__gallery">                            
-                                        <img class="performance-swiper__image" src="<%= image %>" width="50px" height="50px" alt="Фото спектакля <%= performanceData.title %>">
+                                    <a href="<%= withWidth(image, 1024) %>" data-fancybox="performance__gallery">
+                                        <img
+                                            class="performance-swiper__image"
+                                            width="50" height="50"
+                                            src="<%= withWidth(image, 375) %>"
+                                            srcset="<%= SIZES.map(w => `${withWidth(image, w)} ${w}w`).join(', ') %>"
+                                            sizes="50px"
+                                            alt="Фото спектакля <%= performanceData.title %>"
+                                        >                            
                                     </a>
                                 </div>
                             <% }); %>
@@ -51,12 +57,21 @@
                         <span class="zero-starring">Похоже в этом спектакле никто не участвует</span>
                     <%}%>
                     <ul class="actors-list">
-                        <% starringList.forEach(item => { %>
+                        <% starringList.forEach(actor => { %>
                         <li class="actors-list__item">
-                            <a class="actors-list__link" href="/actor/<%= item.actor_id %>">
-                                <img class="actors__image" src="<%= item.portrait %>" decoding="async" loading="lazy" width="250" height="250" alt="Портрет актера <%= item.first_name %> <%= item.last_name %> ">
-                                <span class="actors__fcs"><%= item.first_name %> <%= item.last_name %> </span>
-                                <span class="actors__role"> <%= item.role %></span>
+                            <a class="actors-list__link" href="/actor/<%= actor.actor_id %>">
+                                <img
+                                    class="actors__image"
+                                    src="<%= withWidth(actor.portrait, 1024) %>"
+                                    loading="lazy"
+                                    decoding="async"
+                                    width="250" height="250"
+                                    srcset="<%= SIZES.map(w => `${withWidth(actor.portrait, w)} ${w}w`).join(', ') %>"
+                                    sizes="(max-width: 600px) 375px, (max-width: 1024px) 768px, 1024px"
+                                    alt="Портрет актера <%= actor.first_name %> <%= actor.last_name %>"
+                                >
+                                <span class="actors__fcs"><%= actor.first_name %> <%= actor.last_name %> </span>
+                                <span class="actors__role"> <%= actor.role %></span>
                             </a>
                         </li>
                         <% }); %>

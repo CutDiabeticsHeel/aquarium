@@ -10,7 +10,12 @@
     margin: 0;
 }
 .actors-list__item {
-    background-image: url('/img/frame.avif');
+    background-image: url('/img/frame-768.webp');
+    background-image: image-set(
+        url('/img/frame-375.webp') 1x,
+        url('/img/frame-768.webp') 2x,
+        url('/img/frame-1024.webp') 3x
+    );
     background-position: center;
     background-size: 180% 129%;
     background-color: var(--background-opacity);

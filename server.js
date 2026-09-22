@@ -22,6 +22,7 @@ import {getPlaybill, getTroupe, getActorData, getPerformances,
     incrementReviewLikes} from './database-function.js';
 import adminRoutes from './admin-routes.js';
 import { PAGES_META, performanceMeta, actorMeta} from "./og-content.js"
+import {withWidth, SIZES} from "./image-utils.js"
 
 let captchaConfig, secretConfig;
 
@@ -67,7 +68,11 @@ await app.register(cors);
 
 await app.register(view, {
     engine: { ejs},
-    root: path.join(process.cwd(), "ejs")
+    root: path.join(process.cwd(), "ejs"),
+    defaultContext: {
+        withWidth,
+        SIZES
+    },
 });
 
 await app.register(compress, {
@@ -206,6 +211,7 @@ app.get("/performance/:id", async (request, reply) => {
 
     const performanceData = await getPerformancePageData(id)
     const starringList = await getStarringListFromPerformance(id)
+    console.log(performanceData, starringList)
 
     return reply.view("performance.ejs", {
         performanceData: performanceData,

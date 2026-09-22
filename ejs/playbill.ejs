@@ -32,7 +32,16 @@
                                 <span class="playbill__age-limit"><%= performance.age_limit %></span>
                                 <button class="buy-ticket">Купить билет</button>
                                 <div class="playbill__image-wrapper">
-                                    <img class="playbill__image" src="<%= performance.title_image %>" decoding="async" width="400" height="400" alt='Фото спектакля "<%= performance.title %>"' loading="<%= index >= 2 ? 'lazy' : 'eager' %>">
+                                    <img
+                                        class="playbill__image"
+                                        src="<%= withWidth(performance.title_image, 1024) %>"
+                                        loading="<%= index >= 2 ? 'lazy' : 'eager' %>"
+                                        decoding="async"
+                                        width="400" height="400"
+                                        srcset="<%= SIZES.map(w => `${withWidth(performance.title_image, w)} ${w}w`).join(', ') %>"
+                                        sizes="(max-width: 600px) 375px, (max-width: 1024px) 768px, 1024px"
+                                        alt='Фото спектакля "<%= performance.title %>"'
+                                    >
                                 </div>
                             </a>
                         </li>
