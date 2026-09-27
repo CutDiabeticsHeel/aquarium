@@ -10,7 +10,6 @@
     margin: 0;
 }
 .actors-list__item {
-    background-image: url('/img/frame-768.webp');
     background-image: image-set(
         url('/img/frame-375.webp') 1x,
         url('/img/frame-768.webp') 2x,
@@ -45,6 +44,7 @@
 .actors__image {
     text-align: center;
     transition: transform 0.3s ease;
+    object-position: center 5%;
     border-radius: 50%;
     z-index: -1;
 }

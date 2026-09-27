@@ -28,10 +28,9 @@
                                     <a href="<%= withWidth(image, 1024) %>" data-fancybox="performance__gallery">
                                         <img
                                             class="performance-swiper__image"
-                                            width="50" height="50"
                                             src="<%= withWidth(image, 1024) %>"
                                             srcset="<%= SIZES.map(w => `${withWidth(image, w)} ${w}w`).join(', ') %>"
-                                            sizes="50px"
+                                            sizes="(max-width: 600px) 100vw, (max-width: 1024px) 77.5vw, 1024px"
                                             alt="Фото спектакля <%= performanceData.title %>"
                                         >                            
                                     </a>

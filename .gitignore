@@ -8,4 +8,12 @@ database
 /server.crt
 /captcha.json
 /admin-panel.json
+/actors.csv
+/plays.csv
+/roles.csv
+/actor_images.csv
+/play_images.csv
+/akvarium.db
+/akvarium_scraper.py
+/download_all_images.py
 assets/img
