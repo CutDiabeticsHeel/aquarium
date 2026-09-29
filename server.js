@@ -162,11 +162,8 @@ process.on('unhandledRejection', (reason) => {
   throw reason;
 });
 
-app.get("/", async(request, reply) => {
-    return reply.redirect("/welcome")
-})
 
-app.get("/welcome", async (request, reply) => {
+app.get("/", async (request, reply) => {
     return reply.view("welcome.ejs", {
         headerClass: "unique-header",
         meta: PAGES_META.welcome
