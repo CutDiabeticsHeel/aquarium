@@ -1,3 +1,4 @@
+import gsap from "gsap";
 function initFooterJs() {
     if (!document.querySelector(".main-footer")) return;
     const mapButton = document.querySelector(".map")

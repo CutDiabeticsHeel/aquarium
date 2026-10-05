@@ -1,3 +1,5 @@
+import Swiper from "swiper";
+import { Fancybox } from "@fancyapps/ui";
 function initTntJs(){
     if (!document.querySelector(".tnt__section")) return;
     const tntSwiper = new Swiper('.tnt__swiper', {

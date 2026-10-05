@@ -1,0 +1,14 @@
+import './assets/js/actor.js';
+import './assets/js/admin-panel.js';
+import './assets/js/collective-visit.js';
+import './assets/js/curtains.js';
+import './assets/js/drama-school.js';
+import './assets/js/footer.js';
+import './assets/js/menu.js';
+import './assets/js/performance.js';
+import './assets/js/playbill.js';
+import './assets/js/reviews.js';
+import './assets/js/tnt.js';
+import './assets/js/troupe.js';
+import './assets/js/visually-impared.js';
+import './assets/js/welcome.js';

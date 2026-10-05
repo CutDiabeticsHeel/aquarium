@@ -1,3 +1,5 @@
+import Swiper from "swiper";
+import gsap from "gsap";
 function initReviewJs(){
     if (!document.querySelector(".reviews")) return;
     const allReviews = document.querySelector(".all-reviews")
@@ -133,8 +135,8 @@ function initReviewJs(){
         a11y: false,
         freeMode: true,
         spaceBetween: 15,
-        mousewheel: true,
         mousewheel: {
+            enabled: true,
             sensitivity: 0.6,
         },
         slidesPerView: 'auto',

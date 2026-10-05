@@ -1,6 +1,7 @@
+import gsap from "gsap";
 const curtains = document.querySelectorAll(".curtainContainer");
-const overlay = document.querySelector(".overlay")
-const curtainsContainer = document.querySelector(".curtainBody")
+const overlay = document.querySelector(".overlay");
+const curtainsContainer = document.querySelector(".curtainBody");
 
 function openCurtains() {
     gsap.to(curtains[0], {

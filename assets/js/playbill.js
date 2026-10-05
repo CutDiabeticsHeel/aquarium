@@ -1,3 +1,6 @@
+import Swiper from "swiper";
+import { Temporal } from "@js-temporal/polyfill";
+
 function initPlaybillJs(){
     if (!document.querySelector(".playbill")) return;
     const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
@@ -119,8 +122,8 @@ function initPlaybillJs(){
         a11y: false,
         freeMode: true,
         spaceBetween: 15,
-        mousewheel: true,
         mousewheel: {
+            enabled: true,
             sensitivity: 0.6,
         },
         slidesPerView: 'auto',

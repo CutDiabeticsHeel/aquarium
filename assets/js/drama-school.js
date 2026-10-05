@@ -1,3 +1,5 @@
+import Swiper from "swiper";
+import { Fancybox } from "@fancyapps/ui";
 function initDramaSchoolJs(){
     if (!document.querySelector(".drama-school-section")) return;
     const dramaSchoolSwiper = new Swiper('.drama-school__swiper', {

@@ -1,3 +1,7 @@
+import Swiper from "swiper";
+import { Fancybox } from "@fancyapps/ui";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 function initWelcomeJs(){
 
     if (!document.querySelector(".welcome")) return;

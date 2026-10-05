@@ -1,19 +1,10 @@
 node_modules
 database
-/1.png
-/2.png
 /text.txt
 /server.key
 /server.csr
 /server.crt
 /captcha.json
 /admin-panel.json
-/actors.csv
-/plays.csv
-/roles.csv
-/actor_images.csv
-/play_images.csv
-/akvarium.db
-/akvarium_scraper.py
-/download_all_images.py
 assets/img
+no github

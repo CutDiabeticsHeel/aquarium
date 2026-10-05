@@ -1,3 +1,5 @@
+import Swiper from "swiper";
+import { Fancybox } from "@fancyapps/ui";
 function initPerformanceJs(){
     if (!document.querySelector(".performance")) return;
     const performanceSwiper = new Swiper('.performance__swiper', {

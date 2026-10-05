@@ -1,3 +1,5 @@
+import Swiper from "swiper";
+import { Fancybox } from "@fancyapps/ui";
 function initCollectiveVisitJs(){
     if (!document.querySelector(".collective-visit__section")) return;
 

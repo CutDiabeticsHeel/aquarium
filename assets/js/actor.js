@@ -1,3 +1,5 @@
+import Swiper from 'swiper/bundle';
+import { Fancybox } from '@fancyapps/ui/dist/fancybox/';
 function initActorJs(){
     if (!document.querySelector(".actor")) return;
     const actorSwiper = new Swiper('.actor__swiper', {
@@ -20,7 +22,6 @@ function initActorJs(){
         loop: true
     });
     Fancybox.bind("[data-fancybox]", {
-        
     });
 };
 initActorJs();
