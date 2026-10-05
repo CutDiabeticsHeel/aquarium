@@ -23,26 +23,13 @@ import {getPlaybill, getTroupe, getActorData, getPerformances,
 import adminRoutes from './admin-routes.js';
 import { DEFAULT_META, PAGES_META, performanceMeta, actorMeta} from "./og-content.js"
 import {withWidth, SIZES} from "./image-utils.js"
+import "dotenv/config";
 
-let captchaConfig, secretConfig;
-
-try {
-    captchaConfig = JSON.parse(fs.readFileSync("./captcha.json", "utf-8"));
-    
-} catch (err) {
-    console.error(err.message)
-}
-try {
-    secretConfig = JSON.parse(fs.readFileSync("./admin-panel.json", "utf-8"));
-} catch (err) {
-    console.error(err.message)
-}
-
-const CAPTCHA_KEY = captchaConfig.captchaKey
-const CAPTCHA_SITE_KEY = captchaConfig.captchaSiteKey
-const SECRET_KEY = secretConfig.secret
-const USER_NAME = secretConfig.username
-const PASSWORD = await argon2.hash(secretConfig.password)
+const CAPTCHA_KEY = process.env.CAPTCHA_KEY
+const CAPTCHA_SITE_KEY = process.env.CAPTCHA_SITE_KEY
+const SECRET_KEY = process.env.SECRET_KEY
+const USER_NAME = process.env.USER_NAME
+const PASSWORD = await argon2.hash(process.env.PASSWORD)
 const monthMap = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
     'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 const sessionStore = new SQLiteSessionStore();
