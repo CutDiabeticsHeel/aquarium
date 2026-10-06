@@ -10,10 +10,7 @@
         <%- include("partials/curtains") %>
 
         <section class="playbill">
-
             <h1 class="wave">Афиша</h1>
-
-            <img class="no-js" style="display: none;" src="/img/playbill.webp" alt="Афиша спектакля">
 
             <div class="swiper dates-list-swiper">
                 <ul class="swiper-wrapper dates-list"></ul>
@@ -44,7 +41,9 @@
                             </a>
                         </li>
                     <% }); %>
-                <% } %>
+                    <% } else { %>
+                        <span class="hidden-modal">Сейчас нет спектаклей :(</span>
+                    <% } %>
             </ul>
             <span class="hidden-modal">В этот день нет спектаклей :(</span>
 

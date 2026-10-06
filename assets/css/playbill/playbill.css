@@ -113,9 +113,6 @@ body {
 .performances-list__item:hover .playbill__image{
     transform: scale(1.1)
 }
-.no-js {
-    display: block;
-}
 .hidden-modal {
     display: none;
 }

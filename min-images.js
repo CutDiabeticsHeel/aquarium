@@ -27,7 +27,7 @@ for (const file of files) {
     await sharp(path.join(INPUT_DIR, file))
       .rotate()
       .resize({ width, withoutEnlargement: true })
-      .webp({ quality: 90 })
+      .webp({ quality: 80 })
       .toFile(outPath);
   }
 }
@@ -42,7 +42,7 @@ export async function generateResponsiveImages(sourcePath) {
         await sharp(sourcePath)
             .rotate()
             .resize({ width, withoutEnlargement: true })
-            .webp({ quality: 90 })
+            .webp({ quality: 80 })
             .toFile(outPath);
     }
 }
