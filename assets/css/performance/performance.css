@@ -92,6 +92,11 @@
     .performance__wrapper {
         grid-template-columns: 1fr;
     }
+    .performance__swiper-container {
+        order: -1;
+        height: 350px;
+        margin-bottom: 20px;
+    }
     .roles.wave {
         grid-column: 1;
     }

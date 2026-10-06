@@ -25,6 +25,8 @@
                                         <img
                                             class="performance-swiper__image"
                                             src="<%= withWidth(image, 1024) %>"
+                                            decoding="async"
+                                            loading="lazy"
                                             srcset="<%= SIZES.map(w => `${withWidth(image, w)} ${w}w`).join(', ') %>"
                                             sizes="(max-width: 600px) 100vw, (max-width: 1024px) 77.5vw, 1024px"
                                             alt="Фото спектакля <%= performanceData.title %>"
