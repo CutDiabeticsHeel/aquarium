@@ -1,5 +1,5 @@
 .collective-visit__section h1 {
-    word-break: break-all;
+    word-break: normal;
     padding-left: 20px;
 }
 .collective-visit__wrapper {
@@ -55,11 +55,11 @@
     font-size: var(--large-text);
 }
 .collective-visit__swiper {
-    grid-column: 2/3;
     height: 100%;
 }
 .collective-visit__image {
     width: 100%;
+    min-height: 350px;
     height: 100%;
     margin: 0;
     opacity: 0.8;
@@ -89,7 +89,7 @@
     .collective-visit__wrapper {
         grid-template-columns: 1fr;
     }
-    .collective-visit__swiper {
-        grid-column: 1;
+    .collective-visit__swiper-container {
+        order: -1;
     }
 }

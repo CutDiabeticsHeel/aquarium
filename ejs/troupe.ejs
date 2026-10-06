@@ -18,8 +18,9 @@
                             <img
                                 class="actors__image"
                                 src="<%= withWidth(actor.portrait, 1024) %>"
-                                loading="<%= index >= 9 ? 'lazy' : 'eager' %>"
+                                loading="<%= index >= 4 ? 'lazy' : 'eager' %>"
                                 decoding="async"
+                                fetchpriority="high"
                                 width="250" height="250"
                                 srcset="<%= SIZES.map(w => `${withWidth(actor.portrait, w)} ${w}w`).join(', ') %>"
                                 sizes="(max-width: 600px) 375px, (max-width: 1024px) 768px, 1024px"

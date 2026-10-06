@@ -105,6 +105,7 @@ body.disable-scroll {
 @font-face {
     font-family: 'PT-Sans';
     src: url('../font/pt-sans-cyrillic-400-normal.woff2') format('woff2');
+    font-display: swap;
 }
 .wave {
     background-image: url("../svg/wave.svg");

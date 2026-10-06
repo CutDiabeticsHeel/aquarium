@@ -37,7 +37,7 @@
                                         decoding="async"
                                         width="400" height="400"
                                         srcset="<%= SIZES.map(w => `${withWidth(performance.title_image, w)} ${w}w`).join(', ') %>"
-                                        sizes="(max-width: 600px) 375px, (max-width: 1024px) 768px, 1024px"
+                                        sizes="(max-width: 600px) 375px, (max-width: 1024px) 375px, 1024px"
                                         alt='Фото спектакля "<%= performance.title %>"'
                                     >
                                 </div>

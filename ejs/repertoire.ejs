@@ -23,6 +23,7 @@
                                         src="<%= withWidth(performance.title_image, 1024) %>"
                                         loading="<%= index >= 7 ? 'lazy' : 'eager' %>"
                                         width="400" height="300"
+                                        fetchpriority="high"
                                         decoding="async"
                                         srcset="<%= SIZES.map(w => `${withWidth(performance.title_image, w)} ${w}w`).join(', ') %>"
                                         sizes="(max-width: 600px) 375px, (max-width: 1024px) 768px, 1024px"
