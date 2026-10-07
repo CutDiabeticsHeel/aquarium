@@ -11,7 +11,11 @@ const pages = [
     [".performance", () => import("./assets/js/performance.js")],
     [".playbill", () => import("./assets/js/playbill.js")],
     [".reviews", () => import("./assets/js/reviews.js")],
-    [".tnt", () => import("./assets/js/tnt.js")],
+    [".tnt__section", () => import("./assets/js/tnt.js")],
     [".troupe-section", () => import("./assets/js/troupe.js")],
     [".welcome", () => import("./assets/js/welcome.js")],
 ]
+
+for (const [selector, load] of pages) {
+    if (document.querySelector(selector)) load();
+}

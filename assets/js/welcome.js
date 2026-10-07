@@ -1,8 +1,8 @@
-import Swiper from "swiper";
-import { Fancybox } from "@fancyapps/ui";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-function initWelcomeJs(){
+    import Swiper from "./swiper-init.js";
+    import { Fancybox } from "@fancyapps/ui";
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    function initWelcomeJs(){
 
     if (!document.querySelector(".welcome")) return;
 
@@ -244,15 +244,21 @@ function initWelcomeJs(){
         "background-color": "none",
     });
     // TODO Хорошо б разделить на логические части этот код сейчас все сплошняком
-    window.addEventListener("load", () => {
+    const showHeader = () => {
         gsap.to(header, {
             opacity: 1,
             duration: 1,
             delay: 2,
             ease: "power2.out",
         });
-    });
+    };
 
+    if (document.readyState === "complete") {
+        showHeader();
+    } else {
+        window.addEventListener("load", showHeader, { once: true });
+    }
+    
     Fancybox.bind("[data-fancybox]", {
         
     });

@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <%- include("partials/head") %>
+    <link rel="stylesheet" href="/css-dist/collective-visit.css">
 </head>
 <body>
      <%- include("partials/header") %>
@@ -37,6 +38,7 @@
                                         sizes="(max-width: 768px) 100vw, 600px"
                                         decoding="async"
                                         fetchpriority="high"
+                                        loading="eager"
                                         alt="Фото коллективного посещения" width="600" height="600"
                                     >
                                 </a>
@@ -48,7 +50,7 @@
                                         srcset="/img/performance1-375.webp 375w, /img/performance1-768.webp 768w, /img/performance1-1024.webp 1024w"
                                         sizes="(max-width: 768px) 100vw, 600px"
                                         decoding="async"
-                                        fetchpriority="high"
+                                        loading="lazy"
                                         alt="Фото коллективного посещения" width="600" height="600"
                                     >
                                 </a>
@@ -60,7 +62,7 @@
                                         srcset="/img/collective1-375.webp 375w, /img/collective1-768.webp 768w, /img/collective1-1024.webp 1024w"
                                         sizes="(max-width: 768px) 100vw, 600px"
                                         decoding="async"
-                                        fetchpriority="high"
+                                        loading="lazy"
                                         alt="Фото коллективного посещения" width="600" height="600"
                                     >
                                 </a>

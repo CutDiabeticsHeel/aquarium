@@ -1,4 +1,4 @@
-import Swiper from 'swiper/bundle';
+import Swiper from "./swiper-init.js";
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/';
 function initActorJs(){
     if (!document.querySelector(".actor")) return;

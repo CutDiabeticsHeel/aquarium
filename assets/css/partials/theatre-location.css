@@ -70,3 +70,6 @@
 .close-modal:hover{
     transform: scale(1.2);
 }
+.hidden-modal {
+    display: none;
+}

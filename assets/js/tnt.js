@@ -1,4 +1,4 @@
-import Swiper from "swiper";
+import Swiper from "./swiper-init.js";
 import { Fancybox } from "@fancyapps/ui";
 function initTntJs(){
     if (!document.querySelector(".tnt__section")) return;

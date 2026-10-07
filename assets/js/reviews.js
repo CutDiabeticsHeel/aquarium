@@ -1,4 +1,4 @@
-import Swiper from "swiper";
+import Swiper from "./swiper-init.js";
 import gsap from "gsap";
 function initReviewJs(){
     if (!document.querySelector(".reviews")) return;

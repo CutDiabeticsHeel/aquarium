@@ -1,4 +1,4 @@
-import Swiper from "swiper";
+import Swiper from "./swiper-init.js";
 import { Temporal } from "@js-temporal/polyfill";
 import gsap from "gsap";
 

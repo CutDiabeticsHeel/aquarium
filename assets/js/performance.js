@@ -1,4 +1,4 @@
-import Swiper from "swiper";
+import Swiper from "./swiper-init.js";
 import { Fancybox } from "@fancyapps/ui";
 function initPerformanceJs(){
     if (!document.querySelector(".performance")) return;
