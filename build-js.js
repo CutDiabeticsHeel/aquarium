@@ -4,8 +4,10 @@ await esbuild.build({
   entryPoints: ['main.js'],
   bundle: true,
   minify: true,
+  splitting: true,
   target: 'es2020',
-  format: 'iife',
-  outfile: 'assets/js/bundle.js',
+  format: 'esm',
+  outdir: "assets/dir/js",
+  chunkNames: "chunks/[name]-[hash]",
   loader: { '.css': 'empty' },
 });

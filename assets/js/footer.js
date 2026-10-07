@@ -2,12 +2,23 @@ import gsap from "gsap";
 function initFooterJs() {
     if (!document.querySelector(".main-footer")) return;
     const mapButton = document.querySelector(".map")
-    const map = document.querySelector(".theatre-location")
+    const mapModal = document.querySelector(".theatre-location")
+    const mapFrame = document.querySelector(".theatre-location__map");
     const closeModal = document.querySelector(".close-modal")
     const mapPicture = document.querySelector(".map-picture")
     let startRect  = null
 
+    const loadMap = () => {
+        if (mapFrame.src) return;
+        mapFrame.src = mapFrame.dataset.src;
+    };
+
+    mapButton.addEventListener("pointerenter", loadMap, { once: true });
+    mapButton.addEventListener("touchstart", loadMap, { once: true, passive: true });
+    mapButton.addEventListener("focusin", loadMap, { once: true });
+
     const openMapModal = function () {
+        loadMap();
         startRect = mapPicture.getBoundingClientRect();
 
         document.body.append(mapPicture);
@@ -23,26 +34,23 @@ function initFooterJs() {
             margin: 0
         });
 
-        map.classList.remove("hidden-modal");
-        gsap.set(map, { opacity: 0 });
+        mapModal.classList.remove("hidden-modal");
+        gsap.set(mapModal, { opacity: 0 });
         document.body.classList.add("disable-scroll");
 
-        let heigth = 55;
-        let top = 24
-
-        if (window.innerWidth <= 621) heigth = 53, top = 27;
-        if (window.innerWidth <= 356) heigth = 50, top = 30;
+        const mapRect = mapFrame.getBoundingClientRect();
 
         const tl = gsap.timeline();
-        tl.to(mapPicture, {
-                top: `${top}%`,
-                left: "10%",
-                width: "80%",
-                height: `${heigth}%`,
+        tl
+            .to(mapPicture, {
+                top: mapRect.top,
+                left: mapRect.left,
+                width: mapRect.width,
+                height: mapRect.height,
                 duration: 0.3,
                 ease: "power2.out"
             })
-            .to(map, {
+            .to(mapModal, {
                 opacity: 1,
                 duration: 0.3,
                 ease: "power2.out"
@@ -56,17 +64,16 @@ function initFooterJs() {
     };
 
     const closeMapModal = function () {
+        const mapRect = mapFrame.getBoundingClientRect();
         mapButton.append(mapPicture);
         document.body.append(mapPicture);
 
         gsap.set(mapPicture, {
             position: "fixed",
-            top: "50%",
-            left: "50%",
-            xPercent: -50,
-            yPercent: -50,
-            width: "80%",
-            height: "57%",
+            top: mapRect.top,
+            left: mapRect.left,
+            width: mapRect.width,
+            height: mapRect.height,
             opacity: 0,
             zIndex: 1000,
             margin: 0
@@ -76,7 +83,7 @@ function initFooterJs() {
 
         const tl = gsap.timeline();
         tl
-            .to(map, {
+            .to(mapModal, {
                 opacity: 0,
                 duration: 0.3,
                 ease: "power2.out"
@@ -100,13 +107,13 @@ function initFooterJs() {
             .call(() => {
                 mapButton.append(mapPicture);
                 gsap.set(mapPicture, { clearProps: "all" });
-                map.classList.add("hidden-modal");
-                gsap.set(map, { clearProps: "opacity" });
+                mapModal.classList.add("hidden-modal");
+                gsap.set(mapModal, { clearProps: "opacity" });
             });
     };
 
     mapButton.addEventListener("click", () => openMapModal())
-    map.addEventListener("click", function (event) {
+    mapModal.addEventListener("click", function (event) {
         if (event.target === this) closeMapModal();
     })
     closeModal.addEventListener("click", () => closeMapModal())

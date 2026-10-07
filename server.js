@@ -378,13 +378,14 @@ app.post("/admin", {
 
     try {
         if (username === USER_NAME && isValidPassword) {
-            request.session.user = {
-                username: username
-            };
+            request.session.user = {username: username};
+            console.log("ПЕРЕАДРСОВАЛ")
+            return reply.redirect("/admin-panel")
         }
-        return reply.redirect("/admin-panel")
+        return reply.code(401).send({ error: "Неверный логин или пароль" });
     } catch (err) {
-        return reply.code(401).send({ error: err });
+        request.log.error(err);
+        return reply.code(500).send({ error: "Ошибка сервера" });
     }
 })
 

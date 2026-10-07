@@ -1,14 +1,17 @@
-import './assets/js/actor.js';
-import './assets/js/admin-panel.js';
-import './assets/js/collective-visit.js';
-import './assets/js/curtains.js';
-import './assets/js/drama-school.js';
-import './assets/js/footer.js';
 import './assets/js/menu.js';
-import './assets/js/performance.js';
-import './assets/js/playbill.js';
-import './assets/js/reviews.js';
-import './assets/js/tnt.js';
-import './assets/js/troupe.js';
+import './assets/js/footer.js';
+import './assets/js/curtains.js';
 import './assets/js/visually-impared.js';
-import './assets/js/welcome.js';
+
+const pages = [
+    [".actor", () => import("./assets/js/actor.js")],
+    [".reform__wrapper", () => import("./assets/js/admin-panel.js")],
+    [".collective-visit__section", () => import("./assets/js/collective-visit.js")],
+    [".drama-school-section", () => import("./assets/js/drama-school.js")],
+    [".performance", () => import("./assets/js/performance.js")],
+    [".playbill", () => import("./assets/js/playbill.js")],
+    [".reviews", () => import("./assets/js/reviews.js")],
+    [".tnt", () => import("./assets/js/tnt.js")],
+    [".troupe-section", () => import("./assets/js/troupe.js")],
+    [".welcome", () => import("./assets/js/welcome.js")],
+]

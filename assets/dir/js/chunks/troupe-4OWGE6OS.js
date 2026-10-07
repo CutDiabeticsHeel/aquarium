@@ -1,0 +1,1 @@
+function r(){if(!document.querySelector(".troupe-section"))return;let e=document.querySelectorAll(".actors-list__link");for(let t of e)t.addEventListener("click",c=>{let o=t.getAttribute("data-actorId");sessionStorage.setItem("selectedActorId",o)})}r();

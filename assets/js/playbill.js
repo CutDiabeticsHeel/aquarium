@@ -1,5 +1,6 @@
 import Swiper from "swiper";
 import { Temporal } from "@js-temporal/polyfill";
+import gsap from "gsap";
 
 function initPlaybillJs(){
     if (!document.querySelector(".playbill")) return;
