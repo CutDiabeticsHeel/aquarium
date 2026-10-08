@@ -68,7 +68,9 @@ await app.register(compress, {
 
 await app.register(fastifyStatic, {
     root: path.join(process.cwd(), "assets"),
-    prefix: "/"
+    prefix: "/",
+    cacheControl: true,
+    maxAge: 24 * 60 * 60 * 1000
 });
 
 await app.register(formbody)
