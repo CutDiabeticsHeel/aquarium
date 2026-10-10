@@ -4,8 +4,9 @@ import { readdir, mkdir, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const INPUT_DIR  = path.join(__dirname, 'assets', 'img' , 'origin');
-const OUTPUT_DIR = path.join(__dirname, 'assets', 'img');
+const ROOT = path.join(__dirname, '..');
+const INPUT_DIR  = path.join(ROOT, 'assets', 'img' , 'origin');
+const OUTPUT_DIR = path.join(ROOT, 'assets', 'img');
 const WIDTHS = [375, 768, 1024];
 const FORMAT = 'webp';
 

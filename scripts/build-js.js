@@ -1,7 +1,7 @@
 import * as esbuild from 'esbuild';
 
 await esbuild.build({
-  entryPoints: ['main.js'],
+  entryPoints: ['scripts/main.js'],
   bundle: true,
   minify: true,
   splitting: true,

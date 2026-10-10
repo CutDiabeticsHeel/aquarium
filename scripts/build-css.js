@@ -4,7 +4,7 @@ const OUT_DIR = 'assets/css-dist';
 
 const SWIPER = './node_modules/swiper/swiper-bundle.min.css';
 const FANCYBOX = './node_modules/@fancyapps/ui/dist/fancybox/fancybox.css';
-const src = (file) => `./assets/css/${file}`;
+const src = (file) => `assets/css/${file}`;
 
 const bundles = {
     main: [

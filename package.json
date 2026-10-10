@@ -31,7 +31,7 @@
   "scripts": {
     "build:css": "node build-css.js",
     "build:js": "node build-js.js",
-    "start": "node build-css.js && node build-js.js &&  node min-images.js &&  node server.js ",
+    "start": "node scripts/build-css.js && node scripts/build-js.js &&  node scripts/min-images.js &&  node server.js ",
     "dev": "concurrently \"node --watch build-css.js\" \"node --watch build-js.js\" \"node --watch server.js\""
   },
   "devDependencies": {

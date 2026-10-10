@@ -19,10 +19,10 @@ import { Temporal } from '@js-temporal/polyfill';
 import {getPlaybill, getTroupe, getActorData, getPerformances, 
     getPerformancePageData, getHrefPerformanceForActor, getStarringListFromPerformance, 
     getReviews, SQLiteSessionStore, createReview, getReviewById, addLike, 
-    incrementReviewLikes} from './database-function.js';
+    incrementReviewLikes} from './scripts/database-function.js';
 import adminRoutes from './admin-routes.js';
-import { DEFAULT_META, PAGES_META, performanceMeta, actorMeta} from "./og-content.js"
-import {withWidth, SIZES} from "./image-utils.js"
+import { DEFAULT_META, PAGES_META, performanceMeta, actorMeta} from "./scripts/og-content.js"
+import {withWidth, SIZES} from "./scripts/image-utils.js"
 import "dotenv/config";
 
 const CAPTCHA_KEY = process.env.CAPTCHA_KEY

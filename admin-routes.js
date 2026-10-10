@@ -1,12 +1,12 @@
 import {getPlaybill, addActorToDatabase, deleteActorFromDatabase, findActors, updateActorData,
     updateCastInfo, deletePerformanceFromDatabase, addOrUpdatePerformance, addPerformanceToPlaybill,
-    deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews} from './database-function.js';
+    deletePlaybillItem, updatePlaybillItem, getUnpublishedReviews, processReviews} from './scripts/database-function.js';
 import path from "node:path";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import { pipeline } from "stream/promises";
-import {PAGES_META} from "./og-content.js"
-import { generateResponsiveImages } from './min-images.js';
+import {PAGES_META} from "./scripts/og-content.js"
+import { generateResponsiveImages } from './scripts/min-images.js';
 
 const ALLOWED_TYPES = {
     ".jpg": ["image/jpeg"],
