@@ -20,13 +20,10 @@ function initPlaybillJs() {
   ];
   const date = Temporal.Now.plainDateISO();
   let month = monthMap[date.month - 1];
-  let day = date.day;
 
   const firstDay = date.with({ day: 1 });
   const lastDay = firstDay.add({ months: 1 }).subtract({ days: 1 });
   const weekendsList = document.querySelector(".dates-list");
-  const playbill = document.querySelector(".playbill");
-  const performancesList = document.querySelector(".performances-list");
 
   const fadeIn = function (performance) {
     const tl = gsap.timeline();
