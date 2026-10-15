@@ -1,14 +1,14 @@
 function initA11yPanel() {
-  const panel = document.getElementById('a11yPanel');
-  const openBtn = document.querySelector('.a11y-open');
-  const closeBtn = document.querySelector('.a11y-close');
-  const resetBtn = document.querySelector('.a11y-reset');
-  const fontBtns = document.querySelectorAll('[data-font]');
-  const imageBtns = document.querySelectorAll('[data-images]');
-  const schemeBtns = document.querySelectorAll('[data-scheme]');
+  const panel = document.getElementById("a11yPanel");
+  const openBtn = document.querySelector(".a11y-open");
+  const closeBtn = document.querySelector(".a11y-close");
+  const resetBtn = document.querySelector(".a11y-reset");
+  const fontBtns = document.querySelectorAll("[data-font]");
+  const imageBtns = document.querySelectorAll("[data-images]");
+  const schemeBtns = document.querySelectorAll("[data-scheme]");
 
-  const STORAGE_KEY = 'a11y-settings';
-  const OPEN_CLASS = 'a11y-panel--open';
+  const STORAGE_KEY = "a11y-settings";
+  const OPEN_CLASS = "a11y-panel--open";
 
   function getSettings() {
     try {
@@ -19,7 +19,7 @@ function initA11yPanel() {
   }
 
   function defaultSettings() {
-    return { font: 'normal', images: 'on', scheme: 'normal' };
+    return { font: "normal", images: "on", scheme: "normal" };
   }
 
   function saveSettings(settings) {
@@ -27,41 +27,41 @@ function initA11yPanel() {
   }
 
   function applySettings(settings) {
-    document.body.classList.remove('a11y-font-large', 'a11y-font-larger');
-    if (settings.font === 'large') document.body.classList.add('a11y-font-large');
-    if (settings.font === 'larger') document.body.classList.add('a11y-font-larger');
+    document.body.classList.remove("a11y-font-large", "a11y-font-larger");
+    if (settings.font === "large") document.body.classList.add("a11y-font-large");
+    if (settings.font === "larger") document.body.classList.add("a11y-font-larger");
 
-    document.body.classList.toggle('a11y-images-off', settings.images === 'off');
+    document.body.classList.toggle("a11y-images-off", settings.images === "off");
 
-    document.body.classList.remove('a11y-scheme-dark', 'a11y-scheme-light');
-    if (settings.scheme === 'dark') document.body.classList.add('a11y-scheme-dark');
-    if (settings.scheme === 'light') document.body.classList.add('a11y-scheme-light');
+    document.body.classList.remove("a11y-scheme-dark", "a11y-scheme-light");
+    if (settings.scheme === "dark") document.body.classList.add("a11y-scheme-dark");
+    if (settings.scheme === "light") document.body.classList.add("a11y-scheme-light");
 
     updateActiveButtons(settings);
   }
 
   function updateActiveButtons(settings) {
-    fontBtns.forEach(b => b.classList.toggle('active', b.dataset.font === settings.font));
-    imageBtns.forEach(b => b.classList.toggle('active', b.dataset.images === settings.images));
-    schemeBtns.forEach(b => b.classList.toggle('active', b.dataset.scheme === settings.scheme));
+    fontBtns.forEach((b) => b.classList.toggle("active", b.dataset.font === settings.font));
+    imageBtns.forEach((b) => b.classList.toggle("active", b.dataset.images === settings.images));
+    schemeBtns.forEach((b) => b.classList.toggle("active", b.dataset.scheme === settings.scheme));
   }
 
   let settings = getSettings();
   applySettings(settings);
 
-  openBtn?.addEventListener('click', (e) => {
+  openBtn?.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
     panel.classList.toggle(OPEN_CLASS);
   });
 
-  closeBtn?.addEventListener('click', (e) => {
+  closeBtn?.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
     panel.classList.remove(OPEN_CLASS);
   });
 
-  resetBtn?.addEventListener('click', (e) => {
+  resetBtn?.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
     settings = defaultSettings();
@@ -69,8 +69,8 @@ function initA11yPanel() {
     applySettings(settings);
   });
 
-  fontBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  fontBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       settings.font = btn.dataset.font;
@@ -79,8 +79,8 @@ function initA11yPanel() {
     });
   });
 
-  imageBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  imageBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       settings.images = btn.dataset.images;
@@ -89,8 +89,8 @@ function initA11yPanel() {
     });
   });
 
-  schemeBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  schemeBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       settings.scheme = btn.dataset.scheme;

@@ -12,7 +12,7 @@
   gap: 20px;
   align-items: center;
   font-family: Arial, sans-serif;
-  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .a11y-panel.a11y-panel--open {
@@ -28,7 +28,7 @@
 
 .a11y-panel__label {
   font-size: 14px;
-  opacity: .85;
+  opacity: 0.85;
 }
 
 .a11y-btn {
@@ -39,7 +39,7 @@
   padding: 6px 12px;
   cursor: pointer;
   font-size: 14px;
-  transition: background .15s ease;
+  transition: background 0.15s ease;
 }
 
 .a11y-btn:hover {

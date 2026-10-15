@@ -1,45 +1,45 @@
-a{
-    text-decoration: none;
-    color: #000000;
+a {
+  text-decoration: none;
+  color: #000000;
 }
-.a11y-scheme-dark a{
-    color: #ffffff;
+.a11y-scheme-dark a {
+  color: #ffffff;
 }
 h1 {
-    box-sizing: border-box;
-    font-size: var(--h1);
-    margin: 10px 0px;
+  box-sizing: border-box;
+  font-size: var(--h1);
+  margin: 10px 0px;
 }
 h2 {
-    font-size: var(--h2);
-    margin: 10px 0px;
+  font-size: var(--h2);
+  margin: 10px 0px;
 }
 h3 {
-    margin: 0;
-    font-size: var(--h3);
+  margin: 0;
+  font-size: var(--h3);
 }
 img {
-    object-fit: cover;
+  object-fit: cover;
 }
 ul {
-    list-style: none;
+  list-style: none;
 }
 figure {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 p {
-    margin: 0;
+  margin: 0;
 }
 body {
-    background-color: var(--main-background);
-    color: #000;
-    font-family: 'PT-Sans', sans-serif;
-    font-size: var(--medium-text);
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+  background-color: var(--main-background);
+  color: #000;
+  font-family: "PT-Sans", sans-serif;
+  font-size: var(--medium-text);
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 html {
   scroll-behavior: smooth;

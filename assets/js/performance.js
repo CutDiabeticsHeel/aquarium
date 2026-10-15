@@ -1,28 +1,25 @@
 import Swiper from "./swiper-init.js";
 import { Fancybox } from "@fancyapps/ui";
-function initPerformanceJs(){
-    if (!document.querySelector(".performance")) return;
-    const performanceSwiper = new Swiper('.performance__swiper', {
-        keyboard: {
-            enabled: true,
-        },
+function initPerformanceJs() {
+  if (!document.querySelector(".performance")) return;
+  const performanceSwiper = new Swiper(".performance__swiper", {
+    keyboard: {
+      enabled: true,
+    },
 
+    pagination: {
+      el: ".swiper-pagination",
+      type: "bullets",
+      clickable: true,
+    },
 
-        pagination: {
-            el: '.swiper-pagination',
-            type: 'bullets',
-            clickable: true
-        },
-        
-        navigation: {
-            nextEl: '.performance__arrow-next',
-            prevEl: '.performance__arrow-back',
-        },
+    navigation: {
+      nextEl: ".performance__arrow-next",
+      prevEl: ".performance__arrow-back",
+    },
 
-        loop: true
-    });
-    Fancybox.bind("[data-fancybox]", {
-        
-    });
-};
+    loop: true,
+  });
+  Fancybox.bind("[data-fancybox]", {});
+}
 initPerformanceJs();

@@ -1,30 +1,28 @@
 import Swiper from "./swiper-init.js";
 import { Fancybox } from "@fancyapps/ui";
-function initCollectiveVisitJs(){
-    if (!document.querySelector(".collective-visit__section")) return;
+function initCollectiveVisitJs() {
+  if (!document.querySelector(".collective-visit__section")) return;
 
-    const collectiveVisitSwiper = new Swiper('.collective-visit__swiper', {
-        keyboard: {
-            enabled: true,
-            onlyInViewport: false,
-            pageUpDown: true
-        },
+  const collectiveVisitSwiper = new Swiper(".collective-visit__swiper", {
+    keyboard: {
+      enabled: true,
+      onlyInViewport: false,
+      pageUpDown: true,
+    },
 
-        pagination: {
-            el: '.swiper-pagination',
-            type: 'bullets',
-            clickable: true
-        },
-        
-        navigation: {
-            nextEl: '.collective-visit__arrow-next',
-            prevEl: '.collective-visit__arrow-back',
-        },
+    pagination: {
+      el: ".swiper-pagination",
+      type: "bullets",
+      clickable: true,
+    },
 
-        loop: true
-    })
-    Fancybox.bind("[data-fancybox]", {
-        
-    });
-};
+    navigation: {
+      nextEl: ".collective-visit__arrow-next",
+      prevEl: ".collective-visit__arrow-back",
+    },
+
+    loop: true,
+  });
+  Fancybox.bind("[data-fancybox]", {});
+}
 initCollectiveVisitJs();

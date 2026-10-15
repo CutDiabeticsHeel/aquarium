@@ -1,31 +1,29 @@
 import Swiper from "./swiper-init.js";
 import { Fancybox } from "@fancyapps/ui";
-function initTntJs(){
-    if (!document.querySelector(".tnt__section")) return;
-    const tntSwiper = new Swiper('.tnt__swiper', {
-        parallax: true,
-        watchSlidesProgress: true,
-        speed: 600,
+function initTntJs() {
+  if (!document.querySelector(".tnt__section")) return;
+  const tntSwiper = new Swiper(".tnt__swiper", {
+    parallax: true,
+    watchSlidesProgress: true,
+    speed: 600,
 
-        pagination: {
-            el: ".swiper-pagination",
-            type: 'bullets',
-            clickable: true
-        },
+    pagination: {
+      el: ".swiper-pagination",
+      type: "bullets",
+      clickable: true,
+    },
 
-        navigation: {
-            prevEl: ".tnt__arrow-back",
-            nextEl: ".tnt__arrow-next"
-        },
+    navigation: {
+      prevEl: ".tnt__arrow-back",
+      nextEl: ".tnt__arrow-next",
+    },
 
-        keyboard: {
-            enabled: true
-        },
+    keyboard: {
+      enabled: true,
+    },
 
-        loop: true
-    })
-    Fancybox.bind("[data-fancybox]", {
-        
-    });
-};
+    loop: true,
+  });
+  Fancybox.bind("[data-fancybox]", {});
+}
 initTntJs();

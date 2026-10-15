@@ -1,20 +1,24 @@
-import sharp from 'sharp';
-import path from 'node:path';
-import { readdir, mkdir, access } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import sharp from "sharp";
+import path from "node:path";
+import { readdir, mkdir, access } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, '..');
-const INPUT_DIR  = path.join(ROOT, 'assets', 'img' , 'origin');
-const OUTPUT_DIR = path.join(ROOT, 'assets', 'img');
+const ROOT = path.join(__dirname, "..");
+const INPUT_DIR = path.join(ROOT, "assets", "img", "origin");
+const OUTPUT_DIR = path.join(ROOT, "assets", "img");
 const WIDTHS = [375, 768, 1024];
-const FORMAT = 'webp';
+const FORMAT = "webp";
 
-const exists = path => access(path).then(() => true, () => false);
+const exists = (path) =>
+  access(path).then(
+    () => true,
+    () => false,
+  );
 
 await mkdir(OUTPUT_DIR, { recursive: true });
 
-const files = (await readdir(INPUT_DIR)).filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f));
+const files = (await readdir(INPUT_DIR)).filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f));
 
 for (const file of files) {
   const name = path.parse(file).name;
@@ -34,16 +38,16 @@ for (const file of files) {
 }
 
 export async function generateResponsiveImages(sourcePath) {
-    const fileName = path.basename(sourcePath);
-    const name = path.parse(fileName).name;
- 
-    for (const width of WIDTHS) {
-        const outPath = path.join(OUTPUT_DIR, `${name}-${width}.${FORMAT}`);
- 
-        await sharp(sourcePath)
-            .rotate()
-            .resize({ width, withoutEnlargement: true })
-            .webp({ quality: 80 })
-            .toFile(outPath);
-    }
+  const fileName = path.basename(sourcePath);
+  const name = path.parse(fileName).name;
+
+  for (const width of WIDTHS) {
+    const outPath = path.join(OUTPUT_DIR, `${name}-${width}.${FORMAT}`);
+
+    await sharp(sourcePath)
+      .rotate()
+      .resize({ width, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toFile(outPath);
+  }
 }

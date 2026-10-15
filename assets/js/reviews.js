@@ -1,248 +1,236 @@
 import Swiper from "./swiper-init.js";
 import gsap from "gsap";
-function initReviewJs(){
-    if (!document.querySelector(".reviews")) return;
-    const allReviews = document.querySelector(".all-reviews")
-    const dramaSchool = document.querySelector(".teatralka")
-    const tnt = document.querySelector(".folk-art-theater")
-    const performance = document.querySelector(".performances")
-    const service = document.querySelector(".service")
-    const reviews = document.querySelectorAll(".review-list__item")
-    const likes = document.querySelectorAll(".feedback__like")
-    const form = document.querySelector(".write-review");
-    const modalReview = document.querySelector("#review-modal__review");
-    const modalReviewContent = document.querySelector(".review-js");
-    const modalLike = document.querySelector("#review-modal__like");
-    const modalLikeContent = document.querySelector(".like-js");
-    const modalError = document.querySelector("#review-modal__error");
-    const modalErrorContent = document.querySelector(".error-js");
-    const closeBtn = document.querySelectorAll("#close-modal");
-    const topicList = document.querySelectorAll(".topic-list__item")
+function initReviewJs() {
+  if (!document.querySelector(".reviews")) return;
+  const allReviews = document.querySelector(".all-reviews");
+  const dramaSchool = document.querySelector(".teatralka");
+  const tnt = document.querySelector(".folk-art-theater");
+  const performance = document.querySelector(".performances");
+  const service = document.querySelector(".service");
+  const reviews = document.querySelectorAll(".review-list__item");
+  const likes = document.querySelectorAll(".feedback__like");
+  const form = document.querySelector(".write-review");
+  const modalReview = document.querySelector("#review-modal__review");
+  const modalReviewContent = document.querySelector(".review-js");
+  const modalLike = document.querySelector("#review-modal__like");
+  const modalLikeContent = document.querySelector(".like-js");
+  const modalError = document.querySelector("#review-modal__error");
+  const modalErrorContent = document.querySelector(".error-js");
+  const closeBtn = document.querySelectorAll("#close-modal");
+  const topicList = document.querySelectorAll(".topic-list__item");
 
+  const refreshReviewList = function (activeTopic) {
+    const tl = gsap.timeline();
 
-    const refreshReviewList = function(activeTopic) {
-        const tl = gsap.timeline()
-
-        tl.to(reviews, {
-            opacity: 0,
-            scale: 0.3,
-            duration: 0.3,
-            onComplete: () => {
-                for (let review of reviews) {
-                    review.style.display = "none"
-                }
-            }
-        })
-
-        tl.add(() => {
-            for (let review of reviews) {
-                if (activeTopic === review.dataset.topic || activeTopic === undefined) {
-                    review.style.display = "grid"
-                    gsap.fromTo(review,
-                        { opacity: 0, scale: 0.3 },
-                        { opacity: 1, scale: 1, duration: 0.3 }
-                    )
-                }
-            }
-        })
-    }
-
-    allReviews.addEventListener("click", ()=> {
-        for (let topic of topicList){
-            topic.classList.remove("active-topic")
+    tl.to(reviews, {
+      opacity: 0,
+      scale: 0.3,
+      duration: 0.3,
+      onComplete: () => {
+        for (let review of reviews) {
+          review.style.display = "none";
         }
-        refreshReviewList()
-    })
-
-    dramaSchool.addEventListener("click", ()=> {
-        for (let topic of topicList){
-            topic.classList.remove("active-topic")
-        }
-        dramaSchool.classList.add("active-topic")
-        refreshReviewList(dramaSchool.dataset.topic)
-    })
-
-    tnt.addEventListener("click", ()=> {
-        for (let topic of topicList){
-            topic.classList.remove("active-topic")
-        }
-        tnt.classList.add("active-topic")
-        refreshReviewList(tnt.dataset.topic)
-    })
-
-    performance.addEventListener("click", ()=>{
-        for (let topic of topicList){
-            topic.classList.remove("active-topic")
-        }
-        performance.classList.add("active-topic")
-        refreshReviewList(performance.dataset.topic)
-    })
-
-    service.addEventListener("click", ()=>{
-        for (let topic of topicList){
-            topic.classList.remove("active-topic")
-        }
-        service.classList.add("active-topic")
-        refreshReviewList(service.dataset.topic)
-    })
-
-    const openModal = function(modal){
-        gsap.fromTo(modal, 
-            {
-                scale: 0.1,
-                opacity: 0.1
-            },
-            {
-                scale: 1,
-                opacity: 1,
-                duration: 0.3,
-                ease: "power2.out"
-            }
-        )
-    }
-
-    likes.forEach(like => {
-        like.addEventListener("click", async () => {
-
-            const reviewId =  like.dataset.reviewid;
-
-            const response = await fetch(
-                `/reviews/${reviewId}/like`,
-                {
-                    method: "POST"
-                }
-            );
-
-            const result = await response.json();
-
-            if (result.success) {
-                let counter = like.closest('.feedback').querySelector(".feedback__counter")
-
-                counter.textContent = result.likes;
-
-                like.classList.add("liked")
-            }
-            else {
-                openModal(modalLikeContent);
-                modalLike.classList.add("active");
-                document.body.classList.add("disable-scroll");
-            }
-        });
-
+      },
     });
 
-    const Reviewswiper = new Swiper('.topic-list-swiper', {
-        a11y: false,
-        freeMode: true,
-        spaceBetween: 15,
-        mousewheel: {
-            enabled: true,
-            sensitivity: 0.6,
+    tl.add(() => {
+      for (let review of reviews) {
+        if (activeTopic === review.dataset.topic || activeTopic === undefined) {
+          review.style.display = "grid";
+          gsap.fromTo(review, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.3 });
+        }
+      }
+    });
+  };
+
+  allReviews.addEventListener("click", () => {
+    for (let topic of topicList) {
+      topic.classList.remove("active-topic");
+    }
+    refreshReviewList();
+  });
+
+  dramaSchool.addEventListener("click", () => {
+    for (let topic of topicList) {
+      topic.classList.remove("active-topic");
+    }
+    dramaSchool.classList.add("active-topic");
+    refreshReviewList(dramaSchool.dataset.topic);
+  });
+
+  tnt.addEventListener("click", () => {
+    for (let topic of topicList) {
+      topic.classList.remove("active-topic");
+    }
+    tnt.classList.add("active-topic");
+    refreshReviewList(tnt.dataset.topic);
+  });
+
+  performance.addEventListener("click", () => {
+    for (let topic of topicList) {
+      topic.classList.remove("active-topic");
+    }
+    performance.classList.add("active-topic");
+    refreshReviewList(performance.dataset.topic);
+  });
+
+  service.addEventListener("click", () => {
+    for (let topic of topicList) {
+      topic.classList.remove("active-topic");
+    }
+    service.classList.add("active-topic");
+    refreshReviewList(service.dataset.topic);
+  });
+
+  const openModal = function (modal) {
+    gsap.fromTo(
+      modal,
+      {
+        scale: 0.1,
+        opacity: 0.1,
+      },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      },
+    );
+  };
+
+  likes.forEach((like) => {
+    like.addEventListener("click", async () => {
+      const reviewId = like.dataset.reviewid;
+
+      const response = await fetch(`/reviews/${reviewId}/like`, {
+        method: "POST",
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        let counter = like.closest(".feedback").querySelector(".feedback__counter");
+
+        counter.textContent = result.likes;
+
+        like.classList.add("liked");
+      } else {
+        openModal(modalLikeContent);
+        modalLike.classList.add("active");
+        document.body.classList.add("disable-scroll");
+      }
+    });
+  });
+
+  const Reviewswiper = new Swiper(".topic-list-swiper", {
+    a11y: false,
+    freeMode: true,
+    spaceBetween: 15,
+    mousewheel: {
+      enabled: true,
+      sensitivity: 0.6,
+    },
+    slidesPerView: "auto",
+    resistance: true,
+    resistanceRatio: 0.85,
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      const token = await grecaptcha.execute("6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY", {
+        action: "submit",
+      });
+
+      const formData = new FormData(form);
+
+      const response = await fetch("/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        slidesPerView: 'auto',
-        resistance: true,
-        resistanceRatio: 0.85,
+        body: new URLSearchParams({
+          ...Object.fromEntries(formData),
+          "g-recaptcha-response": token,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ошибка отправки отзыва");
+      }
+
+      openModal(modalReviewContent);
+      modalReview.classList.add("active");
+      document.body.classList.add("disable-scroll");
+
+      localStorage.removeItem("name");
+      localStorage.removeItem("review");
+      localStorage.removeItem("star");
+      localStorage.removeItem("topicData");
+
+      form.reset();
+    } catch (err) {
+      console.error("Ошибка при отправке формы:", err);
+
+      openModal(modalErrorContent);
+      modalError.classList.add("active");
+      document.body.classList.add("disable-scroll");
+    }
+  });
+
+  const closeModal = function (modal) {
+    gsap.to(modal, {
+      scale: 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      onComplete: () => {
+        modalReview.classList.remove("active");
+        modalLike.classList.remove("active");
+        modalError.classList.remove("active");
+        gsap.set(modal, { clearProps: "all" });
+      },
     });
+  };
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        try {
-            const token = await grecaptcha.execute(
-                "6LfWiDQtAAAAAI_EkMFuGGrXmT8kdHZ_fduCTouY",
-                { action: "submit" }
-            );
+  for (let button of closeBtn) {
+    button.addEventListener("click", () => {
+      closeModal(modalLikeContent);
+      closeModal(modalReviewContent);
+      closeModal(modalErrorContent);
+      document.body.classList.remove("disable-scroll");
+    });
+  }
 
-            const formData = new FormData(form);
+  document.querySelectorAll(".modal").forEach((modal) => {
+    modal.addEventListener("click", function (event) {
+      if (event.target === this) {
+        closeModal(modalLikeContent);
+        closeModal(modalReviewContent);
+        closeModal(modalErrorContent);
+        document.body.classList.remove("disable-scroll");
+      }
+    });
+  });
 
-            const response = await fetch("/reviews", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({
-                    ...Object.fromEntries(formData),
-                    "g-recaptcha-response": token
-                })
-            });
+  const savedFormToLocalStorage = function () {
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!form) return;
 
-            if (!response.ok) {
-                throw new Error("Ошибка отправки отзыва");
-            }
-
-            openModal(modalReviewContent);
-            modalReview.classList.add("active");
-            document.body.classList.add("disable-scroll");
-
-            localStorage.removeItem("name");
-            localStorage.removeItem("review");
-            localStorage.removeItem("star");
-            localStorage.removeItem("topicData");
-
-            form.reset();
-
-        } catch (err) {
-            console.error("Ошибка при отправке формы:", err);
-
-            openModal(modalErrorContent);
-            modalError.classList.add("active");
-            document.body.classList.add("disable-scroll");
+      form.querySelectorAll("input, textarea, select").forEach((field) => {
+        const savedValue = window.localStorage.getItem(`${field.name}`);
+        if (savedValue !== null) {
+          field.value = savedValue;
         }
-    });
+      });
 
-    const closeModal = function(modal){
-        gsap.to(modal, {
-            scale: 0,
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.out",
-            onComplete: () => {
-                modalReview.classList.remove("active");
-                modalLike.classList.remove("active");
-                modalError.classList.remove("active");
-                gsap.set(modal, { clearProps: "all" });
-            }
-        })
-    }
-
-    for (let button of closeBtn){
-            button.addEventListener("click", () => {
-            closeModal(modalLikeContent);
-            closeModal(modalReviewContent);
-            closeModal(modalErrorContent);
-            document.body.classList.remove("disable-scroll");
+      form.querySelectorAll("input, textarea, select").forEach((field) => {
+        field.addEventListener(field.tagName === "SELECT" ? "change" : "input", () => {
+          window.localStorage.setItem(`${field.name}`, field.value);
         });
-    }
-
-    document.querySelectorAll(".modal").forEach(modal => {
-        modal.addEventListener("click", function(event) {
-            if (event.target === this) {
-                closeModal(modalLikeContent);
-                closeModal(modalReviewContent);
-                closeModal(modalErrorContent);
-                document.body.classList.remove("disable-scroll");
-            }
-        });
+      });
     });
-
-    const savedFormToLocalStorage = function() {
-        document.addEventListener("DOMContentLoaded", () =>{
-            if (!form) return
-
-            form.querySelectorAll("input, textarea, select").forEach((field) => {
-                const savedValue = window.localStorage.getItem(`${field.name}`);
-                if (savedValue !== null) {
-                    field.value = savedValue;
-                }
-            })
-
-            form.querySelectorAll("input, textarea, select").forEach((field) => {
-                field.addEventListener(field.tagName === "SELECT" ? "change" : "input", () => {
-                    window.localStorage.setItem(`${field.name}`, field.value)
-                })
-            })
-
-        })
-    };
-    savedFormToLocalStorage();
-};
+  };
+  savedFormToLocalStorage();
+}
 initReviewJs();
