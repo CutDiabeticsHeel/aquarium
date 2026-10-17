@@ -140,3 +140,41 @@ test("проверка афиши", async ({page}) => {
     }
   }
 })
+
+test("проверка отзывов", async ({page}) => {
+  await page.goto("/reviews");
+
+  await expect(page.locator(".topic-list__item").first()).toBeVisible();
+
+  const topics = await page.locator(".topic-list__item").all();
+  const reviews = await page.locator(".review-list__item").all();
+
+  for (const topic of topics) {
+    await topic.click();
+
+    const dataTopic = await topic.getAttribute("data-topic");
+
+    if (!dataTopic) { 
+      for (const review of reviews) {
+        await expect(review).toHaveCSS('display', 'grid')
+      }
+      continue
+    }
+
+    for (const review of reviews) {
+      const reviewTopic = await review.getAttribute("data-topic");
+      if (dataTopic === reviewTopic) {
+        await expect(review).toHaveCSS('display', 'grid');
+      } else {
+        await expect(review).toHaveCSS('display', 'none');
+      }
+    }
+  }
+})
+
+
+test("страница загружена", async ({page}) => {
+  await page.goto("https://localhost:3000/");
+
+  await expect(page.waitForLoadState("domcontentloaded"));
+})
