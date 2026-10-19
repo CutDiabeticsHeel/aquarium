@@ -1,5 +1,5 @@
 export default {
-    testEnvironment: "jsdom",
-    testMatch: ["**/tests/unit/*.test.js"],
-    transform: {}
+  testEnvironment: "jsdom",
+  testMatch: ["**/tests/unit/*.test.js"],
+  transform: {},
 };
